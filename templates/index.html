@@ -25,11 +25,11 @@
                 <div class="mb-1 text-muted ">By {{world_new.author}} - {{world_new.source.name}} </div>
                 <p class="card-text mb-auto ">{{ world_new.description }}</p>
                 <a href="{{ world_new.url }}" target="_blank">Continue reading...</a>
-                <form method="POST" action="/users/favorite">
-                    <button class="btn btn-sm btn-primary"><i class="fa fa-thumbs-up"></i></button>
+                <form method="POST" action="/users/favorite/">
+                    <button class=" btn btn-sm btn-primary "><i class="fa fa-thumbs-up "></i></button>
 
-                    <button class="btn btn-sm btn-secondary">
-                <i class="fa fa-thumbs-down"></i>
+                    <button class="btn btn-sm btn-secondary ">
+                <i class="fa fa-thumbs-down "></i>
                 </button>
                 </form>
                 <hr> {% endfor %}
@@ -46,14 +46,14 @@
                 <h3 class="mb-0 ">{{latest_article.title}}</h3>
                 <img src="{{latest_article.urlToImage}} " />
 
-                <div class="mb-1 text-muted ">{{latest_article.author}}/{{latest_article.source.name}}</div>
+                <div class="mb-1 text-muted ">{{latest_article.author}} - {{latest_article.source.name}}</div>
                 <p class="mb-auto my-auto ">{{latest_article.description}}</p>
 
-                <a href="{{latest_article.url}}" target="_blank">Continue reading...</a>
+                <a href="{{latest_article.url}} " target="_blank ">Continue reading...</a>
                 <form method="POST " action="/users/favorite/ ">
                     <button class="btn btn-sm btn-primary ">
             <i class="fa fa-thumbs-up "></i></button>
-                    <button class="btn btn-sm btn-secondary"><i class=" fa fa-thumbs-down "></i></button>
+                    <button class="btn btn-sm btn-secondary "><i class=" fa fa-thumbs-down "></i></button>
                 </form>
                 <hr>{% endfor%}
             </div>

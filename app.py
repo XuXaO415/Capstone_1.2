@@ -28,7 +28,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = (os.environ.get('DATABASE_URL', 'postgre
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-app.config['SECRET_KEY'] = os.environ.get('API_KEY', 'This is classified information')
+app.config['SECRET_KEY'] = os.environ.get('API_KEY', 'SECRET_KEY')
+##'This is classified information'
 
 toolbar = DebugToolbarExtension(app)
 

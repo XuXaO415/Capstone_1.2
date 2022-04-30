@@ -28,7 +28,7 @@ This project uses data from
 - [3][![Python](<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original-wordmark.svg" />)]
 - [4][![flask](<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original-wordmark.svg" />)]
 - [Jinja]
-- [6][![WTForms](<img src="https://wtforms.readthedocs.io/en/3.0.x/_static/logo_joined.svg" />)]
+- [6][![WTForms](<img src="readme_imgs/wtforms.png" width="70px"height="21px" />)]
 - [Bcrypt]
 - [8][![PostgreSQL](<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original-wordmark.svg" />)]
 - [9][![sqlalchemy](<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlalchemy/sqlalchemy-original-wordmark.svg" />)]

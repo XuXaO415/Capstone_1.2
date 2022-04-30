@@ -20,11 +20,26 @@ This project uses data from
 - User can favorite and unfavorite articles of interest
 - User can manage their profile
 
-## 🖥️ Technology Stack:
+## 🖥️ Technology Stack: 
+
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![Python](https://img.shields.io/badge/Pyhton-186489?style=for-the-badge&logo=python&logoColor=white)
+![WTForms](https://img.shields.io/badge/WTForms-000000?style=for-the-badge&logo=wtforms&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-186489?style=for-the-badge&logo=flask&logoColor=white)
+![Jinja](https://img.shields.io/badge/Jinja-186489?style=for-the-badge&logo=jinja&logoColor=white)
+![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-186489?style=for-the-badge&logo=sqlalchemy&logoColor=white)
+![Bcrypt](https://img.shields.io/badge/Bcrypt-186489?style=for-the-badge&logo=bcrypt&logoColor=white)
+![Heroku](https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white)
+
+
+
+
+
+
+
 
 
 

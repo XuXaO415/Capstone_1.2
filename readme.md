@@ -1,3 +1,4 @@
+![GitHub last commit](https://img.shields.io/github/last-commit/XuXaO415/Capstone_1.2)
 # <div align='center'>Aletheia</div>
 ## <div align='center'>_Your source for trustworty news._</div>
 ## <div align='center'> Try app here => https://aletheia-news.herokuapp.com/ </div>

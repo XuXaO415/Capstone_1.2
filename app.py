@@ -1,7 +1,7 @@
 import os
 from re import search
 from flask import Flask, render_template, request, flash, redirect, session, g, url_for, jsonify
-from flask_login import login_user, logout_user, current_user,login_required
+from flask_login import current_user
 from flask.json.tag import JSONTag
 import requests
 from sqlalchemy.exc import IntegrityError
@@ -255,15 +255,15 @@ def add_favorite(favorite_articles_id):
     return render_template("/users/favorite.html", saved_favorite=saved_favorite)
 
 
-# @app.route("/users/<int:user_id>/favorite", methods=[])
-# def user_favorites(user_id):
-#     """Shows a list of a user's favored articles"""
+@app.route("/users/<int:user_id>/favorite", methods=[])
+def user_favorites(user_id):
+    """Shows a list of a user's favored articles"""
     
-#     if not g.user:
-#         return redirect("/")
+    if not g.user:
+        return redirect("/")
     
-#     user = User.query.get_or_404(user_id)
-#     return render_template("/users/favorite.html", user=user)
+    user = User.query.get_or_404(user_id)
+    return render_template("/users/favorite.html", user=user)
     
     
 

@@ -25,7 +25,8 @@
                 <div class="mb-1 text-muted ">By {{world_new.author}} - {{world_new.source.name}} </div>
                 <p class="card-text mb-auto ">{{ world_new.description }}</p>
                 <a href="{{ world_new.url }}" target="_blank">Continue reading...</a>
-                <form method="POST" action="/users/favorite/">
+                <form method="POST" action="/users/favorite/{{world_new.id}}">
+
                     <button class=" btn btn-sm btn-primary "><i class="fa fa-thumbs-up "></i></button>
 
                     <button class="btn btn-sm btn-secondary ">
@@ -50,7 +51,7 @@
                 <p class="mb-auto my-auto ">{{latest_article.description}}</p>
 
                 <a href="{{latest_article.url}} " target="_blank ">Continue reading...</a>
-                <form method="POST " action="/users/favorite/ ">
+                <form method="POST " action="/users/favorite/{{latest_article.id}} ">
                     <button class="btn btn-sm btn-primary ">
             <i class="fa fa-thumbs-up "></i></button>
                     <button class="btn btn-sm btn-secondary "><i class=" fa fa-thumbs-down "></i></button>

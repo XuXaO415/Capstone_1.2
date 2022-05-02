@@ -1,3 +1,4 @@
+![GitHub last commit](https://img.shields.io/github/last-commit/XuXaO415/Capstone_1.2)
 # <div align='center'>Aletheia</div>
 ## <div align='center'>_Your source for trustworty news._</div>
 ## <div align='center'> Try app here => https://aletheia-news.herokuapp.com/ </div>
@@ -20,7 +21,9 @@ This project uses data from
 - User can favorite and unfavorite articles of interest
 - User can manage their profile
 
-## Tech used
+
+## 🖥️ Technology Stack: 
+>>>>>>> fece94c895a15f0f2574943ef43edf761ccf4095
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
@@ -32,4 +35,17 @@ This project uses data from
 ![Jinja](https://img.shields.io/badge/Jinja-186489?style=for-the-badge&logo=jinja&logoColor=white)
 ![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-186489?style=for-the-badge&logo=sqlalchemy&logoColor=white)
 ![Bcrypt](https://img.shields.io/badge/Bcrypt-186489?style=for-the-badge&logo=bcrypt&logoColor=white)
-![Heroku](https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white)
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> fece94c895a15f0f2574943ef43edf761ccf4095

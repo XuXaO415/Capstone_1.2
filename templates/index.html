@@ -29,13 +29,13 @@
                 <p class="card-text mb-auto">{{ world_new.description }}</p>
                 <a href="{{ world_new.url }}" target="_blank">Continue reading...</a>
                 <!-- <p>id {{world_new}}</p> -->
-                <form method="POST" action="/users/favorite/{{like_id}}}>
+                <form method="POST" action="/users/favorite/{{like_id}}">
                     <button class=" btn btn-sm btn-primary ">
             <i class="fa fa-thumbs-up "></i>
           </button>
                     <!-- <button class="btn btn-sm btn-secondary ">
-                <i class="fa fa-thumbs-down "></i> -->
-                    <!-- </button> -->
+                <i class="fa fa-thumbs-down "></i>
+                    </button> -->
                 </form>
                 <hr /> {% endfor %}
             </div>

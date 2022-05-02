@@ -212,19 +212,21 @@ def edit_user(user_id):
 ##############################################################################
 # Delete User
 ##############################################################################
-@app.route("/users/delete", methods=["POST"])
-def delete_user():
-    if not g.user:
-        flash("Access unauthorized.", "danger")
-        return redirect("/")
+# @app.route("/users/delete", methods=["POST"])
+# def delete_user():
+#     if not g.user:
+#         flash("Access unauthorized.", "danger")
+#         return redirect("/")
     
-    do_logout()
-    flash (f"Your account has successfully been deleted", "success")
+#     do_logout()
+#     flash (f"Your account has successfully been deleted", "success")
     
-    db.session.delete(g.user)
-    db.session.commit()
-    return redirect("/signup")
-
+#     db.session.delete(g.user)
+#     db.session.commit()
+#     return redirect("/signup")
+##############################################################################
+# User Favorite
+##############################################################################
 @app.route("/users/favorite", methods=["POST"])
 def user_favorite():
     
@@ -234,25 +236,43 @@ def user_favorite():
     empty = favorite is None or False if favorite is None else False
     return render_template("/users/favorite.html", favorite=favorite, empty=empty)
 
+##############################################################################
+# User Favorite
+##############################################################################
 
-@app.route("/users/favorite/<int:latest_article_id>", methods=["GET", "POST"])
-def add_favorite(latest_article_id):
+# @app.route("/users/favorite/", methods=["GET", "POST"])
+# def add_favorite():
+#     """Enables a user to favorite an article"""
+
+#     if not g.user:
+#         flash("You are not the authorized user of this account", "danger")
+#         return redirect("/")
+
+#     saved_favorite = FavoriteArticle(
+#     user_id=g.user_id, latest_article_id=latest_article_id)
+#     db.session.add(saved_favorite)
+#     db.session.commit()
+    
+#     flash(f"You just saved this article!", "success")
+#     return render_template("/users/favorite.html", saved_favorite=saved_favorite)
+
+
+@app.route("/users/favorite/<int:like_id>", methods=["GET", "POST"])
+def add_favorite(like_id):
     """Enables a user to favorite an article"""
     
     if not g.user:
         flash("You are not the authorized user of this account", "danger")
         return redirect("/")
-
     
-    saved_favorite = FavoriteArticle(
-    user_id=g.user_id, latest_article_id=latest_article_id)
-    db.session.add(saved_favorite)
+    new_likes = Likes(user_id=g.user.id, likes_id=like_id)
+    db.session.add(new_likes)
     db.session.commit()
     
-    flash(f"You just saved this article!", "success")
-    # return render_template("/users/favorite.html")
-    # return redirect(url_for("/users/dashboard"))
-    return render_template("/users/favorite.html", saved_favorite=saved_favorite)
+    flash(f"You just liked this article!", "success")
+    
+    return render_template("/users/favorite.html")
+    
 
 
 @app.route("/users/<int:user_id>/favorite", methods=[])
@@ -280,8 +300,6 @@ def delete_favorite(favorite_articles_id):
     return redirect(f"/users/favorite")
 
 
-
-
 ##############################################################################
 # Upon successful logout, redirects user to login page
 ##############################################################################
@@ -303,9 +321,14 @@ def page_not_found(e):
     return render_template("404.html"), 404
 
 ##############################################################################
-# Homepage quick link that displays latest news
+
 ##############################################################################
 
+
+
+##############################################################################
+# Homepage quick link that displays latest news
+##############################################################################
 
 @app.route("/latest_articles", methods =["GET", "POST"])
 def show_latest_articles():
@@ -325,24 +348,6 @@ def show_latest_articles():
     return render_template("latest_articles.html", latest_articles=latest_art)
 ##############################################################################
 
-
-# @app.route("/latest_articles/<int:latest_article_id>", methods=["GET", "POST"])
-# def latest_articles(latest_article_id):
-#     API_SECRET_KEY = os.getenv('API_SECRET_KEY')
-
-#     # url = ('https://newsapi.org/v2/top-headlines?' 'language=en' 'qinTitle=query' 'apiKey={API_SECRET_KEY}')
-#     # res = requests.get(url)
-#     # print(res.text)
-#     res = requests.get(
-#         f"https://newsapi.org/v2/top-headlines?category=general&country=us&pageSize=10&apiKey={API_SECRET_KEY}")
-
-#     # latest_art = res.json()['articles']
-#     latest_article = LatestArticle.query.get(latest_article_id)
-
-#     print(res.json())
-
-#     return render_template("latest_articles.html", latest_article=latest_article)
-##############################################################################
 @app.route("/world_news", methods=["GET", "POST"])
 def show_world_news():
     API_SECRET_KEY = os.getenv('API_SECRET_KEY')
@@ -457,13 +462,6 @@ def search_all_articles():
                                     )
         print(res.json()['articles'][0]['description'])
         art['description'] = res.json()['articles'][0]['description']
-        
-    # recent_articles = recent_response.json()
-    # rec_art = recent_articles['articles']['author']['title']['description'][0:10]
-    #     for r_art in rec_art:
-    #         resp = request.get(f'')
-
-    # recent_articles = recent_response.json()
     
     title_request = response.json()
     print (response.text)

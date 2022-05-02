@@ -235,8 +235,8 @@ def user_favorite():
     return render_template("/users/favorite.html", favorite=favorite, empty=empty)
 
 
-@app.route("/users/favorite/<int:favorite_articles_id>", methods=["GET", "POST"])
-def add_favorite(favorite_articles_id):
+@app.route("/users/favorite/<int:latest_article_id>", methods=["GET", "POST"])
+def add_favorite(latest_article_id):
     """Enables a user to favorite an article"""
     
     if not g.user:
@@ -245,7 +245,7 @@ def add_favorite(favorite_articles_id):
 
     
     saved_favorite = FavoriteArticle(
-    user_id=g.user_id, favorite_articles_id=favorite_articles_id)
+    user_id=g.user_id, latest_article_id=latest_article_id)
     db.session.add(saved_favorite)
     db.session.commit()
     

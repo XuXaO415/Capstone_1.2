@@ -1,19 +1,16 @@
 import os
-from re import search
-from flask import Flask, render_template, request, flash, redirect, session, g, url_for, jsonify
-from flask_login import current_user
-from flask.json.tag import JSONTag
-import requests
+from flask import Flask, request, redirect, render_template, flash, session, g, url_for
+# from flask_login import current_user
+# import requests
 from sqlalchemy.exc import IntegrityError
 from flask_debugtoolbar import DebugToolbarExtension
-from newsapi import NewsApiClient
-import datetime
+# from newsapi import NewsApiClient
 import pdb
 #################################################################################
 
 from forms import UserAddForm, LoginForm, UserEditForm
-from models import FavoriteArticle, db, connect_db, User, LatestArticle, TopArticle, WorldNews, Technology, Business, USPolity, Science, Health, FavoriteArticle, Likes
-#################################################################################
+from models import FavoriteArticle, db, connect_db, User, LatestArticle, TopArticle, WorldNews, Technology, Business, USPolity, Science, Health, Likes
+#######################################ß##########################################
 # from secrets import api_key
 from dotenv import load_dotenv
 load_dotenv()
@@ -23,6 +20,7 @@ load_dotenv()
 CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
+
 
 app.config['SQLALCHEMY_DATABASE_URI'] = (os.environ.get('DATABASE_URL', 'postgresql:///nea_db'))
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -35,6 +33,7 @@ toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
 
+    
 ##############################################################################
 # Add user to g
 ##############################################################################
@@ -489,3 +488,5 @@ def add_header(req):
 
 ##############################################################################
 
+# if __name__ == "__main__":
+#     app().run()

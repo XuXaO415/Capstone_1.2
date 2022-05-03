@@ -227,14 +227,14 @@ def edit_user(user_id):
 ##############################################################################
 # User Favorite
 ##############################################################################
-@app.route("/users/favorite", methods=["POST"])
-def user_favorite():
+# @app.route("/users/favorite", methods=["POST"])
+# def user_favorite():
     
-    favorite = FavoriteArticle.query\
-        .filter_by(user_id=current_user)\
-        .order_by((FavoriteArticle.id))
-    empty = favorite is None or False if favorite is None else False
-    return render_template("/users/favorite.html", favorite=favorite, empty=empty)
+#     favorite = FavoriteArticle.query\
+#         .filter_by(user_id=current_user)\
+#         .order_by((FavoriteArticle.id))
+#     empty = favorite is None or False if favorite is None else False
+#     return render_template("/users/favorite.html", favorite=favorite, empty=empty)
 
 ##############################################################################
 # User Favorite
@@ -265,17 +265,16 @@ def add_favorite(like_id):
         flash("You are not the authorized user of this account", "danger")
         return redirect("/")
     
-    new_likes = Likes(user_id=g.user.id, likes_id=like_id)
+    new_likes = Likes(user_id=g.user.id, like_id=like_id)
     db.session.add(new_likes)
     db.session.commit()
     
     flash(f"You just liked this article!", "success")
     
-    return render_template("/users/favorite.html")
-    
+    return redirect("/")
 
 
-@app.route("/users/<int:user_id>/favorite", methods=[])
+@app.route("/users/<int:user_id>/favorite", methods=["POST"])
 def user_favorites(user_id):
     """Shows a list of a user's favored articles"""
     
@@ -283,21 +282,21 @@ def user_favorites(user_id):
         return redirect("/")
     
     user = User.query.get_or_404(user_id)
-    return render_template("/users/favorite.html", user=user)
+    return render_template("/users/favorite.html", user_id=g.user.id)
     
     
 
-@app.route("/users/delete/<int:favorite_articles_id>", methods = ["Get", "POST"])
-def delete_favorite(favorite_articles_id):
-    if not g.user:
-        flash("Access unauthorized!", "danger")
-        return redirect("/")
-    user_favorite_article = FavoriteArticle.query.filter_by(favorite_articles_id=str(favorite_articles_id),user_id=str(g.user.id)).first()
+# @app.route("/users/delete/<int:favorite_articles_id>", methods = ["Get", "POST"])
+# def delete_favorite(favorite_articles_id):
+#     if not g.user:
+#         flash("Access unauthorized!", "danger")
+#         return redirect("/")
+#     user_favorite_article = FavoriteArticle.query.filter_by(favorite_articles_id=str(favorite_articles_id),user_id=str(g.user.id)).first()
     
-    db.session.delete(user_favorite_article)
-    db.session.commit()
+#     db.session.delete(user_favorite_article)
+#     db.session.commit()
     
-    return redirect(f"/users/favorite")
+#     return redirect(f"/users/favorite")
 
 
 ##############################################################################

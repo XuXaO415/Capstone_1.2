@@ -1,11 +1,16 @@
-{% extends 'base.html' %} {% block title %}Favorites{% endblock %} {% block content %}
+{% extends 'base.html' %} {% block title %}Favorites{% endblock %}
 
-<h1 id="greetings" class="full-width">Your Favorites</h1>
+{% block content %}
 
-<p>Favorites</p>
-<h4>
-    <a href="/users/favorite/{{favorite_articles_id}}"> </a>
-</h4>
+<!-- <h1 id="greetings" class="full-width">Your Favorites</h1> -->
+<div id=user-favorites" class="full-width"></div>
+<h1 class="text-center mt-3 top-text mb-3">{{ g.user.username }}'s likes</h1>
+
+    <p class="card-text mb-auto">Likes</p>
+    <h4>
+        <a href="/users/{{g.user.id}}/favorites">{{g.user.favorites | length}}</a>
+   
+    </h4>
 
 
 

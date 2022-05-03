@@ -244,27 +244,41 @@ class Health(db.Model):
 #     health_id = db.Column(db.Integer, db.ForeignKey('health_news.id', ondelete='cascade'), unique=True)
 #     user = db.relationship('User')
     
-class Likes(db.Model):
+# class Likes(db.Model):
         
-    __tablename__ = 'likes'
+#     __tablename__ = 'likes'
         
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'))
-    favorite_article = db.Column(db.Integer, db.ForeignKey('favorite_articles.id', ondelete='cascade'))
+#     id = db.Column(db.Integer, primary_key=True)
+#     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'))
+#     favorite_article = db.Column(db.Integer, db.ForeignKey('favorite_articles.id', ondelete='cascade'))
         
-class FavoriteArticle(db.Model):
-    """ user's favorite articles"""
+# class FavoriteArticle(db.Model):
+#     """ user's favorite articles"""
     
-    __tablename__ = "favorite_articles"
+#     __tablename__ = "favorite_articles"
         
+#     id = db.Column(db.Integer, primary_key=True)
+#     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)
+#     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+#     source = db.Column(db.Text)
+#     author = db.Column(db.Text)
+#     title = db.Column(db.Text)
+#     description  = db.Column(db.Text)
+#     users = db.relationship('User', backref='favorite_article')
+
+class Likes(db.Model):
+    """Mapping user likes to article"""
+    
+    __tablename__ = "favorites"
+    
     id = db.Column(db.Integer, primary_key=True)
+    canonical_url = db.Column(db.Text, nullable=False, unique=False)
+    author = db.Column(db.Text, nullable=False, unique=False)
+    date_published = db.Column(db.Integer, nullable=False, unique=False)
+    article_title = db.Column(db.Text, nullable=False, unique=False)
+    description = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)
-    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    source = db.Column(db.Text)
-    author = db.Column(db.Text)
-    title = db.Column(db.Text)
-    description  = db.Column(db.Text)
-    users = db.relationship('User', backref='favorite_article')
+    
     
     
     

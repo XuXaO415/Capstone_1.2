@@ -2,6 +2,7 @@ from datetime import datetime
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_manager
+from flask import Flask
 
 
 db = SQLAlchemy()
@@ -22,7 +23,7 @@ def connect_db(app):
 #     return User.query.get(int(user_id))
 
 
-class User(UserMixin, db.Model):
+class User(db.Model):
     """User in the system"""
 
     __tablename__ = 'users'
@@ -252,6 +253,7 @@ class Health(db.Model):
 #     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'))
 #     favorite_article = db.Column(db.Integer, db.ForeignKey('favorite_articles.id', ondelete='cascade'))
         
+# sourcery skip: aware-datetime-for-utc
 class FavoriteArticle(db.Model):
     """ user's favorite articles"""
     

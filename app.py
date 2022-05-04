@@ -1,25 +1,25 @@
 import os
-from flask import Flask, request, redirect, render_template, flash, session, g, url_for
-# from flask_login import current_user
-# import requests
+from flask import *
+# from flask import Flask, redirect, render_template, flash, session, g, url_for
+from flask_login import current_user
+import requests
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
 from flask_debugtoolbar import DebugToolbarExtension
 # from newsapi import NewsApiClient
 import pdb
 #################################################################################
-
 from forms import UserAddForm, LoginForm, UserEditForm
-from models import FavoriteArticle, db, connect_db, User, LatestArticle, TopArticle, WorldNews, Technology, Business, USPolity, Science, Health, Likes
+from models import db, connect_db, User, Likes, LatestArticle, TopArticle, WorldNews, Technology, Business, USPolity, Science, Health
 #######################################ß##########################################
 # from secrets import api_key
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
 #################################################################################
 
+app = Flask(__name__)
 
 CURR_USER_KEY = "curr_user"
-
-app = Flask(__name__)
 
 
 app.config['SQLALCHEMY_DATABASE_URI'] = (os.environ.get('DATABASE_URL', 'postgresql:///nea_db'))
@@ -30,6 +30,7 @@ app.config['SECRET_KEY'] = os.environ.get('API_KEY', 'SECRET_KEY')
 ##'This is classified information'
 
 toolbar = DebugToolbarExtension(app)
+# db = SQLAlchemy(app)
 
 connect_db(app)
 
@@ -256,25 +257,24 @@ def edit_user(user_id):
 #     return render_template("/users/favorite.html", saved_favorite=saved_favorite)
 
 
-# @app.route("/users/favorite/<int:like_id>", methods=["POST"])
-# def add_favorite(like_id):
-#     """Enables a user to favorite an article"""
+@app.route("/users/favorite/<int:like_id>", methods=["POST"])
+def add_favorite(like_id):
+    """Enables a user to favorite an article"""
     
-#     if not g.user:
-#         flash("You are not the authorized user of this account", "danger")
-#         return redirect("/")
+    if not g.user:
+        flash("You are not the authorized user of this account", "danger")
+        return redirect("/")
     
-#     new_likes = Likes(user_id=g.user.id, like_id=like_id)
-#     db.session.add(new_likes)
-#     db.session.commit()
+    new_likes = Likes(user_id=g.user.id, like_id=like_id)
+    db.session.add(new_likes)
+    db.session.commit()
     
-#     flash(f"You just liked this article!", "success")
+    flash(f"You just liked this article!", "success")
     
-#     return render_template("/users/favorite.html")
+    return render_template("/users/favorite.html")
 
 # @app.route("/users/favorite", methods=["POST"])
 # def add_favorite():
-
 
 
 @app.route("/users/<int:user_id>/favorite", methods=["POST"])

@@ -1,7 +1,7 @@
 import os
-from flask import *
-# from flask import Flask, redirect, render_template, flash, session, g, url_for
-from flask_login import current_user
+# from flask import *
+from flask import Flask, redirect, render_template, flash, session, g, url_for
+from flask_login import current_user, LoginManager
 import requests
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError

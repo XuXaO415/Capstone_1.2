@@ -36,7 +36,7 @@ class User(db.Model):
     password = db.Column(db.Text, nullable=False)
     
 
-    favorite_articles = db.relationship('FavoriteArticle')
+    # favorite_articles = db.relationship('FavoriteArticle')
     likes = db.relationship('User', secondary='likes')
 
     @classmethod
@@ -254,19 +254,19 @@ class Health(db.Model):
 #     favorite_article = db.Column(db.Integer, db.ForeignKey('favorite_articles.id', ondelete='cascade'))
         
 # sourcery skip: aware-datetime-for-utc
-class FavoriteArticle(db.Model):
-    """ user's favorite articles"""
+# class FavoriteArticle(db.Model):
+#     """ user's favorite articles"""
     
-    __tablename__ = "favorite_articles"
+#     __tablename__ = "favorite_articles"
         
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)
-    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    source = db.Column(db.Text)
-    author = db.Column(db.Text)
-    title = db.Column(db.Text)
-    description  = db.Column(db.Text)
-    users = db.relationship('User', backref='favorite_article')
+#     id = db.Column(db.Integer, primary_key=True)
+#     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)
+#     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+#     source = db.Column(db.Text)
+#     author = db.Column(db.Text)
+#     title = db.Column(db.Text)
+#     description  = db.Column(db.Text)
+#     users = db.relationship('User', backref='favorite_article')
 
 class Likes(db.Model):
     """Mapping user likes to article"""

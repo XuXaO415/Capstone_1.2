@@ -82,7 +82,7 @@ class LatestArticle(db.Model):
 
     def __repr__(self):
         latest_article = self
-        return f"<Latest Article {latest_article.id} {latest_article.conical_url} {latest_article.date_published} {latest_article.domain} {latest_article.article_id} {latest_article.site_type} {latest_article.title}"
+        return f"<Latest Article {latest_article.id} {latest_article.conical_url} {latest_article.date_published} {latest_article.domain} {latest_article.article_id} {latest_article.site_type} {latest_article.title} {latest_article.url_image}"
 
 
 class TopArticle(db.Model):
@@ -280,6 +280,7 @@ class Likes(db.Model):
     article_title = db.Column(db.Text, nullable=False, unique=False)
     description = db.Column(db.Text)
     date_added = db.Column(db.Integer, nullable=False, unique=True)
+    url_image = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)
     
     

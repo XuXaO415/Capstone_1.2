@@ -19,15 +19,15 @@
             <p>{{ latest_article.date_published }}</p>
             <p> {{latest_article.description}}</p>
             <a href=" {{ latest_article.url }} ">Read more... </a>
-            <form method="POST" action="/users/favorite/{{ favorite_articles_id }}">
+            <form method="POST" action="/users/{{g.user.id}}/favorite">
                 <button class="btn btn-sm btn-primary">
-            <i class="fa fa-thumbs-up"></i>
+            <i class="fas fa-bookmark"></i>
                </button>
-                <form method="POST" action="/users/delete/{{ favorite_articles_id }}">
+                <!-- <form method="POST" action="/users/delete/{{ favorite_articles_id }}">
                     <button class="btn btn-sm btn-secondary">
             <i class="fa fa-thumbs-down"></i>
           </button>
-                </form>
+                </form> -->
             </form>
         </div>
     </div>

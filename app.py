@@ -270,8 +270,8 @@ def add_likes(like_id):
     
     flash(f"You just liked this article!", "success")
     
-    # return render_template("/users/favorite.html")
-    return redirect("/")
+    return render_template("/users/favorite.html")
+    # return redirect("/")
 
 # @app.route("/users/favorite", methods=["POST"])
 # def add_favorite():

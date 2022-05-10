@@ -1,21 +1,52 @@
 {% extends 'base.html' %} {% block title %}Favorites{% endblock %} 
 
+
 {% block content %}
 
-<div id=user-favorites " class="full-width ">
+
 <h1 class="text-center mt-3 top-text mb-3 ">{{ g.user.username }}'s likes</h1>
 
     <div class="card-text mb-auto ">
         <h4 class="card-title">Likes</h4>
+     
     {% for like in likes %}
+
         <a href="/users/{{g.user.id}}/favorite ">{{ g.user.likes }}</a>
         <p>{{likes.id.date_added}}</p>
         <p>{{likes.description}}</p>
         </div>
         {% endfor %}
 
+
 </div>
-</div>
+<!-- <article class="likes">
+<h1 class="text-center mt-3 top-text mb-3 ">{{ g.user.username }}'s likes</h1>
+
+    <hr/> {% for likes in likes %}
+
+    <div class="likes-container">
+        <div class="row">
+            <h3>
+                <center>
+                    <strong>{{like.article_title}}</strong>
+                </center>
+            </h3>
+            <img src="{{ like.urlToImage }}" class="float-right" style="width:60%" />
+            <div class="ln-caption">Author: {{ like.author}} {{like.date_published}}</div>
+
+            <p>{{ like.date_published }}</p>
+            <p> {{like.description}}</p>
+            <form method="POST" action="/users/{{g.user.id}}/favorite">
+                <button class="btn btn-sm btn-primary">
+            <i class="fas fa-bookmark"></i>
+               </button>
+
+            </form>
+        </div>
+    </div>
+
+    {% endfor %}
+</article> -->
 
 
 {% endblock %}

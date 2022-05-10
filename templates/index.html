@@ -22,6 +22,7 @@
             <div class="col p-4 d-flex flex-column position-static">
                 <strong class="d-inline-block mb-2 text-primary">World News</strong> {% for world_new in world_news %}
                 <h3 class="mb-0">{{world_new.title}}</h3>
+
                 <img src="{{world_new.urlToImage}} " />
                 <div class="mb-1 text-muted">
                     By {{world_new.author}} - {{world_new.source.name}}
@@ -32,7 +33,9 @@
                 <form method="POST" action="/users/{{g.user.id}}/favorite">
                     <!-- <form method="POST" action="/users/favorite/{{like_id}}"> -->
                     <button class=" btn btn-sm btn-primary ">
-            <i class="fa fa-thumbs-up "></i>
+            <!-- <i class="fa fa-thumbs-up "></i> -->
+                       <i class="fas fa-bookmark"></i>
+            
           </button>
                     <!-- <button class="btn btn-sm btn-secondary ">
                 <i class="fa fa-thumbs-down "></i>
@@ -59,7 +62,8 @@
         >
         <form method="POST " action="/users/favorite ">
           <button class="btn btn-sm btn-primary ">
-            <i class="fa fa-thumbs-up "></i>
+            <!-- <i class="fa fa-thumbs-up "></i> -->
+                <i class="fas fa-bookmark"></i>
           </button>
           <!-- <button class="btn btn-sm btn-secondary ">
             <i class="fa fa-thumbs-down "></i>

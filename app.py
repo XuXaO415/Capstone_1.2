@@ -165,14 +165,13 @@ def show_user_dashboard(user_id):
     #                     .order_by(FavoriteArticle.timestamp.desc())
     #                     .limit(15)
     #                     .all())
-    favorite_articles = (FavoriteArticle
+    likes = (Likes
                         .query
-                        .filter(FavoriteArticle.user_id==user_id)
-                        # .order_by((FavoriteArticle.id.desc())))
-                        .order_by(FavoriteArticle.timestamp.desc())
+                        .filter(Likes.user_id == user_id)
+                        .order_by(Likes.date_published.desc())
                         .limit(25)
                         .all())
-    return render_template('users/show.html', user=user, favorite_articles=favorite_articles)
+    return render_template('users/show.html', user=user, likes=likes)
 
 
     

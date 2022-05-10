@@ -60,7 +60,7 @@
 
                 <a href="{{latest_article.url}} " target="_blank ">Continue reading...</a
         >
-        <form method="POST " action="/users/favorite ">
+        <form method="POST" action="/users/{{ g.user.id }}/favorite">
           <button class="btn btn-sm btn-primary ">
             <!-- <i class="fa fa-thumbs-up "></i> -->
                 <i class="fas fa-bookmark"></i>

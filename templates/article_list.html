@@ -21,18 +21,18 @@
             <p>{{article.description}}</p>
             <a href=" {{ article.url }} ">Read more... </a>
             <div class="row">
-                <form method="POST" action="/users/favorite/{{ favorite_articles_id }}">
+                <form method="POST" action="/users/{{g.user.id}}/favorite">
                     <button class="btn btn-sm btn-primary">
-            <i class="fa fa-thumbs-up"></i>
+                    <i class="fas fa-bookmark"></i>
                </button>
                 </form>
-
+                <!-- 
 
                 <form method="POST" action="/users/delete/{{ favorite_article_id }}">
                     <button class="btn btn-sm btn-secondary">
             <i class="fa fa-thumbs-down"></i>
           </button>
-                </form>
+                </form> -->
             </div>
         </div>
     </div>

@@ -257,20 +257,21 @@ def edit_user(user_id):
 
 
 @app.route("/users/favorite/<int:like_id>", methods=["POST"])
-def add_favorite(like_id):
-    """Enables a user to favorite an article"""
+def add_likes(like_id):
+    """Enables a user to like an article"""
     
     if not g.user:
         flash("You are not the authorized user of this account", "danger")
         return redirect("/")
     
-    new_likes = Likes(user_id=g.user.id, like_id=like_id)
+    new_likes = Likes(user_id=g.user.id, likes_id=like_id)
     db.session.add(new_likes)
     db.session.commit()
     
     flash(f"You just liked this article!", "success")
     
-    return render_template("/users/favorite.html")
+    # return render_template("/users/favorite.html")
+    return redirect("/")
 
 # @app.route("/users/favorite", methods=["POST"])
 # def add_favorite():

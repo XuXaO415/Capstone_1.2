@@ -279,6 +279,7 @@ class Likes(db.Model):
     date_published = db.Column(db.Integer, nullable=False, unique=False)
     article_title = db.Column(db.Text, nullable=False, unique=False)
     description = db.Column(db.Text)
+    date_added = db.Column(db.Integer, nullable=False, unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)
     
     

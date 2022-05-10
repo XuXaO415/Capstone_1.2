@@ -159,22 +159,22 @@ def login():
 def show_user_dashboard(user_id):
 
     user = User.query.get_or_404(user_id)
-    # favorite_article = (FavoriteArticle
-    #                     .query
-    #                     .filter(FavoriteArticle.user_id == user_id)
-    #                     .order_by(FavoriteArticle.timestamp.desc())
-    #                     .limit(15)
-    #                     .all())
+
     likes = (Likes
-                        .query
-                        .filter(Likes.user_id == user_id)
-                        .order_by(Likes.date_published.desc())
-                        .limit(25)
-                        .all())
+                .query
+                .filter(Likes.user_id == user_id)
+                .order_by(Likes.date_added.desc())
+                .order_by(Likes.date_published.desc())
+                .order_by(Likes.article_title.asc())
+                .limit(25)
+                .all())
     return render_template('users/show.html', user=user, likes=likes)
 
 
-    
+# nea_db =  # SELECT DISTINCT date_published FROM likes
+# nea_db-  # ORDER BY date_published ASC;
+
+
 ##############################################################################
 # User profile edit form
 ##############################################################################

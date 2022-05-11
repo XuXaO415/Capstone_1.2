@@ -88,9 +88,23 @@ def homepage():
     latest_article = res.json()['articles']
     print(res.json())
   
+  
+    if g.user:
+        like = g.user.like
+        like.append(g.user.like)
+        likes = [like.id for like in g.user.likes]
+        likes = (Likes
+                 .query
+                 .filter(Likes.user_id.in_(likes))
+                 .order_by(Likes.date_added.desc())
+                 .order_by(Likes.date_published.desc())
+                 .order_by(Likes.article_title.asc())
+                 .limit(25)
+                 .all())
+        
 #   pdb.set_trace()
 
-    return render_template("index.html", world_news=world_new, latest_articles=latest_article)
+    return render_template("index.html", world_news=world_new, latest_articles=latest_article, likes=likes)
 
 
 ##############################################################################
@@ -253,14 +267,21 @@ def add_likes(like_id):
         flash("You are not the authorized user of this account", "danger")
         return redirect("/")
     
-    new_like = Likes(user_id=g.user.id, likes_id=like_id)
+    # like = Likes.query.get_or_404(like_id)
+    
+    # like = Likes[like_id]
+    # print("like id is: ", type(like_id))
+    
+    # new_like = Likes(user_id=g.user.id, like_id=like_id)
+    new_like = Likes.query.get_or_404(like_id)
+    g.user.like.append(new_like)
     db.session.add(new_like)
     db.session.commit()
     
     flash(f"You just liked this article!", "success")
     
-    return render_template("/users/favorite.html", new_like=new_like)
-    # return redirect("/")
+    # return render_template("/users/favorite.html", new_like=new_like)
+    return redirect(f"/users/{g.user.id}/favorite")
 
 
 

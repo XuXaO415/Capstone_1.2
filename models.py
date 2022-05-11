@@ -253,7 +253,7 @@ class Health(db.Model):
 #     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'))
 #     favorite_article = db.Column(db.Integer, db.ForeignKey('favorite_articles.id', ondelete='cascade'))
         
-# sourcery skip: aware-datetime-for-utc
+
 # class FavoriteArticle(db.Model):
 #     """ user's favorite articles"""
     

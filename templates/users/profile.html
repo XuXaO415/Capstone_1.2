@@ -1,29 +1,31 @@
-{% extends 'users/edit.html' %} {% block title %}{% endblock %} {% block content %}
+{% extends 'users/edit.html' %} {% block title %}{{ g.user.username}}'s profile{% endblock %} {% block content %}
 
-<h1 class="text-center mt-3 top-text mb-3">{{ g.user.username }}'s profile</h1>
-<div class="profile">
-    <div class="row">
-        <div class="col-sm-6 col-md-6 col-lg-6">
-            <div>
-                <h2 class="user-details-title text-warning mt-3">
-                    <u>User Details</u>
-                </h2>
-                <div class="user-details">
-                    <p class="mb-0 user-name">
-                        <span>Username:</span> {{ g.user.username }}
-                    </p>
-                    <p class="mb-0 user-email"><span>Email:</span> {{ g.user.email }}</p>
+<div class="row justify-content-md-center">
+    <div class="col-md-4">
+        <div class="container">
+            <center>
+                <h1 class="mt-5">Edit profile for {{ g.user.username }}</h1>
+
+                <div>
+                    <h2 class="user-details-title text-warning mt-3">
+                        <u>Your Details</u>
+                    </h2>
+                    <div class="user-details">
+                        <p class="mb-0 user-name">
+                            <span>Username:</span> {{ g.user.username }}
+                        </p>
+                        <p class="mb-0 user-email"><span>Email:</span> {{ g.user.email }}</p>
+                        <p class="mb-0 user-password"><span>Password:</span> xxxxx</p>
+                    </div>
                 </div>
-            </div>
 
-            <form class="col-md-6" action="/users/{{user_id}}/edit" method="POST">
-                <button class="btn btn-primary">Edit</button>
-                <a href="/users/{{user_id}}/edit">
-            </form>
-            <form class="col-md-6" action="/users/delete" method="POST">
-                <button class="btn btn-danger profile-btn">Delete</button>
-            </form>
+                <form action="/users/{{user.id}}/edit" , methods="POST">
+                    <button class="btn btn-primary">Edit</button>
+
+                    <form class="col-md-6" action="/users/delete" method="POST">
+                        <button class="btn btn-danger profile-btn">Delete</button>
+                    </form>
+
         </div>
     </div>
-</div>
-{% endblock %}
+    {% endblock %}

@@ -15,11 +15,13 @@
                     {{ error }}
                     </span> {% endfor %} {% endif %} {{ form.password(placeholder="Enter your password to confirm ", class="form-control mb-2 ") }}
                 <div class="edit-btn-area ">
-                    <!-- <form action="/users/{{user_id}}/edit"> -->
-                    <button class="btn btn-success " type="submit ">Update</button>
-                    <a href="/users/{{ user_id }} " class="btn btn-outline-secondary ">Cancel</a>
+                    <form action="/users/{{user_id}}/edit" , methods="POST">
+                        <button class="btn btn-primary " type="submit ">Update</button>
+                        <a href="/users/{{ user_id }} " class="btn btn-outline-secondary ">Cancel</a>
+
+                    </form>
+
                 </div>
-            </form>
         </div>
     </div>
 

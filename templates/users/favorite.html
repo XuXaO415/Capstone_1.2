@@ -11,9 +11,10 @@
      
     {% for like in likes %}
 
-        <a href="/users/{{g.user.id}}/favorite ">{{ g.user.likes }}</a>
-        <p>{{likes.id.date_added}}</p>
-        <p>{{likes.description}}</p>
+        {# <a href="/users/{{g.user.id}}/favorite ">{{ g.user.likes }}</a> #}
+        <a href="/users/favorite/{{like.id}} ">{{ g.user.likes }}</a>
+        <p>{{like.id.date_added}}</p>
+        <p>{{like.description}}</p>
         </div>
         {% endfor %}
 

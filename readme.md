@@ -9,7 +9,7 @@
 Aletheia is ia user friendly web app that gathers news from the most trustworty sources.
 The homepage features the latest trending news as well as popular world news. The homepage offers several quick links popular news categories as well as a search option. The homepage also offers users a chance to sign up and save their favorite articles. Once a user has signed up, they can manage their profile and favorite articles.
 
-This project uses data from 
+This project uses data from:
 
 - [Google News API](https://newsapi.org/)
 - [Hoaxy API](https://rapidapi.com/truthy/api/hoaxy/)

@@ -86,25 +86,25 @@ def homepage():
         f"https://newsapi.org/v2/everything?q=top-news&language=en&sortBy=publishedAt&pageSize=5&domains=apnews.com,reuters.com,npr.org,economist.com,wsj.com,bbc.com,politifact.com,thebureauinvestigates.com&apiKey={API_SECRET_KEY}")
 
     latest_article = res.json()['articles']
-    print(res.json())
+    # print(res.json())
   
   
-    if g.user:
-        like = g.user.like
-        like.append(g.user.like)
-        likes = [like.id for like in g.user.likes]
-        likes = (Likes
-                 .query
-                 .filter(Likes.user_id.in_(likes))
-                 .order_by(Likes.date_added.desc())
-                 .order_by(Likes.date_published.desc())
-                 .order_by(Likes.article_title.asc())
-                 .limit(25)
-                 .all())
+    # if g.user:
+    #     like = g.user.like
+    #     like.append(g.user.like)
+    #     likes = [like.id for like in g.user.likes]
+    #     likes = (Likes
+    #              .query
+    #              .filter(Likes.user_id.in_(likes))
+    #              .order_by(Likes.date_added.desc())
+    #              .order_by(Likes.date_published.desc())
+    #              .order_by(Likes.article_title.asc())
+    #              .limit(25)
+    #              .all())
         
 #   pdb.set_trace()
 
-    return render_template("index.html", world_news=world_new, latest_articles=latest_article, likes=likes)
+    return render_template("index.html", world_news=world_new, latest_articles=latest_article)
 
 
 ##############################################################################
@@ -243,57 +243,61 @@ def edit_user(user_id):
 # User Favorite
 ##############################################################################
 
-# @app.route("/users/favorite/", methods=["GET", "POST"])
-# def add_favorite():
-#     """Enables a user to favorite an article"""
+@app.route("/users/favorite/", methods=["GET", "POST"])
+def user_favorite():
 
-#     if not g.user:
-#         flash("You are not the authorized user of this account", "danger")
-#         return redirect("/")
-
-#     saved_like = Likes(user_id=g.user.id, likes_id=like_id)
-#     db.session.add(saved_like)
-#     db.session.commit()
     
-#     flash(f"You just saved this article!", "success")
-#     return render_template("/users/favorite.html", saved_like=saved_like)
-
+    user_id = g.user.id 
+    user = User.query.get_or_404(user_id)
+    
+    if user:
+        all_likes = Likes.query.filter_by(
+            user_id=user_id).order_by(Likes.id.desc())
+        
+        likes = []
+        for like in all_likes:
+            like = {'id': like.like.id}
+            likes.append(like)
+        return render_template("/users/favorite.html", user=user, likes=likes)
+    
 
 @app.route("/users/favorite/<int:like_id>", methods=["POST"])
 def add_likes(like_id):
     """Enables a user to like an article"""
-    
+
     if not g.user:
         flash("You are not the authorized user of this account", "danger")
         return redirect("/")
-    
+
     # like = Likes.query.get_or_404(like_id)
-    
+
     # like = Likes[like_id]
     # print("like id is: ", type(like_id))
-    
-    # new_like = Likes(user_id=g.user.id, like_id=like_id)
-    new_like = Likes.query.get_or_404(like_id)
-    g.user.like.append(new_like)
+
+    new_like = Likes(user_id=g.user.id, like_id=like_id)
+    # new_like = Likes.query.get_or_404(like_id)
+    # g.user.like.append(new_like)
     db.session.add(new_like)
     db.session.commit()
-    
+
     flash(f"You just liked this article!", "success")
-    
+
     # return render_template("/users/favorite.html", new_like=new_like)
     return redirect(f"/users/{g.user.id}/favorite")
-
-
 
 @app.route("/users/<int:user_id>/favorite", methods=["POST"])
 def user_favorites(user_id):
     """Shows a list of a user's favored articles"""
-    
+
     if not g.user:
         return redirect("/")
-    
+
     user = User.query.get_or_404(user_id)
     return render_template("/users/favorite.html", user_id=g.user.id)
+
+
+
+
 
 
 ##############################################################################
@@ -312,14 +316,10 @@ def logout():
 ##############################################################################
 # Super simple 404 page
 ##############################################################################
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html"), 404
-
-##############################################################################
-
-##############################################################################
-
 
 
 ##############################################################################

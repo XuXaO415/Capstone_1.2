@@ -281,6 +281,14 @@ class Likes(db.Model):
     description = db.Column(db.Text)
     date_added = db.Column(db.Integer, nullable=False, unique=True)
     url_image = db.Column(db.Text)
+    latest_article_id = db.Column(db.ForeignKey('latest_articles.id', ondelete='cascade'), nullable=False)
+    top_article_id = db.Column(db.ForeignKey('top_articles.id', ondelete='cascade'), nullable=False)
+    world_new_id = db.Column(db.ForeignKey('world_news.id', ondelete='cascade'), nullable=False)
+    tech_new_id = db.Column(db.ForeignKey('tech_news.id', ondelete='cascade'), nullable=False)
+    business_new_id = db.Column(db.ForeignKey('business_news.id', ondelete='cascade'), nullable=False)
+    us_new_id = db.Column(db.ForeignKey('us_news.id', ondelete='cascade'), nullable=False)
+    science_new_id = db.Column(db.ForeignKey('science_news.id', ondelete='cascade'), nullable=False)
+    health_new_id = db.Column(db.ForeignKey('health_news.id', ondelete='cascade'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)
     
     

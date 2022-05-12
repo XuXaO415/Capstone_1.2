@@ -13,8 +13,8 @@ from forms import UserAddForm, LoginForm, UserEditForm
 from models import db, connect_db, User, Likes, LatestArticle, TopArticle, WorldNews, Technology, Business, USPolity, Science, Health
 #######################################ß##########################################
 # from secrets import api_key
-# from dotenv import load_dotenv
-# load_dotenv()
+from dotenv import load_dotenv
+load_dotenv()
 #################################################################################
 
 app = Flask(__name__)
@@ -246,20 +246,20 @@ def delete_user():
 
 @app.route("/users/favorite/", methods=["GET", "POST"])
 def user_favorite():
+ 
 
+    user = User.query.get_or_404(g.user.id)
     
-    user_id = g.user.id 
-    user = User.query.get_or_404(user_id)
-    
-    if user:
-        all_likes = Likes.query.filter_by(
-            user_id=user_id).order_by(Likes.id.desc())
+    # if user:
+    #     all_likes = Likes.query.filter_by(
+    #         user_id=user_id).order_by(Likes.id.desc())
         
-        likes = []
-        for like in all_likes:
-            like = {'id': like.like.id}
-            likes.append(like)
-        return render_template("/users/favorite.html", user=user, likes=likes)
+    #     likes = []
+    #     for like in all_likes:
+    #         # playing around with like.id
+    #         like = {'id': like.like.id}
+    #         likes.append(like)
+    return render_template("/users/favorite.html", user=user)
     
 
 @app.route("/users/favorite/<int:like_id>", methods=["POST"])
@@ -269,22 +269,25 @@ def add_likes(like_id):
     if not g.user:
         flash("You are not the authorized user of this account", "danger")
         return redirect("/")
+    
+    # pdb.set_trace()
+    like = Likes.query.get_or_404(like_id)
+  
+  
 
-    user_like = Likes.query.get_or_404(like_id)
-
-    # new_like = Likes(user_id=g.user.id, like=like_id)
+    new_like = Likes(user_id=g.user.id, new_like=like_id)
     # new_like = Likes.query.get_or_404(like_id)
-    g.user.like.append(user_like)
-    # db.session.add(new_like)
+    # g.user.like.append(add_like)
+    db.session.add(new_like)
     db.session.commit()
     
     flash(f"You just liked this article!", "success")
 
     # return render_template("/users/favorite.html", new_like=new_like)
-    # return redirect(f"/users/{g.user.id}/favorite")
-    return redirect("/")
+    return redirect(f"/users/{g.user.id}/favorite")
+    # return redirect("/")
 
-@app.route("/users/<int:user_id>/favorite", methods=["POST"])
+@app.route("/users/<int:user_id>/favorite")
 def user_favorites(user_id):
     """Shows a list of a user's favored articles"""
 
@@ -292,7 +295,7 @@ def user_favorites(user_id):
         return redirect("/")
 
     user = User.query.get_or_404(user_id)
-    return render_template("/users/favorite.html", user_id=g.user.id)
+    return render_template("/users/favorite.html", user=user)
 
 
 

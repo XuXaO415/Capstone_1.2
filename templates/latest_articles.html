@@ -19,7 +19,8 @@
             <p>{{ latest_article.date_published }}</p>
             <p> {{latest_article.description}}</p>
             <a href="{{ latest_article.url }} " target="_blank">Read more... </a>
-            <form method="POST" action="/users/{{g.user.id}}/favorite">
+            <!-- <form method="POST" action="/users/{{g.user.id}}/favorite"> -->
+            <form method="POST" action="/users/favorite/{{likes_id}}">
                 <button class="btn btn-sm btn-primary">
             <i class="fas fa-bookmark"></i>
                </button>

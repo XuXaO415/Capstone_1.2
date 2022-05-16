@@ -9,10 +9,10 @@
     <div class="card-text mb-auto ">
         <h4 class="card-title">Likes</h4>
      
-    {% for like in likes %}
+    {% for add_like in g.user.like %}
 
         {# <a href="/users/{{g.user.id}}/favorite ">{{ g.user.likes }}</a> #}
-        <a href="/users/favorite/{{like.id}} ">{{ g.user.likes }}</a>
+        <a href="/users/favorite/{{add_like.id}} ">{{ g.user.likes }}</a>
         <p>{{like.id.date_added}}</p>
         <p>{{like.description}}</p>
         </div>

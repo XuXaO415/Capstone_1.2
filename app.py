@@ -269,9 +269,10 @@ def add_likes(like_id):
     if not g.user:
         flash("You are not the authorized user of this account", "danger")
         return redirect("/")
-    
-    # pdb.set_trace()
-    like = Likes.query.get_or_404(like_id)
+
+    like_id = Likes.query.get_or_404(like_id)
+    pdb.set_trace()
+    print(like_id)
   
   
 

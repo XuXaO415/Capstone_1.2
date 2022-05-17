@@ -3,6 +3,7 @@ from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_manager
 from flask import Flask
+from sqlalchemy import ForeignKey
 
 
 db = SQLAlchemy()
@@ -35,9 +36,8 @@ class User(db.Model):
     username = db.Column(db.Text, nullable=False, unique=True)
     password = db.Column(db.Text, nullable=False)
     
-
-    # favorite_articles = db.relationship('FavoriteArticle')
-    likes = db.relationship('User', secondary='likes')
+    likes = db.relationship("Like", back_populates="user")
+    # likes = db.relationship('User', secondary='likes')
 
     @classmethod
     def signup(cls, first_name, last_name, email, username, pwd):
@@ -226,32 +226,6 @@ class Health(db.Model):
 #         favorites = self
 #         return f"<Favorite {favorites.id}{favorites.canonical_url}{favorites.author}{favorites.date_published}{favorites.article_title}{favorites.description}{favorites.url_image}"
 
-
-
-# class FavoriteArticle(db.Model):
-#     """ user's favorite articles"""
-#     __tablename__ = "favorite_articles"
-    
-#     id = db.Column(db.Integer, primary_key=True)
-#     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)
-#     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-#     latest_id = db.Column(db.Integer, db.ForeignKey('latest_articles.id', ondelete='cascade'), unique=True)
-#     top_id = db.Column(db.Integer, db.ForeignKey('top_articles.id', ondelete='cascade'),unique=True)
-#     world_id = db.Column(db.Integer, db.ForeignKey('world_news.id', ondelete='cascade'),unique=True)
-#     technology_id = db.Column(db.Integer, db.ForeignKey('tech_news.id', ondelete='cascade'), unique=True)
-#     business_id = db.Column(db.Integer, db.ForeignKey('business_news.id', ondelete='cascade'), unique=True)
-#     us_id = db.Column(db.Integer, db.ForeignKey('us_news.id', ondelete='cascade'), unique=True)
-#     science_id = db.Column(db.Integer, db.ForeignKey('science_news.id', ondelete='cascade'),unique=True)
-#     health_id = db.Column(db.Integer, db.ForeignKey('health_news.id', ondelete='cascade'), unique=True)
-#     user = db.relationship('User')
-    
-# class Likes(db.Model):
-        
-#     __tablename__ = 'likes'
-        
-#     id = db.Column(db.Integer, primary_key=True)
-#     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'))
-#     favorite_article = db.Column(db.Integer, db.ForeignKey('favorite_articles.id', ondelete='cascade'))
         
 
 # class FavoriteArticle(db.Model):
@@ -268,7 +242,23 @@ class Health(db.Model):
 #     description  = db.Column(db.Text)
 #     users = db.relationship('User', backref='favorite_article')
 
-class Likes(db.Model):
+class Article(db.Model):
+    
+    __tablename__="articles"
+    
+    id = db.Column(db.Integer, primary_key=True)
+    canonical_url = db.Column(db.Text, nullable=False, unique=False)
+    author = db.Column(db.Text, nullable=False, unique=False)
+    date_published = db.Column(db.Integer, nullable=False, unique=False)
+    article_title = db.Column(db.Text, nullable=False, unique=False)
+    description = db.Column(db.Text)
+    url_image = db.Column(db.Text)
+    
+    likes = db.relationship("Like", back_populates="article")
+
+
+
+class Like(db.Model):
     """Mapping user likes to article"""
     
     __tablename__ = "likes"
@@ -280,18 +270,25 @@ class Likes(db.Model):
     article_title = db.Column(db.Text, nullable=False, unique=False)
     description = db.Column(db.Text)
     date_added = db.Column(db.Integer, nullable=False, unique=True)
-    url_image = db.Column(db.Text)
-    latest_article_id = db.Column(db.ForeignKey('latest_articles.id', ondelete='cascade'), nullable=False)
-    top_article_id = db.Column(db.ForeignKey('top_articles.id', ondelete='cascade'), nullable=False)
-    world_new_id = db.Column(db.ForeignKey('world_news.id', ondelete='cascade'), nullable=False)
-    tech_new_id = db.Column(db.ForeignKey('tech_news.id', ondelete='cascade'), nullable=False)
-    business_new_id = db.Column(db.ForeignKey('business_news.id', ondelete='cascade'), nullable=False)
-    us_new_id = db.Column(db.ForeignKey('us_news.id', ondelete='cascade'), nullable=False)
-    science_new_id = db.Column(db.ForeignKey('science_news.id', ondelete='cascade'), nullable=False)
-    health_new_id = db.Column(db.ForeignKey('health_news.id', ondelete='cascade'), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)
+    urlToImage = db.Column(db.Text)
+    
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    article_id = db.Column(db.Integer, db.ForeignKey('articles.id'))
     
     
+    user = db.relationship("User", back_populates="likes")
+    article = db.relationship("Article", back_populates="likes")
+    # latest_article_id = db.Column(db.ForeignKey('latest_articles.id', ondelete='cascade'), nullable=False)
+    # top_article_id = db.Column(db.ForeignKey('top_articles.id', ondelete='cascade'), nullable=False)
+    # world_new_id = db.Column(db.ForeignKey('world_news.id', ondelete='cascade'), nullable=False)
+    # tech_new_id = db.Column(db.ForeignKey('tech_news.id', ondelete='cascade'), nullable=False)
+    # business_new_id = db.Column(db.ForeignKey('business_news.id', ondelete='cascade'), nullable=False)
+    # us_new_id = db.Column(db.ForeignKey('us_news.id', ondelete='cascade'), nullable=False)
+    # science_new_id = db.Column(db.ForeignKey('science_news.id', ondelete='cascade'), nullable=False)
+    # health_new_id = db.Column(db.ForeignKey('health_news.id', ondelete='cascade'), nullable=False)
+    # user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)
     
+    
+
     
     

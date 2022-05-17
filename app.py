@@ -10,7 +10,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 import pdb
 #################################################################################
 from forms import UserAddForm, LoginForm, UserEditForm
-from models import db, connect_db, User, Likes, LatestArticle, TopArticle, WorldNews, Technology, Business, USPolity, Science, Health
+from models import Article, db, connect_db, User, Like, LatestArticle, TopArticle, WorldNews, Technology, Business, USPolity, Science, Health
 #######################################ß##########################################
 # from secrets import api_key
 from dotenv import load_dotenv
@@ -262,25 +262,25 @@ def user_favorite():
     return render_template("/users/favorite.html", user=user)
     
 
-@app.route("/users/favorite/<int:like_id>", methods=["POST"])
-def add_likes(like_id):
+@app.route("/users/favorite/<url>", methods=["POST"])
+def add_likes(url):
     """Enables a user to like an article"""
-
+    pdb.set_trace()
     if not g.user:
         flash("You are not the authorized user of this account", "danger")
         return redirect("/")
 
-    like_id = Likes.query.get_or_404(like_id)
-    pdb.set_trace()
-    print(like_id)
+    # like_id = Likes.query.get_or_404(like_id)
+   
+    # print(like_id)
   
   
 
-    new_like = Likes(user_id=g.user.id, new_like=like_id)
-    # new_like = Likes.query.get_or_404(like_id)
-    # g.user.like.append(add_like)
-    db.session.add(new_like)
-    db.session.commit()
+    # new_like = Likes(user_id=g.user.id, new_like=like_id)
+    # # new_like = Likes.query.get_or_404(like_id)
+    # # g.user.like.append(add_like)
+    # db.session.add(new_like)
+    # db.session.commit()
     
     flash(f"You just liked this article!", "success")
 
@@ -340,8 +340,22 @@ def show_latest_articles():
         f"https://newsapi.org/v2/top-headlines?category=general&country=us&pageSize=10&apiKey={API_SECRET_KEY}")
     # pdb.set_trace()
     latest_art = res.json()['articles']
+    
+    for article in latest_art:
+        # pdb.set_trace()
+      
+        new_art = Article(canonical_url=article['url'], author=article['author'],  article_title=article['title'],
+                          description=article['description'], urlToImage=article['urlToImage'])
+        db.session.add(new_art)
+        db.session.commit()
         
-    print(res.json())
+        db.session.refresh(new_art)
+        article['id'] = new_art.id
+        
+            
+        
+        
+    # print(res.json())
     
     
     return render_template("latest_articles.html", latest_articles=latest_art)

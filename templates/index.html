@@ -55,12 +55,14 @@
 
                 <div class="mb-1 text-muted ">
                     {{latest_article.author}} - {{latest_article.source.name}}
+                    <li>{{latest_article.publishedAt}}
+                    </li>
                 </div>
                 <p class="mb-auto my-auto ">{{latest_article.description}}</p>
 
                 <a href="{{latest_article.url}} " target="_blank ">Continue reading...</a>
                 <!-- <form method="POST" action="/users/favorite/{{like_id}}"> -->
-                <form method="POST" action="/users/favorite/{{like_id}}">
+                <form method="POST" action="/users/favorite/{{latest_article.id}}">
                     console.log({{like_id}});
                     <!-- <form method="POST" action="/users/{{ g.user.id }}/favorite"> -->
                     <!-- <form method="POST" action="/users/favorite/{{like_id}}"> -->

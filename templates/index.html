@@ -22,10 +22,14 @@
             <div class="col p-4 d-flex flex-column position-static">
                 <strong class="d-inline-block mb-2 text-primary">World News</strong> {% for world_new in world_news %}
                 <h3 class="mb-0">{{world_new.title}}</h3>
+                <center>
+                    <img src="{{world_new.urlToImage}} " />
+                </center>
 
-                <img src="{{world_new.urlToImage}} " />
                 <div class="mb-1 text-muted">
-                    By {{world_new.author}} - {{world_new.source.name}}
+                    <div>{{world_new.author}} </div>
+                    <div>{{world_new.source.name}}</div>
+                    <div>{{world_new.publishedAt}}</div>
                 </div>
                 <p class="card-text mb-auto">{{ world_new.description }}</p>
                 <a href="{{ world_new.url }}" target="_blank">Continue reading...</a>
@@ -51,19 +55,21 @@
             <div class="col p-4 d-flex flex-column position-static ">
                 <strong class="d-inline-block mb-2 text-success ">Trending News</strong> {% for latest_article in latest_articles %}
                 <h3 class="mb-0 ">{{latest_article.title}}</h3>
-                <img src="{{latest_article.urlToImage}} " />
+                <center>
+                    <img src="{{latest_article.urlToImage}} " />
+                </center>
 
                 <div class="mb-1 text-muted ">
-                    {{latest_article.author}} - {{latest_article.source.name}}
-                    <li>{{latest_article.publishedAt}}
-                    </li>
+                    {{latest_article.author}}
+                    <div> {{latest_article.source.name}} </div>
+                    <div> {{latest_article.publishedAt}} </div>
+
                 </div>
                 <p class="mb-auto my-auto ">{{latest_article.description}}</p>
-
                 <a href="{{latest_article.url}} " target="_blank ">Continue reading...</a>
                 <!-- <form method="POST" action="/users/favorite/{{like_id}}"> -->
-                <form method="POST" action="/users/favorite/{{latest_article.id}}">
-                    console.log({{like_id}});
+                <form method="POST" action="/users/favorite/{{latest_articles_id}}">
+                    <!-- <form method="POST" action="/users/favorite/{{new_art_id}}"> -->
                     <!-- <form method="POST" action="/users/{{ g.user.id }}/favorite"> -->
                     <!-- <form method="POST" action="/users/favorite/{{like_id}}"> -->
 

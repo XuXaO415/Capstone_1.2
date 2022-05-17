@@ -244,48 +244,39 @@ def delete_user():
 # User Favorite
 ##############################################################################
 
-@app.route("/users/favorite/", methods=["GET", "POST"])
+@app.route("/users/favorite/", methods=["POST"])
 def user_favorite():
  
 
-    user = User.query.get_or_404(g.user.id)
+    # user = User.query.get_or_404(user.id)
     
     # if user:
     #     all_likes = Likes.query.filter_by(
     #         user_id=user_id).order_by(Likes.id.desc())
-        
-    #     likes = []
-    #     for like in all_likes:
-    #         # playing around with like.id
-    #         like = {'id': like.like.id}
-    #         likes.append(like)
-    return render_template("/users/favorite.html", user=user)
+    likes = Like.query.all()
+    
+ 
+    return render_template("/users/favorite.html", likes=likes)
     
 
 @app.route("/users/favorite/<url>", methods=["POST"])
 def add_likes(url):
     """Enables a user to like an article"""
-    pdb.set_trace()
+    # pdb.set_trace()
     if not g.user:
         flash("You are not the authorized user of this account", "danger")
         return redirect("/")
 
-    # like_id = Likes.query.get_or_404(like_id)
-   
-    # print(like_id)
-  
-  
+    like = Like.query.get(url)
+    db.session.add(url)
+    db.session.commit()
 
-    # new_like = Likes(user_id=g.user.id, new_like=like_id)
-    # # new_like = Likes.query.get_or_404(like_id)
-    # # g.user.like.append(add_like)
-    # db.session.add(new_like)
-    # db.session.commit()
     
     flash(f"You just liked this article!", "success")
 
     # return render_template("/users/favorite.html", new_like=new_like)
-    return redirect(f"/users/{g.user.id}/favorite")
+    return redirect(f"/users/favorite/{like.id}")
+    # return redirect(f"/users/{g.user.id}/favorite")
     # return redirect("/")
 
 @app.route("/users/<int:user_id>/favorite")
@@ -299,7 +290,7 @@ def user_favorites(user_id):
     return render_template("/users/favorite.html", user=user)
 
 
-
+# @app.route("/users/favorite/<url>", methods=["POST"])
 
 
 
@@ -358,7 +349,7 @@ def show_latest_articles():
     # print(res.json())
     
     
-    return render_template("latest_articles.html", latest_articles=latest_art)
+    return render_template("latest_articles.html", latest_articles=latest_art, latetest_art=article['new_art.id'])
 ##############################################################################
 
 @app.route("/world_news", methods=["GET", "POST"])

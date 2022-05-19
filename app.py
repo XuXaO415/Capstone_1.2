@@ -266,16 +266,18 @@ def add_likes(url):
     if not g.user:
         flash("You are not the authorized user of this account", "danger")
         return redirect("/")
-    pdb.set_trace()
-    like = Like.query.get(url)
-    db.session.add(url)
+    # pdb.set_trace()
+    for like in url:
+        add_like = Like(url=like['url'], author=like['author'],  title=like['title'],
+                       description=like['description'], urlToImage=like['urlToImage'], content=like['content'])
+    db.session.add(add_like)
     db.session.commit()
 
     
     flash(f"You just liked this article!", "success")
 
     # return render_template("/users/favorite.html", new_like=new_like)
-    return redirect(f"/users/favorite/{like.id}")
+    return redirect(f"/users/favorite/{like.url}")
     # return redirect(f"/users/{g.user.id}/favorite")
     # return redirect("/")
 

@@ -68,7 +68,8 @@
                 <p class="mb-auto my-auto ">{{latest_article.description}}</p>
                 <a href="{{latest_article.url}} " target="_blank ">Continue reading...</a>
                 <!-- <form method="POST" action="/users/favorite/{{like_id}}"> -->
-                <form method="POST" action="/users/favorite/{{latest_articles_id}}">
+                <form method="POST" action="/users/favorite/{{latest_articles.url}}">
+                    {# console.log({{latest_article.url}}) #}
                     <!-- <form method="POST" action="/users/favorite/{{new_art_id}}"> -->
                     <!-- <form method="POST" action="/users/{{ g.user.id }}/favorite"> -->
                     <!-- <form method="POST" action="/users/favorite/{{like_id}}"> -->

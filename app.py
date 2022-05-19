@@ -266,7 +266,7 @@ def add_likes(url):
     if not g.user:
         flash("You are not the authorized user of this account", "danger")
         return redirect("/")
-
+    pdb.set_trace()
     like = Like.query.get(url)
     db.session.add(url)
     db.session.commit()
@@ -335,21 +335,23 @@ def show_latest_articles():
     for article in latest_art:
         # pdb.set_trace()
       
-        new_art = Article(canonical_url=article['url'], author=article['author'],  article_title=article['title'],
-                          description=article['description'], urlToImage=article['urlToImage'])
+        new_art = Article(url=article['url'], author=article['author'],  title=article['title'],
+                          description=article['description'], urlToImage=article['urlToImage'], content=article['content'])
         db.session.add(new_art)
         db.session.commit()
+        db.session.rollback()
         
-        db.session.refresh(new_art)
+        # db.session.refresh(new_art)
         article['id'] = new_art.id
         
             
         
         
     # print(res.json())
+    # article['new_art.id']
     
     
-    return render_template("latest_articles.html", latest_articles=latest_art, latetest_art=article['new_art.id'])
+    return render_template("latest_articles.html", latest_articles=latest_art, new_art=new_art)
 ##############################################################################
 
 @app.route("/world_news", methods=["GET", "POST"])

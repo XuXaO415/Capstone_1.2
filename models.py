@@ -255,9 +255,9 @@ class Article(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.Text, nullable=False, unique=False)
-    author = db.Column(db.Text, nullable=False, unique=False)
-    publishedAt = db.Column(db.DateTime, nullable=False, unique=False)
-    title = db.Column(db.Text, nullable=False, unique=False)
+    author = db.Column(db.Text, nullable=True, unique=False)
+    publishedAt = db.Column(db.DateTime, unique=False)
+    title = db.Column(db.Text, nullable=True, unique=False)
     description = db.Column(db.Text)
     urlToImage = db.Column(db.Text)
     content = db.Column(db.Text)

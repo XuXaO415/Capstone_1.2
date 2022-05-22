@@ -253,10 +253,10 @@ def user_favorite():
     # if user:
     #     all_likes = Likes.query.filter_by(
     #         user_id=user_id).order_by(Likes.id.desc())
-    likes = Like.query.all()
+    articles = Article.query.all()
     
  
-    return render_template("/users/favorite.html", likes=likes)
+    return render_template("/users/favorite.html", article=articles)
     
 
 @app.route("/users/favorite/<url>", methods=["POST"])

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField, URLField, DateField
 from wtforms.fields.simple import BooleanField
 # from wtforms.fields.simple import EmailField
 from wtforms.validators import DataRequired, Email, EqualTo, InputRequired, Length
@@ -34,3 +34,13 @@ class UserEditForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired(), Length(min=5, max=20)])
     confirm = PasswordField("Confirm Password")
+    
+class LikeForm(FlaskForm):
+    title = TextAreaField("Article title", validators=[DataRequired(), Length(min=10, max=30)])
+    description = TextAreaField("Article description", validators=[DataRequired(), Length(min=10, max=50)])
+    url = URLField("URL", validators=[DataRequired()])
+    date_added=DateField("Date added")
+                    
+                                
+    
+

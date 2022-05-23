@@ -1,6 +1,7 @@
 import os
 # from flask import *
 from flask import Flask, redirect, render_template, flash, session, g, url_for
+from datetime import date
 from flask_login import current_user, LoginManager
 import requests
 from flask_sqlalchemy import SQLAlchemy
@@ -102,7 +103,7 @@ def homepage():
     #              .limit(25)
     #              .all())
         
-#   pdb.set_trace()
+    #  pdb.set_trace()
 
     return render_template("index.html", world_news=world_new, latest_articles=latest_article)
 
@@ -255,17 +256,18 @@ def user_favorite():
     return render_template("/users/favorite.html", articles=articles)
     
 
-@app.route("/users/favorite/<url>", methods=["POST"])
-def add_likes(url):
+@app.route("/users/favorite/<int:id>", methods=["POST"])
+def add_likes(id):
     """Enables a user to like an article"""
     # pdb.set_trace()
     if not g.user:
         flash("You are not the authorized user of this account", "danger")
         return redirect("/")
     # pdb.set_trace()
-    for like in url:
-        add_like = Like(url=like['url'], author=like['author'],  title=like['title'],
-                       description=like['description'], urlToImage=like['urlToImage'], content=like['content'])
+    # for like in id:
+    # add_like = Like(url=like['url'], author=like['author'],  title=like['title'],
+    #                    description=like['description'], urlToImage=like['urlToImage'], content=like['content'])
+    add_like = Like(article_id=id, user_id=g.user.id, date_added=date.today())
     db.session.add(add_like)
     db.session.commit()
 
@@ -273,7 +275,7 @@ def add_likes(url):
     flash(f"You just liked this article!", "success")
 
     # return render_template("/users/favorite.html", new_like=add_like)
-    return redirect(f"/users/favorite/{{url}}")
+    return redirect(f"/users/favorite/{{likes.id}}")
     # return redirect(f"/users/{g.user.id}/favorite")
     # return redirect("/")
 
@@ -334,16 +336,20 @@ def show_latest_articles():
     
     for article in latest_art:
         # pdb.set_trace()
+        existing_art = Article.query.filter_by(url=article['url']).first()
+        if not existing_art:
+            new_art = Article(url=article['url'], author=article['author'],  title=article['title'],
+                          description=article['description'], urlToImage=article['urlToImage'], content=article['content'], date_added=date.today())
+            db.session.add(new_art)
         # pdb.set_trace()
-        new_art = Article(url=article['url'], author=article['author'],  title=article['title'],
-                          description=article['description'], urlToImage=article['urlToImage'], content=article['content'], date_added=article['date_added'])
-        db.session.add(new_art)
-        # pdb.set_trace()
-        db.session.commit()
+            db.session.commit()
         # db.session.rollback()
         
         # db.session.refresh(new_art)
-        article['id'] = new_art.id
+            article['id'] = new_art.id
+            
+        else: 
+            article['id'] = existing_art.id
         
             
         
@@ -351,8 +357,8 @@ def show_latest_articles():
     # print(res.json())
     # article['new_art.id']
     
-    
-    return render_template("latest_articles.html", latest_articles=latest_art, new_art=new_art)
+    # pdb.set_trace()
+    return render_template("latest_articles.html", latest_articles=latest_art)
 ##############################################################################
 
 @app.route("/world_news", methods=["GET", "POST"])

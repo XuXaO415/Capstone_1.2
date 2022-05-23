@@ -261,7 +261,7 @@ class Article(db.Model):
     description = db.Column(db.Text)
     urlToImage = db.Column(db.Text)
     content = db.Column(db.Text)
-    date_added = db.Column(db.DateTime, nullable=False, unique=True)
+    date_added = db.Column(db.DateTime)
     
     likes = db.relationship("Like", back_populates="article")
 
@@ -284,8 +284,9 @@ class Like(db.Model):
     description = db.Column(db.Text)
     urlToImage = db.Column(db.Text)
     content = db.Column(db.Text)
-    date_added = db.Column(db.DateTime, nullable=False, unique=True)
+    date_added = db.Column(db.DateTime)
     
+    #Sections not need remove
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     article_id = db.Column(db.Integer, db.ForeignKey('articles.id'))
     

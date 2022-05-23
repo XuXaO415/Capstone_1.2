@@ -167,7 +167,7 @@ def login():
 
 
 ##############################################################################
-# User dashboard
+# User profile
 ##############################################################################
 @app.route("/users/<int:user_id>")
 def show_user_profile(user_id):
@@ -246,17 +246,15 @@ def delete_user():
 
 @app.route("/users/favorite/", methods=["POST"])
 def user_favorite():
+    """Shows a list of user's favored articles"""
  
 
     # user = User.query.get_or_404(user.id)
     
-    # if user:
-    #     all_likes = Likes.query.filter_by(
-    #         user_id=user_id).order_by(Likes.id.desc())
+
+    # articles = Article.query.order_by(Article.date_added.desc())
     articles = Article.query.all()
-    
- 
-    return render_template("/users/favorite.html", article=articles)
+    return render_template("/users/favorite.html", articles=articles)
     
 
 @app.route("/users/favorite/<url>", methods=["POST"])
@@ -277,19 +275,21 @@ def add_likes(url):
     flash(f"You just liked this article!", "success")
 
     # return render_template("/users/favorite.html", new_like=new_like)
-    return redirect(f"/users/favorite/{like.url}")
+    return redirect(f"/users/favorite/{url}")
     # return redirect(f"/users/{g.user.id}/favorite")
     # return redirect("/")
 
-@app.route("/users/<int:user_id>/favorite")
-def user_favorites(user_id):
-    """Shows a list of a user's favored articles"""
+@app.route("/users/<int:like_id>/favorite")
+def user_favorites(like_id):
+    """Shows info on a single article"""
 
     if not g.user:
         return redirect("/")
 
-    user = User.query.get_or_404(user_id)
-    return render_template("/users/favorite.html", user=user)
+
+    # user = User.query.get_or_404(user_id)
+    article = Article.query.get_or_404(like_id)
+    return render_template("/users/show.html", article=article)
 
 
 # @app.route("/users/favorite/<url>", methods=["POST"])
@@ -494,5 +494,3 @@ def add_header(req):
 
 ##############################################################################
 
-# if __name__ == "__main__":
-#     app().run()

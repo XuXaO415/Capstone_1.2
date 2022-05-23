@@ -254,19 +254,20 @@ class Article(db.Model):
     __tablename__="articles"
     
     id = db.Column(db.Integer, primary_key=True)
-    url = db.Column(db.Text, nullable=False, unique=False)
-    author = db.Column(db.Text, nullable=True, unique=False)
+    url = db.Column(db.Text,  unique=True)
+    author = db.Column(db.Text, unique=False)
     publishedAt = db.Column(db.DateTime, unique=False)
     title = db.Column(db.Text, nullable=True, unique=False)
     description = db.Column(db.Text)
     urlToImage = db.Column(db.Text)
     content = db.Column(db.Text)
+    date_added = db.Column(db.DateTime, nullable=False, unique=True)
     
     likes = db.relationship("Like", back_populates="article")
 
     def __repr__(self):
         articles = self
-        return f"<Articles {articles.id}{articles.url}{articles.author}{articles.publishedAt}{articles.title}{articles.description}{articles.urlToImage}{articles.content}"
+        return f"<Articles {articles.id}{articles.url}{articles.author}{articles.publishedAt}{articles.title}{articles.description}{articles.urlToImage}{articles.content}{articles.date_added}"
 
 
 
@@ -276,14 +277,14 @@ class Like(db.Model):
     __tablename__ = "likes"
     
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    url = db.Column(db.Text, nullable=False, unique=False)
-    author = db.Column(db.Text, nullable=False, unique=False)
-    publishedAt = db.Column(db.DateTime, nullable=False, unique=False)
-    title = db.Column(db.Text, nullable=False, unique=False)
+    url = db.Column(db.Text, unique=False)
+    author = db.Column(db.Text,  unique=False)
+    publishedAt = db.Column(db.DateTime, unique=True)
+    title = db.Column(db.Text, unique=True)
     description = db.Column(db.Text)
-    date_added = db.Column(db.Integer, nullable=False, unique=True)
     urlToImage = db.Column(db.Text)
     content = db.Column(db.Text)
+    date_added = db.Column(db.DateTime, nullable=False, unique=True)
     
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     article_id = db.Column(db.Integer, db.ForeignKey('articles.id'))
@@ -295,7 +296,7 @@ class Like(db.Model):
     
     def __repr__(self):
             likes = self
-            return f"<Likes {likes.id}{likes.url}{likes.author}{likes.publishedAt}{likes.title}{likes.description}{likes.urlToImage}{likes.content}"
+            return f"<Likes {likes.id}{likes.url}{likes.author}{likes.publishedAt}{likes.title}{likes.description}{likes.urlToImage}{likes.content}{likes.date_added}"
     
     # latest_article_id = db.Column(db.ForeignKey('latest_articles.id', ondelete='cascade'), nullable=False)
     # top_article_id = db.Column(db.ForeignKey('top_articles.id', ondelete='cascade'), nullable=False)

@@ -247,13 +247,11 @@ def delete_user():
 @app.route("/users/favorite/", methods=["POST"])
 def user_favorite():
     """Shows a list of user's favored articles"""
- 
-
-    # user = User.query.get_or_404(user.id)
-    
+     
 
     # articles = Article.query.order_by(Article.date_added.desc())
     articles = Article.query.all()
+    # likes = Like.query.all()
     return render_template("/users/favorite.html", articles=articles)
     
 
@@ -274,8 +272,8 @@ def add_likes(url):
     
     flash(f"You just liked this article!", "success")
 
-    # return render_template("/users/favorite.html", new_like=new_like)
-    return redirect(f"/users/favorite/{url}")
+    # return render_template("/users/favorite.html", new_like=add_like)
+    return redirect(f"/users/favorite/{{url}}")
     # return redirect(f"/users/{g.user.id}/favorite")
     # return redirect("/")
 
@@ -336,12 +334,13 @@ def show_latest_articles():
     
     for article in latest_art:
         # pdb.set_trace()
-      
+        # pdb.set_trace()
         new_art = Article(url=article['url'], author=article['author'],  title=article['title'],
-                          description=article['description'], urlToImage=article['urlToImage'], content=article['content'])
+                          description=article['description'], urlToImage=article['urlToImage'], content=article['content'], date_added=article['date_added'])
         db.session.add(new_art)
+        # pdb.set_trace()
         db.session.commit()
-        db.session.rollback()
+        # db.session.rollback()
         
         # db.session.refresh(new_art)
         article['id'] = new_art.id

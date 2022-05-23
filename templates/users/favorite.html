@@ -6,15 +6,18 @@
 <div class="card-text mb-auto ">
     <h4 class="card-title">Likes</h4>
 
-    {% for article in articles %}
-    <li>
-        <a href="/users/favorite/{{url}}"></a>
-    </li>
+    <ul>
+        {% for article in articles %}
+        <li>
+            <a href="/users/favorite/{{articles.id}}">{{articles.title}}</a>
+
+        </li>
+        {% endfor %}
+    </ul>
 </div>
-{% endfor %}
 
 
-</div>
+
 <!-- <article class="likes">
 <h1 class="text-center mt-3 top-text mb-3 ">{{ g.user.username }}'s likes</h1>
 

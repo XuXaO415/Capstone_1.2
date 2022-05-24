@@ -63,13 +63,14 @@
                     {{latest_article.author}}
                     <div> {{latest_article.source.name}} </div>
                     <div> {{latest_article.publishedAt}} </div>
-                    <div>Article: {{latest_article}} </div>
+                    <!-- <div>Article: {{latest_article}} </div> -->
 
                 </div>
                 <p class="mb-auto my-auto ">{{latest_article.description}}</p>
                 <a href="{{latest_article.url}} " target="_blank ">Continue reading...</a>
-                <!-- <form method="POST" action="/users/favorite/{{like_id}}"> -->
-                <form method="POST" action="/users/favorite/{{latest_article.id}}">
+                <form method="POST" action="/users/favorite/{{like_id}}">
+                    console.log({{latest_article.id}})
+                    <!-- <form method="POST" action="/users/favorite/{{latest_article.id}}"> -->
                     <!-- console.log({{latest_article.url}}) -->
 
                     <!-- <form method="POST" action="/users/favorite/{{new_art_id}}"> -->

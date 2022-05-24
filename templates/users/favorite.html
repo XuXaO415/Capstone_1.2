@@ -7,9 +7,9 @@
     <h4 class="card-title">Likes</h4>
 
     <ul>
-        {% for article in articles %}
+        {% for like in likes %}
         <li>
-            <a href="/users/favorite/{{articles.id}}">{{articles.title}}</a>
+            <a href="/users/favorite/{{like_id}}">{{like.title}}</a>
 
         </li>
         {% endfor %}
@@ -18,34 +18,6 @@
 
 
 
-<!-- <article class="likes">
-<h1 class="text-center mt-3 top-text mb-3 ">{{ g.user.username }}'s likes</h1>
-
-    <hr/> {% for likes in likes %}
-
-    <div class="likes-container">
-        <div class="row">
-            <h3>
-                <center>
-                    <strong>{{like.article_title}}</strong>
-                </center>
-            </h3>
-            <img src="{{ like.urlToImage }}" class="float-right" style="width:60%" />
-            <div class="ln-caption">Author: {{ like.author}} {{like.date_published}}</div>
-
-            <p>{{ like.date_published }}</p>
-            <p> {{like.description}}</p>
-            <form method="POST" action="/users/{{g.user.id}}/favorite">
-                <button class="btn btn-sm btn-primary">
-            <i class="fas fa-bookmark"></i>
-               </button>
-
-            </form>
-        </div>
-    </div>
-
-    {% endfor %}
-</article> -->
 
 
 {% endblock %}

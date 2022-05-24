@@ -1,4 +1,5 @@
 import os
+
 # from flask import *
 from flask import Flask, redirect, render_template, flash, session, g, url_for
 from datetime import date
@@ -11,7 +12,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 import pdb
 #################################################################################
 from forms import UserAddForm, LoginForm, UserEditForm
-from models import Article, db, connect_db, User, Like, LatestArticle, TopArticle, WorldNews, Technology, Business, USPolity, Science, Health
+from models import Article, db, connect_db, User, Like, Article, LatestArticle, TopArticle, WorldNews, Technology, Business, USPolity, Science, Health
 #######################################ß##########################################
 # from secrets import api_key
 from dotenv import load_dotenv
@@ -251,9 +252,9 @@ def user_favorite():
      
 
     # articles = Article.query.order_by(Article.date_added.desc())
-    articles = Article.query.all()
-    # likes = Like.query.all()
-    return render_template("/users/favorite.html", articles=articles)
+    # articles = Article.query.all()
+    likes = Like.query.order_by(Like.date_added.desc())
+    return render_template("/users/favorite.html", likes=likes)
     
 
 @app.route("/users/favorite/<int:id>", methods=["POST"])
@@ -265,17 +266,24 @@ def add_likes(id):
         return redirect("/")
     # pdb.set_trace()
     # for like in id:
-    # add_like = Like(url=like['url'], author=like['author'],  title=like['title'],
-    #                    description=like['description'], urlToImage=like['urlToImage'], content=like['content'])
+    #     add_like = Like(url=like['url'], author=like['author'],  title=like['title'],
+    #                    description=like['description'], urlToImage=like['urlToImage'], date_added=date.today(), article_id=like[id], user_id=like[g.user.id])
+    # description = Like.query.get()
+    # title = Like.query.all()
+    # url = Like.query.all()
     add_like = Like(article_id=id, user_id=g.user.id, date_added=date.today())
+    
+    # add_like = Like(user_id=g.user.id, article_id=id, url=url, author=author, title=title, description=description, date_added=date.today())
     db.session.add(add_like)
+    # pdb.set_trace()
     db.session.commit()
+    
 
     
     flash(f"You just liked this article!", "success")
 
-    # return render_template("/users/favorite.html", new_like=add_like)
-    return redirect(f"/users/favorite/{{likes.id}}")
+    # return render_template("/users/favorite.html")
+    return redirect(f"/users/favorite/{{like_id}}")
     # return redirect(f"/users/{g.user.id}/favorite")
     # return redirect("/")
 
@@ -290,9 +298,6 @@ def user_favorites(like_id):
     # user = User.query.get_or_404(user_id)
     article = Article.query.get_or_404(like_id)
     return render_template("/users/show.html", article=article)
-
-
-# @app.route("/users/favorite/<url>", methods=["POST"])
 
 
 

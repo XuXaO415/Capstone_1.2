@@ -254,6 +254,7 @@ def user_favorite():
     # articles = Article.query.order_by(Article.date_added.desc())
     # articles = Article.query.all()
     likes = Like.query.order_by(Like.date_added.desc())
+    likes = Like.query
     return render_template("/users/favorite.html", likes=likes)
     
 

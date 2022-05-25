@@ -36,7 +36,7 @@ class User(db.Model):
     username = db.Column(db.Text, nullable=False, unique=True)
     password = db.Column(db.Text, nullable=False)
     
-    likes = db.relationship("Like", back_populates="user")
+    # likes = db.relationship("Like", back_populates="user")
     # likes = db.relationship('User', secondary='likes')
 
     @classmethod
@@ -263,7 +263,7 @@ class Article(db.Model):
     content = db.Column(db.Text)
     date_added = db.Column(db.DateTime)
     
-    likes = db.relationship("Like", back_populates="article")
+    # likes = db.relationship("Like", back_populates="article")
 
     def __repr__(self):
         articles = self
@@ -286,13 +286,12 @@ class Like(db.Model):
     content = db.Column(db.Text)
     date_added = db.Column(db.DateTime)
     
-    #Sections not need remove
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     article_id = db.Column(db.Integer, db.ForeignKey('articles.id'))
     
-    
-    user = db.relationship("User", back_populates="likes")
-    article = db.relationship("Article", back_populates="likes")
+    #Sections not need remove
+    # user = db.relationship("User", back_populates="likes")
+    # article = db.relationship("Article", back_populates="likes")
     
     
     def __repr__(self):
@@ -310,6 +309,19 @@ class Like(db.Model):
     # user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)
     
     
+    #Add latest_article/make db functions
+    # class LikedLatestArticle(db.Model):
+        
+    #     __tablename__ = "liked_latest_article"
+        
+    #     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    # url = db.Column(db.Text, unique=False)
+    # author = db.Column(db.Text,  unique=False)
+    # publishedAt = db.Column(db.DateTime, unique=True)
+    # title = db.Column(db.Text, unique=True)
+    # description = db.Column(db.Text)
+    # urlToImage = db.Column(db.Text)
+    # date_added = db.Column(db.DateTime)
 
     
     

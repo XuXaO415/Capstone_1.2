@@ -1,7 +1,7 @@
 import os
 
 # from flask import *
-from flask import Flask, redirect, render_template, flash, session, g, url_for
+from flask import Flask, jsonify, redirect, render_template, flash, session, g, url_for
 from datetime import date
 from flask_login import current_user, LoginManager
 import requests
@@ -10,6 +10,8 @@ from sqlalchemy.exc import IntegrityError
 from flask_debugtoolbar import DebugToolbarExtension
 # from newsapi import NewsApiClient
 import pdb
+
+from yaml import serialize
 #################################################################################
 from forms import UserAddForm, LoginForm, UserEditForm
 from models import Article, db, connect_db, User, Like, Article, LatestArticle, TopArticle, WorldNews, Technology, Business, USPolity, Science, Health
@@ -176,14 +178,6 @@ def show_user_profile(user_id):
 
     user = User.query.get_or_404(user_id)
 
-    # likes = (Likes
-    #             .query
-    #             .filter(Likes.user_id == user_id)
-    #             .order_by(Likes.date_added.desc())
-    #             .order_by(Likes.date_published.desc())
-    #             .order_by(Likes.article_title.asc())
-    #             .limit(25)
-    #             .all())
     return render_template('users/profile.html', user=user)
 
 
@@ -245,16 +239,29 @@ def delete_user():
 ##############################################################################
 # User Favorite
 ##############################################################################
-
-@app.route("/users/favorite/", methods=["POST"])
-def user_favorite():
-    """Shows a list of user's favored articles"""
+# pdb.set_trace()
+@app.route("/users/favorite/", methods=["GET", "POST"])
+def list_likes():
+    """Shows a list of user's liked articles"""
      
 
     # articles = Article.query.order_by(Article.date_added.desc())
     # articles = Article.query.all()
-    likes = Like.query.order_by(Like.date_added.desc())
-    # likes = Like.query
+    # likes = Like.query.order_by(Like.date_added.desc())
+    
+    likes = (Like
+                .query
+                .order_by(Like.id)
+                .order_by(Like.date_added.desc())
+                .order_by(Like.publishedAt.desc())
+                .order_by(Like.title.asc())
+                # .order_by(Like.description())
+                .limit(25)
+                .all())
+
+    # likes = Like.query.order_by(Like.date_added.desc())
+    # likes = Like.query.all()
+  
     return render_template("/users/favorite.html", likes=likes)
     
 
@@ -272,7 +279,7 @@ def add_likes(id):
     # description = Like.query.get()
     # title = Like.query.all()
     # url = Like.query.all()
-    add_like = Like(article_id=id, user_id=g.user.id, date_added=date.today())
+    add_like = Like(title=likes.title, article_id=id, user_id=g.user.id, date_added=date.today())
     
     # add_like = Like(user_id=g.user.id, article_id=id, url=url, author=author, title=title, description=description, date_added=date.today())
     db.session.add(add_like)
@@ -288,17 +295,18 @@ def add_likes(id):
     # return redirect(f"/users/{g.user.id}/favorite")
     # return redirect("/")
 
-@app.route("/users/<int:like_id>/favorite")
-def user_favorites(like_id):
-    """Shows info on a single article"""
 
-    if not g.user:
-        return redirect("/")
+# @app.route("/users/favorite/<int:like_id>")
+# def user_favorites(like_id):
+#     """Shows info on a single liked article"""
+
+#     if not g.user:
+#         return redirect("/")
 
 
-    # user = User.query.get_or_404(user_id)
-    article = Article.query.get_or_404(like_id)
-    return render_template("/users/show.html", article=article)
+#     # user = User.query.get_or_404(like.id)
+#     like = Like.query.get(like_id)
+#     return render_template("/users/show.html", like=like)
 
 
 

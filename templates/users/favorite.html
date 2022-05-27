@@ -8,11 +8,11 @@
 
     <ul>
         {% for like in likes %}
-        <li>
-            <a href="/users/favorite/{{like.id}}">{{like.title}}</a>
+        <ol>
+            <h5>{{likes.title}} </h5> {{like.description}} <a href="/users/favorites/{{like_id}}">{{like.date_added}}{{like.publishedAt}}</a>
+            <!-- <p>{{likes.description}}</p> -->
 
-
-        </li>
+        </ol>
         {% endfor %}
     </ul>
 </div>

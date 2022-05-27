@@ -240,7 +240,7 @@ def delete_user():
 # User Favorite
 ##############################################################################
 # pdb.set_trace()
-@app.route("/users/favorite/", methods=["GET", "POST"])
+@app.route("/users/favorites/", methods=["GET", "POST"])
 def list_likes():
     """Shows a list of user's liked articles"""
      
@@ -265,7 +265,7 @@ def list_likes():
     return render_template("/users/favorite.html", likes=likes)
     
 
-@app.route("/users/favorite/<int:id>", methods=["POST"])
+@app.route("/users/favorites/<int:id>", methods=["GET", "POST"])
 def add_likes(id):
     """Enables a user to like an article"""
     # pdb.set_trace()
@@ -273,13 +273,13 @@ def add_likes(id):
         flash("You are not the authorized user of this account", "danger")
         return redirect("/")
     # pdb.set_trace()
-    # for like in id:
-    #     add_like = Like(url=like['url'], author=like['author'],  title=like['title'],
-    #                    description=like['description'], urlToImage=like['urlToImage'], date_added=date.today(), article_id=like[id], user_id=like[g.user.id])
+    for like in id:
+        add_like = Like(user_id=g.user.id, article_id=id, url=like['url'], author=like['author'],  title=like['title'],
+                       description=like['description'], urlToImage=like['urlToImage'], date_added=date.today())
     # description = Like.query.get()
     # title = Like.query.all()
     # url = Like.query.all()
-    add_like = Like(title=likes.title, article_id=id, user_id=g.user.id, date_added=date.today())
+    # add_like = Like( article_id=id, user_id=g.user.id, date_added=date.today())
     
     # add_like = Like(user_id=g.user.id, article_id=id, url=url, author=author, title=title, description=description, date_added=date.today())
     db.session.add(add_like)

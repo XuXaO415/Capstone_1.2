@@ -20,11 +20,11 @@
             <p> {{latest_article.description}}</p>
             <a href="{{ latest_article.url }} " target="_blank">Read more... </a>
             <!-- <form method="POST" action="/users/{{g.user.id}}/favorite"> -->
-            <form method="POST" action="/users/favorite/{{latest_article.id}}">
+            <form method="POST" action="/users/favorite/{{latest_article_id}}">
                 <button class="btn btn-sm btn-primary">
             <i class="fas fa-bookmark"></i>
                </button>
-                <!-- <form method="POST" action="/users/delete/{{ favorite_articles_id }}">
+                <!-- <form method="POST" action="/users/delete/{{ latest_articles.id }}">
                     <button class="btn btn-sm btn-secondary">
             <i class="fa fa-thumbs-down"></i>
           </button>

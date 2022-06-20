@@ -236,10 +236,11 @@ def list_likes():
     
     likes = (Like
                 .query
-                .order_by(Like.id)
-                .order_by(Like.date_added.desc())
-                .order_by(Like.publishedAt.desc())
-                .order_by(Like.title.asc())
+                # .order_by(Like.id)
+                # .order_by(Like.description)
+                # .order_by(Like.date_added.desc())
+                # .order_by(Like.publishedAt.desc())
+                # .order_by(Like.title.asc())
                 # .order_by(Like.description())
                 # .limit(25)
                 .all())

@@ -92,21 +92,6 @@ def homepage():
     latest_article = res.json()['articles']
     # print(res.json())
   
-  
-    # if g.user:
-    #     like = g.user.like
-    #     like.append(g.user.like)
-    #     likes = [like.id for like in g.user.likes]
-    #     likes = (Likes
-    #              .query
-    #              .filter(Likes.user_id.in_(likes))
-    #              .order_by(Likes.date_added.desc())
-    #              .order_by(Likes.date_published.desc())
-    #              .order_by(Likes.article_title.asc())
-    #              .limit(25)
-    #              .all())
-        
-    #  pdb.set_trace()
 
     return render_template("index.html", world_news=world_new, latest_articles=latest_article)
 
@@ -256,7 +241,7 @@ def list_likes():
                 .order_by(Like.publishedAt.desc())
                 .order_by(Like.title.asc())
                 # .order_by(Like.description())
-                .limit(25)
+                # .limit(25)
                 .all())
 
     # likes = Like.query.order_by(Like.date_added.desc())
@@ -308,7 +293,25 @@ def add_likes(id):
 #     like = Like.query.get(like_id)
 #     return render_template("/users/show.html", like=like)
 
+##############################################################################
+# Delete liked story
+##############################################################################
 
+@app.route("/users/favorites/delete/<int:like_id>", methods=["POST"])
+def delete_like(like_id):
+    """Delete story"""
+    
+    if not g.user:
+        flash("You are not the authorized user of this account", "danger")
+        return redirect("/")
+    
+    remove_like = Like(user_id=g.user.id, like_id=like_id).first()
+
+
+
+    db.session.delete(remove_like)
+    db.session.commit()
+    return redirect("/favorites")
 
 ##############################################################################
 # Upon successful logout, redirects user to login page

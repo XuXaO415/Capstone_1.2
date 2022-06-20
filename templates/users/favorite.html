@@ -9,12 +9,16 @@
     <ul>
         {% for like in likes %}
         <ol>
-            <h5>{{likes.title}} </h5> {{like.description}} <a href="/users/favorites/{{like_id}}">{{like.date_added}}{{like.publishedAt}}</a>
+            <h5>{{likes.title}} </h5>
+            {{like.description}} <a href="/users/favorites/{{like_id}}">{{like.date_added}}</a>
             <!-- <p>{{likes.description}}</p> -->
-
+            <form method="POST" action="/users/favorites/delete/{{ like_id }}"> <button class="btn btn-outline-danger">
+                <i class="fas fa-trash"></i>
+                </button>
         </ol>
-        {% endfor %}
-    </ul>
+
+
+        {% endfor %} </ul>
 </div>
 
 

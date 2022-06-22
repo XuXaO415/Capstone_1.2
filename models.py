@@ -16,25 +16,21 @@ def connect_db(app):
     db.app = app
     db.init_app(app)
 
-# @login_manager.user_loader
-# def load_user(user_id):
-    
-#     """Flask login user session management"""
-    
-#     return User.query.get(int(user_id))
-
 
 class User(db.Model):
     """User in the system"""
 
-    __tablename__ = 'users'
+    __tablename__ = "users"
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, db.ForeignKey("users.id"), primary_key=True, autoincrement=True)
     first_name = db.Column(db.Text, nullable=False)
     last_name = db.Column(db.Text, nullable=False)
     email = db.Column(db.Text, nullable=False, unique=True)
     username = db.Column(db.Text, nullable=False, unique=True)
     password = db.Column(db.Text, nullable=False)
+    
+    saved_articles =db.relationship("Article", backref="user", lazy=True)
+    
     
     # likes = db.relationship("Like", back_populates="user")
     # likes = db.relationship('User', secondary='likes')
@@ -66,7 +62,7 @@ class User(db.Model):
 
 
 class LatestArticle(db.Model):
-    """List lastest articles from last 2 hours"""
+    """List latest articles from last 2 hours"""
 
     __tablename__ = "latest_articles"
 
@@ -213,47 +209,14 @@ class Health(db.Model):
         health_article = self
         return f"<Health Article {health_article.id}{health_article.url}{health_article.author}{health_article.publishedAt}{health_article.title}{health_article.description}{health_article.urlToImage}{health_article.content}"
     
-    
-# class FavoriteArticle(db.Model):
-#     """User's favorite articles"""
-    
-#     __tablename__ = "favorite_articles"
-    
-#     id = db.Column(db.Integer, primary_key=True)
-#     # Replace with backref
-#     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade')) 
-#     lastest_id = db.Column(db.Integer, db.ForeignKey('latest_articles.id', ondelete='cascade'), unique=True)
-#     top_id = db.Column(db.Integer, db.ForeignKey('top_articles.id', ondelete='cascade'), unique=True)
-#     title = db.Column(db.Text, db.ForeignKey('lastest_articles.id', ondelete='cascade'), nullable=False)
-#     # site_type = db.Column(db.Text, db.ForeignKey('top_articles.id', ondelete='cascade'), nullable=False)
-#     article_title = db.Column(db.Text, db.ForeignKey('top_articles.id', ondelete='cascade'), nullable=False)
-
-    
-#     def __repr__(self):
-#         favorites = self
-#         return f"<Favorite {favorites.id}{favorites.canonical_url}{favorites.author}{favorites.date_published}{favorites.article_title}{favorites.description}{favorites.url_image}"
-
         
 
-# class FavoriteArticle(db.Model):
-#     """ user's favorite articles"""
-    
-#     __tablename__ = "favorite_articles"
-        
-#     id = db.Column(db.Integer, primary_key=True)
-#     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)
-#     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-#     source = db.Column(db.Text)
-#     author = db.Column(db.Text)
-#     title = db.Column(db.Text)
-#     description  = db.Column(db.Text)
-#     users = db.relationship('User', backref='favorite_article')
 
 class Article(db.Model):
     
     __tablename__="articles"
     
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, db.ForeignKey("articles.id"), primary_key=True)
     url = db.Column(db.Text,  unique=True)
     author = db.Column(db.Text, unique=False)
     publishedAt = db.Column(db.DateTime, unique=False)
@@ -263,65 +226,48 @@ class Article(db.Model):
     content = db.Column(db.Text)
     date_added = db.Column(db.DateTime)
     
+    user_id = db.Column(db.Integer, ForeignKey("users.id"))
+    user = db.relationship("User", backref="articles", lazy=True)
+    
     # likes = db.relationship("Like", back_populates="article")
 
-    def __repr__(self):
-        articles = self
-        return f"<Articles {articles.id}{articles.url}{articles.author}{articles.publishedAt}{articles.title}{articles.description}{articles.urlToImage}{articles.content}{articles.date_added}"
+    # def __repr__(self):
+    #     articles = self
+    #     return f"<Articles {articles.id}{articles.url}{articles.author}{articles.publishedAt}{articles.title}{articles.description}{articles.urlToImage}{articles.content}{articles.date_added}"
 
 
 
-class Like(db.Model):
-    """Mapping user likes to article"""
+# class Like(db.Model):
+#     """Mapping user likes to article"""
     
-    __tablename__ = "likes"
+#     __tablename__ = "likes"
     
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    url = db.Column(db.Text, unique=False)
-    author = db.Column(db.Text,  unique=False)
-    publishedAt = db.Column(db.DateTime, unique=True)
-    title = db.Column(db.Text, unique=True)
-    description = db.Column(db.Text)
-    urlToImage = db.Column(db.Text)
-    content = db.Column(db.Text)
-    date_added = db.Column(db.DateTime)
-    
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    article_id = db.Column(db.Integer, db.ForeignKey('articles.id'))
-    
-    #Sections not need remove
-    # user = db.relationship("User", back_populates="likes")
-    # article = db.relationship("Article", back_populates="likes")
-    
-    
-    def __repr__(self):
-            likes = self
-            return f"<Likes {likes.id}{likes.url}{likes.author}{likes.publishedAt}{likes.title}{likes.description}{likes.urlToImage}{likes.content}{likes.date_added}"
-    
-    # latest_article_id = db.Column(db.ForeignKey('latest_articles.id', ondelete='cascade'), nullable=False)
-    # top_article_id = db.Column(db.ForeignKey('top_articles.id', ondelete='cascade'), nullable=False)
-    # world_new_id = db.Column(db.ForeignKey('world_news.id', ondelete='cascade'), nullable=False)
-    # tech_new_id = db.Column(db.ForeignKey('tech_news.id', ondelete='cascade'), nullable=False)
-    # business_new_id = db.Column(db.ForeignKey('business_news.id', ondelete='cascade'), nullable=False)
-    # us_new_id = db.Column(db.ForeignKey('us_news.id', ondelete='cascade'), nullable=False)
-    # science_new_id = db.Column(db.ForeignKey('science_news.id', ondelete='cascade'), nullable=False)
-    # health_new_id = db.Column(db.ForeignKey('health_news.id', ondelete='cascade'), nullable=False)
-    # user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)
-    
-    
-    #Add latest_article/make db functions
-    # class LikedLatestArticle(db.Model):
-        
-    #     __tablename__ = "liked_latest_article"
-        
-    #     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    # url = db.Column(db.Text, unique=False)
-    # author = db.Column(db.Text,  unique=False)
-    # publishedAt = db.Column(db.DateTime, unique=True)
-    # title = db.Column(db.Text, unique=True)
-    # description = db.Column(db.Text)
-    # urlToImage = db.Column(db.Text)
-    # date_added = db.Column(db.DateTime)
+#     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+#     url = db.Column(db.Text, unique=False)
+#     author = db.Column(db.Text,  unique=False)
+#     publishedAt = db.Column(db.DateTime, unique=True)
+#     title = db.Column(db.Text, unique=True)
+#     description = db.Column(db.Text)
+#     urlToImage = db.Column(db.Text)
+#     content = db.Column(db.Text)
+#     date_added = db.Column(db.DateTime)
+#     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+#     article_id = db.Column(db.Integer, db.ForeignKey('articles.id'))
 
     
     
+#     def __repr__(self):
+#             likes = self
+#             return f"<Likes {likes.id}{likes.url}{likes.author}{likes.publishedAt}{likes.title}{likes.description}{likes.urlToImage}{likes.content}{likes.date_added}"
+
+
+
+# class SavedArticle(db.Model):
+#     """Mapping user to their saved articles"""
+    
+#     __tablename__ = "saved_articles" 
+    
+    
+#     users = db.relationship("User", backref="saved_articles")
+#     articles = db.relationship("Article", secondary="user_saved_articles", backref="saved_article")
+  

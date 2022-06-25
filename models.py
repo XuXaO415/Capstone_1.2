@@ -22,14 +22,18 @@ class User(db.Model):
 
     __tablename__ = "users"
 
-    id = db.Column(db.Integer, db.ForeignKey("users.id"), primary_key=True, autoincrement=True)
+    # Added ForeignKey to user_id
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     first_name = db.Column(db.Text, nullable=False)
     last_name = db.Column(db.Text, nullable=False)
     email = db.Column(db.Text, nullable=False, unique=True)
     username = db.Column(db.Text, nullable=False, unique=True)
     password = db.Column(db.Text, nullable=False)
     
-    saved_articles =db.relationship("Article", backref="user", lazy=True)
+    
+    
+    # Added this line
+    articles =db.relationship("Article", backref="user")
     
     
     # likes = db.relationship("Like", back_populates="user")
@@ -216,7 +220,7 @@ class Article(db.Model):
     
     __tablename__="articles"
     
-    id = db.Column(db.Integer, db.ForeignKey("articles.id"), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.Text,  unique=True)
     author = db.Column(db.Text, unique=False)
     publishedAt = db.Column(db.DateTime, unique=False)
@@ -226,8 +230,11 @@ class Article(db.Model):
     content = db.Column(db.Text)
     date_added = db.Column(db.DateTime)
     
-    user_id = db.Column(db.Integer, ForeignKey("users.id"))
-    user = db.relationship("User", backref="articles", lazy=True)
+    # Added this line
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    article_id = db.Column(db.Integer, db.ForeignKey("articles.id"))
+    # user = db.relationship("User", back_populates="article", lazy=True)
+    # saved_articles = db.relationship("Article", secondary="user_saved_articles", backref="articles")
     
     # likes = db.relationship("Like", back_populates="article")
 
@@ -237,37 +244,31 @@ class Article(db.Model):
 
 
 
-# class Like(db.Model):
-#     """Mapping user likes to article"""
+class Like(db.Model):
+    """Mapping user likes to article"""
     
-#     __tablename__ = "likes"
+    __tablename__ = "likes"
     
-#     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-#     url = db.Column(db.Text, unique=False)
-#     author = db.Column(db.Text,  unique=False)
-#     publishedAt = db.Column(db.DateTime, unique=True)
-#     title = db.Column(db.Text, unique=True)
-#     description = db.Column(db.Text)
-#     urlToImage = db.Column(db.Text)
-#     content = db.Column(db.Text)
-#     date_added = db.Column(db.DateTime)
-#     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-#     article_id = db.Column(db.Integer, db.ForeignKey('articles.id'))
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    article_id = db.Column(db.Integer, db.ForeignKey('articles.id'))
+    
+    
 
+    # url = db.Column(db.Text, unique=False)
+    # author = db.Column(db.Text,  unique=False)
+    # publishedAt = db.Column(db.DateTime, unique=True)
+    # title = db.Column(db.Text, unique=True)
+    # description = db.Column(db.Text)
+    # urlToImage = db.Column(db.Text)
+    # content = db.Column(db.Text)
+    # date_added = db.Column(db.DateTime)
+ 
     
     
-#     def __repr__(self):
-#             likes = self
-#             return f"<Likes {likes.id}{likes.url}{likes.author}{likes.publishedAt}{likes.title}{likes.description}{likes.urlToImage}{likes.content}{likes.date_added}"
+    # def __repr__(self):
+    #         likes = self
+    #         return f"<Likes {likes.id}{likes.url}{likes.author}{likes.publishedAt}{likes.title}{likes.description}{likes.urlToImage}{likes.content}{likes.date_added}"
 
 
 
-# class SavedArticle(db.Model):
-#     """Mapping user to their saved articles"""
-    
-#     __tablename__ = "saved_articles" 
-    
-    
-#     users = db.relationship("User", backref="saved_articles")
-#     articles = db.relationship("Article", secondary="user_saved_articles", backref="saved_article")
-  

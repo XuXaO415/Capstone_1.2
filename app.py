@@ -14,7 +14,7 @@ import pdb
 from yaml import serialize
 #################################################################################
 from forms import UserAddForm, LoginForm, UserEditForm
-from models import Article, db, connect_db, User, Like, Article, LatestArticle, TopArticle, WorldNews, Technology, Business, USPolity, Science, Health
+from models import Article, db, connect_db, User, Article, Like,  LatestArticle, TopArticle, WorldNews, Technology, Business, USPolity, Science, Health
 #######################################ß##########################################
 # from secrets import api_key
 from dotenv import load_dotenv
@@ -244,9 +244,9 @@ def list_likes():
                 # .order_by(Like.description())
                 # .limit(25)
                 .all())
+    
+    
 
-    # likes = Like.query.order_by(Like.date_added.desc())
-    # likes = Like.query.all()
   
     return render_template("/users/favorite.html", likes=likes)
     
@@ -255,13 +255,14 @@ def list_likes():
 def add_likes(id):
     """Enables a user to like an article"""
     # pdb.set_trace()
+    print("------Add link1")
     if not g.user:
         flash("You are not the authorized user of this account", "danger")
         return redirect("/")
-    # pdb.set_trace()
-    for like in id:
-        add_like = Like(user_id=g.user.id, article_id=id, url=like['url'], author=like['author'],  title=like['title'],
-                       description=like['description'], urlToImage=like['urlToImage'], date_added=date.today())
+    # pdb.set_trace()    
+    print("------Add link")
+
+    add_like = Like(user_id=g.user.id, article_id=id)
     # description = Like.query.get()
     # title = Like.query.all()
     # url = Like.query.all()
@@ -277,7 +278,7 @@ def add_likes(id):
     flash(f"You just liked this article!", "success")
 
     # return render_template("/users/favorite.html")
-    return redirect(f"/users/favorite/{{like_id}}")
+    return redirect(f"/users/favorite/{{add_like.id}}")
     # return redirect(f"/users/{g.user.id}/favorite")
     # return redirect("/")
 

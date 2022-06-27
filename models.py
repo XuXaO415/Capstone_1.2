@@ -233,10 +233,10 @@ class Article(db.Model):
     # Added this line
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     article_id = db.Column(db.Integer, db.ForeignKey("articles.id"))
-    # user = db.relationship("User", back_populates="article", lazy=True)
+    # user = db.relationship("User", back_populates="article")
     # saved_articles = db.relationship("Article", secondary="user_saved_articles", backref="articles")
     
-    # likes = db.relationship("Like", back_populates="article")
+
 
     # def __repr__(self):
     #     articles = self
@@ -252,19 +252,7 @@ class Like(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     article_id = db.Column(db.Integer, db.ForeignKey('articles.id'))
-    
-    
-
-    # url = db.Column(db.Text, unique=False)
-    # author = db.Column(db.Text,  unique=False)
-    # publishedAt = db.Column(db.DateTime, unique=True)
-    # title = db.Column(db.Text, unique=True)
-    # description = db.Column(db.Text)
-    # urlToImage = db.Column(db.Text)
-    # content = db.Column(db.Text)
-    # date_added = db.Column(db.DateTime)
- 
-    
+      
     
     # def __repr__(self):
     #         likes = self

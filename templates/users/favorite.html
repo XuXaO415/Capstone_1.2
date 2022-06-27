@@ -15,8 +15,7 @@
                 <h6>{{article.publishedAt}}</h6>
                 <!-- <div class="article-img">{{article.urlToImage}}</div> -->
                 <h6>{{article.author}}</h6>
-           
-                    {{article.description}} 
+                    <p>{{article.description}}</p>
                     {{article.id}}
                     <!-- {% for like in likes %} <h5>{{like.title}} </h5>
             <p>{{like.description}} </p>
@@ -26,14 +25,14 @@
                     <form method="POST" action="/users/favorites/{{like_id}}">
 
                     </form>
-                    {% endfor %}
-                    <!-- 
-        <form method="POST " action="/users/favorites/delete/{{ like_id }} "> <button class="btn btn-outline-danger ">
+                    <!-- {% endfor %} -->
+                    
+        <form method="POST " action="/users/favorites/delete/{{like_id}} ">
+            <button class="btn btn-outline-danger ">
                 <i class="fas fa-trash "></i>
                 </button> {% endfor %}
-        </form> -->
+        </form>
 
-        </ul>
         </ul>
         </div>
     </div>

@@ -228,13 +228,23 @@ def delete_user():
 def add_likes(id):
     """Enables a user to like an article"""
     # pdb.set_trace()
-    print("------Add link1-------")
     if not g.user:
         flash("You are not the authorized user of this account", "danger")
         return redirect("/")
-    # pdb.set_trace()
- 
-
+    
+    # else:
+    #     user = g.user
+    #     article = Article.query.get_or_404(id)
+    #     if article in user.likes:
+    #         flash("You have already liked this article", "danger")
+    #         return redirect("/")
+    #     else:
+    #         user.likes.append(article)
+    #         db.session.add(user)
+    #         db.session.commit()
+    #         flash("You have liked this article", "success")
+    #         return redirect("/")
+        
     add_like = Like(user_id=g.user.id, article_id=id)
 
     # add_like = Like(user_id=g.user.id, article_id=id, url=url, author=author, title=title, description=description, date_added=date.today())
@@ -242,9 +252,9 @@ def add_likes(id):
     # pdb.set_trace()
     db.session.commit()
 
-    # flash(f"You just liked this article!", "success")
+    flash(f"You just liked this article!", "success")
 
-    return redirect(f"/users/favorite/{{add_like._id}}")
+    return redirect(f"/users/favorites/{{add_like}}")
 
 
 # pdb.set_trace()
@@ -279,25 +289,9 @@ def list_likes():
                 .all())
     # pdb.set_trace()
     return render_template("/users/favorite.html", articles=articles, likes=likes)
+    # return render_template("/users/favorite.html", articles=articles)
     
     
-    
-
-  
-    return render_template("/users/favorite.html", articles=articles)
-    
-
-
-# @app.route("/users/favorite/int:id", methods=["GET", "POST"])
-# def add_article(id):
-    
-#     add_article  = Article(user_id=g.user.id, article_id=id)
-#     db.session.add(add_article)
-#     db.session.commit()
-    
-    return redirect("/users/favorite")
-    
-
 # @app.route("/users/favorite/<int:like_id>")
 # def user_favorites(like_id):
 #     """Shows info on a single liked article"""
@@ -316,13 +310,17 @@ def list_likes():
 
 @app.route("/users/favorites/delete/<int:like_id>", methods=["POST"])
 def delete_like(like_id):
-    """Delete story"""
+    """Delete article"""
     
     if not g.user:
         flash("You are not the authorized user of this account", "danger")
         return redirect("/")
     
-    remove_like = Like(user_id=g.user.id, like_id=like_id).first()
+    like = Like.query.get_or_404(like_id)
+    if like not in g.user.likes:
+        return redirect("/")
+    
+    remove_like = Like(user_id=g.user.id, like_id=id)
 
 
 

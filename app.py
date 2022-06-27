@@ -224,6 +224,29 @@ def delete_user():
 ##############################################################################
 # User Favorite
 ##############################################################################
+@app.route("/users/favorite/<int:id>", methods=["GET", "POST"])
+def add_likes(id):
+    """Enables a user to like an article"""
+    # pdb.set_trace()
+    print("------Add link1-------")
+    if not g.user:
+        flash("You are not the authorized user of this account", "danger")
+        return redirect("/")
+    # pdb.set_trace()
+ 
+
+    add_like = Like(user_id=g.user.id, article_id=id)
+
+    # add_like = Like(user_id=g.user.id, article_id=id, url=url, author=author, title=title, description=description, date_added=date.today())
+    db.session.add(add_like)
+    # pdb.set_trace()
+    db.session.commit()
+
+    # flash(f"You just liked this article!", "success")
+
+    return redirect(f"/users/favorite/{{add_like._id}}")
+
+
 # pdb.set_trace()
 @app.route("/users/favorites/", methods=["GET", "POST"])
 def list_likes():
@@ -234,8 +257,8 @@ def list_likes():
     # articles = Article.query.all()
     # likes = Like.query.order_by(Like.date_added.desc())
     
-    likes = (Like
-                .query
+    # likes = (Like
+    #             .query
                 # .order_by(Like.id)
                 # .order_by(Like.description)
                 # .order_by(Like.date_added.desc())
@@ -243,45 +266,37 @@ def list_likes():
                 # .order_by(Like.title.asc())
                 # .order_by(Like.description())
                 # .limit(25)
+                # .all())
+    # articles = Article.query.all()
+    
+    articles = (Article
+                .query
+                .order_by(Article.id)
                 .all())
+    likes = (Like
+                .query
+                .order_by(Like.id)
+                .all())
+    # pdb.set_trace()
+    return render_template("/users/favorite.html", articles=articles, likes=likes)
+    
     
     
 
   
-    return render_template("/users/favorite.html", likes=likes)
+    return render_template("/users/favorite.html", articles=articles)
     
 
-@app.route("/users/favorites/<int:id>", methods=["GET", "POST"])
-def add_likes(id):
-    """Enables a user to like an article"""
-    # pdb.set_trace()
-    print("------Add link1")
-    if not g.user:
-        flash("You are not the authorized user of this account", "danger")
-        return redirect("/")
-    # pdb.set_trace()    
-    print("------Add link")
 
-    add_like = Like(user_id=g.user.id, article_id=id)
-    # description = Like.query.get()
-    # title = Like.query.all()
-    # url = Like.query.all()
-    # add_like = Like( article_id=id, user_id=g.user.id, date_added=date.today())
+# @app.route("/users/favorite/int:id", methods=["GET", "POST"])
+# def add_article(id):
     
-    # add_like = Like(user_id=g.user.id, article_id=id, url=url, author=author, title=title, description=description, date_added=date.today())
-    db.session.add(add_like)
-    # pdb.set_trace()
-    db.session.commit()
+#     add_article  = Article(user_id=g.user.id, article_id=id)
+#     db.session.add(add_article)
+#     db.session.commit()
     
-
+    return redirect("/users/favorite")
     
-    flash(f"You just liked this article!", "success")
-
-    # return render_template("/users/favorite.html")
-    return redirect(f"/users/favorite/{{add_like.id}}")
-    # return redirect(f"/users/{g.user.id}/favorite")
-    # return redirect("/")
-
 
 # @app.route("/users/favorite/<int:like_id>")
 # def user_favorites(like_id):

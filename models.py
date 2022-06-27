@@ -230,10 +230,11 @@ class Article(db.Model):
     content = db.Column(db.Text)
     date_added = db.Column(db.DateTime)
     
-    # Added this line
+    # Added lines below to create a relationship to the User table
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     article_id = db.Column(db.Integer, db.ForeignKey("articles.id"))
-    # user = db.relationship("User", back_populates="article")
+    users = db.relationship("User", backref="article")
+    
     # saved_articles = db.relationship("Article", secondary="user_saved_articles", backref="articles")
     
 

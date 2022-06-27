@@ -7,26 +7,40 @@
     <!-- <h4 class="card-title">Likes</h4> -->
 
     <ul>
-        {% for like in likes %}
-        <!-- <ol> -->
-        <h5>{{like.title}} </h5>
-        <p>{{likes.description}} </p>
-        <p>{{like.author}}</p>
-        <p>{{like.date_added}}</p>
-        <!-- <a href="/users/favorites/{{like_id}}">{{like.date_added}}</a> -->
 
-        <form method="POST" action="/users/favorites/delete/{{ like_id }}"> <button class="btn btn-outline-danger">
-                <i class="fas fa-trash"></i>
-                </button>
-            <!-- </ol> -->
+        {% for article in articles %}
+        <div class="container-row">
+            <div class="row">
+                <h5>{{article.title}}</h5>
+                <h6>{{article.publishedAt}}</h6>
+                <!-- <div class="article-img">{{article.urlToImage}}</div> -->
+                <h6>{{article.author}}</h6>
+           
+                    {{article.description}} 
+                    {{article.id}}
+                    <!-- {% for like in likes %} <h5>{{like.title}} </h5>
+            <p>{{like.description}} </p>
+            <p>{{like.author}}</p>
+            <p>{{like.date_added}}</p> -->
+                    <!-- <a href="/users/favorites/{{like_id}}">{{like.date_added}}</a> -->
+                    <form method="POST" action="/users/favorites/{{like_id}}">
 
-            {% endfor %}
-        </form>
-    </ul>
-</div>
+                    </form>
+                    {% endfor %}
+                    <!-- 
+        <form method="POST " action="/users/favorites/delete/{{ like_id }} "> <button class="btn btn-outline-danger ">
+                <i class="fas fa-trash "></i>
+                </button> {% endfor %}
+        </form> -->
+
+        </ul>
+        </ul>
+        </div>
+    </div>
+    </div>
 
 
 
 
 
-{% endblock %}
+    {% endblock %}

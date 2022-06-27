@@ -7,39 +7,40 @@
     <!-- <h4 class="card-title">Likes</h4> -->
 
     <ul>
-
         {% for article in articles %}
         <div class="container-row">
             <div class="row">
                 <h5>{{article.title}}</h5>
                 <h6>{{article.publishedAt}}</h6>
-                <!-- <div class="article-img">{{article.urlToImage}}</div> -->
+                <p>{{article.date_added}}</p>
+                <img src={{article.urlToImage}}></div>
                 <h6>{{article.author}}</h6>
                     <p>{{article.description}}</p>
-                    {{article.id}}
+                    <a href={{article.url}}>Read more</a>
+                    <!-- <p>{{article.content}}</p> -->
+                    <p>show id for ref: {{article.id}}</p>
+                
                     <!-- {% for like in likes %} <h5>{{like.title}} </h5>
             <p>{{like.description}} </p>
             <p>{{like.author}}</p>
             <p>{{like.date_added}}</p> -->
                     <!-- <a href="/users/favorites/{{like_id}}">{{like.date_added}}</a> -->
                     <form method="POST" action="/users/favorites/{{like_id}}">
-
                     </form>
                     <!-- {% endfor %} -->
                     
         <form method="POST " action="/users/favorites/delete/{{like_id}} ">
             <button class="btn btn-outline-danger ">
                 <i class="fas fa-trash "></i>
-                </button> {% endfor %}
+                </button> 
+             
         </form>
-
-        </ul>
-        </div>
+        
+   {% endfor %}
+   
+    </ul>
     </div>
     </div>
-
-
-
 
 
     {% endblock %}

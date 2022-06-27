@@ -254,7 +254,7 @@ def add_likes(id):
 
     flash(f"You just liked this article!", "success")
 
-    return redirect(f"/users/favorites/{{add_like}}")
+    return redirect(f"/users/favorites/")
 
 
 # pdb.set_trace()
@@ -316,12 +316,15 @@ def delete_like(like_id):
         flash("You are not the authorized user of this account", "danger")
         return redirect("/")
     
-    like = Like.query.get_or_404(like_id)
-    if like not in g.user.likes:
-        return redirect("/")
-    
-    remove_like = Like(user_id=g.user.id, like_id=id)
+    # like = Like.query.get_or_404(like_id)
+    # if like not in g.user.likes:
+    #     return redirect("/")
 
+ 
+    # remove_like = Like(user_id=g.user.id, like_id=like_id)
+    remove_like = Article(user_id=g.user.id, article_id=like_id)
+    
+    # pdb.set_trace()
 
 
     db.session.delete(remove_like)

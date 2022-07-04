@@ -310,7 +310,7 @@ def list_likes():
 
 @app.route("/users/favorites/delete/<int:like_id>", methods=["POST"])
 def delete_like(like_id):
-    """Delete article"""
+    """Delete favorite articles"""
     
     if not g.user:
         flash("You are not the authorized user of this account", "danger")
@@ -329,7 +329,7 @@ def delete_like(like_id):
 
     db.session.delete(remove_like)
     db.session.commit()
-    return redirect("/favorites")
+    return redirect("/users/favorites")
 
 ##############################################################################
 # Upon successful logout, redirects user to login page

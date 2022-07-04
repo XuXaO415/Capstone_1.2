@@ -224,13 +224,15 @@ def delete_user():
 ##############################################################################
 # User Favorite
 ##############################################################################
-@app.route("/users/favorite/<int:id>", methods=["GET", "POST"])
+@app.route("/users/favorites/<int:id>", methods=["GET", "POST"])
 def add_likes(id):
     """Enables a user to like an article"""
-    # pdb.set_trace()
+
     if not g.user:
         flash("You are not the authorized user of this account", "danger")
         return redirect("/")
+    
+ 
     
     # else:
     #     user = g.user
@@ -249,7 +251,6 @@ def add_likes(id):
 
     # add_like = Like(user_id=g.user.id, article_id=id, url=url, author=author, title=title, description=description, date_added=date.today())
     db.session.add(add_like)
-    # pdb.set_trace()
     db.session.commit()
 
     flash(f"You just liked this article!", "success")
@@ -281,6 +282,7 @@ def list_likes():
     
     articles = (Article
                 .query
+                .order_by(Article.date_added.desc())
                 .order_by(Article.id)
                 .all())
     likes = (Like
@@ -289,7 +291,7 @@ def list_likes():
                 .all())
     # pdb.set_trace()
     return render_template("/users/favorite.html", articles=articles, likes=likes)
-    # return render_template("/users/favorite.html", articles=articles)
+
     
     
 # @app.route("/users/favorite/<int:like_id>")
@@ -305,31 +307,38 @@ def list_likes():
 #     return render_template("/users/show.html", like=like)
 
 ##############################################################################
-# Delete liked story
+# Delete favorite story
 ##############################################################################
 
-@app.route("/users/favorites/delete/<int:like_id>", methods=["POST"])
-def delete_like(like_id):
+@app.route("/users/delete/<int:id>", methods=["GET", "POST"])
+def delete_like(id):
     """Delete favorite articles"""
     
     if not g.user:
         flash("You are not the authorized user of this account", "danger")
         return redirect("/")
-    
-    # like = Like.query.get_or_404(like_id)
-    # if like not in g.user.likes:
-    #     return redirect("/")
 
- 
+
     # remove_like = Like(user_id=g.user.id, like_id=like_id)
-    remove_like = Article(user_id=g.user.id, article_id=like_id)
+    # remove_like = Article(user_id=g.user.id, article_id=like_id)
     
+    # remove_like = Like.query.filter_by(user_id=str(g.user.id), article_id=id).first()
+    
+    # delete_like = Article.query( article_id=id)
+    # db.session.delete(delete_like)
+    # db.session.commit()
     # pdb.set_trace()
-
-
-    db.session.delete(remove_like)
+    remove_article = Article.query.filter_by(id=id).first()
+    db.session.delete(remove_article)
     db.session.commit()
-    return redirect("/users/favorites")
+    
+
+
+
+    # db.session.delete(remove_like)
+    # db.session.commit()
+    
+    return redirect(f"/users/favorites")
 
 ##############################################################################
 # Upon successful logout, redirects user to login page
@@ -350,6 +359,7 @@ def logout():
 
 @app.errorhandler(404)
 def page_not_found(e):
+    """404 Not Found"""
     return render_template("404.html"), 404
 
 
@@ -519,7 +529,7 @@ def search_all_articles():
     return render_template("top_articles.html", top_articles=relevant_articles['articles'][0:10], titlequery=title_request)
 
 
-    return render_template("latest_articles.html", latest_articles=recent_articles['articles'][0:10], titlequery=title_request)
+    # return render_template("latest_articles.html", latest_articles=recent_articles['articles'][0:10], titlequery=title_request)
 ##############################################################################
 @ app.after_request
 def add_header(req):

@@ -232,20 +232,6 @@ def add_likes(id):
         flash("You are not the authorized user of this account", "danger")
         return redirect("/")
     
- 
-    
-    # else:
-    #     user = g.user
-    #     article = Article.query.get_or_404(id)
-    #     if article in user.likes:
-    #         flash("You have already liked this article", "danger")
-    #         return redirect("/")
-    #     else:
-    #         user.likes.append(article)
-    #         db.session.add(user)
-    #         db.session.commit()
-    #         flash("You have liked this article", "success")
-    #         return redirect("/")
         
     add_like = Like(user_id=g.user.id, article_id=id)
 
@@ -319,24 +305,12 @@ def delete_like(id):
         return redirect("/")
 
 
-    # remove_like = Like(user_id=g.user.id, like_id=like_id)
-    # remove_like = Article(user_id=g.user.id, article_id=like_id)
-    
-    # remove_like = Like.query.filter_by(user_id=str(g.user.id), article_id=id).first()
-    
-    # delete_like = Article.query( article_id=id)
-    # db.session.delete(delete_like)
-    # db.session.commit()
-    # pdb.set_trace()
     remove_article = Article.query.filter_by(id=id).first()
-    db.session.delete(remove_article)
-    db.session.commit()
+    # delete_article = Like.query.filter_by(article_id=id).first()
     
-
-
-
-    # db.session.delete(remove_like)
-    # db.session.commit()
+    db.session.delete(remove_article)
+    # db.session.delete(delete_article)
+    db.session.commit()
     
     return redirect(f"/users/favorites")
 
@@ -351,7 +325,7 @@ def logout():
     flash("You have successfully logged out", "success")
     
     return redirect(url_for("login"))
-    # return redirect('/login')
+
 
 ##############################################################################
 # Super simple 404 page

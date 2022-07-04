@@ -13,34 +13,29 @@
                 <h5>{{article.title}}</h5>
                 <h6>{{article.publishedAt}}</h6>
                 <p>{{article.date_added}}</p>
-                <img src={{article.urlToImage}}></div>
-                <h6>{{article.author}}</h6>
-                    <p>{{article.description}}</p>
-                    <a href={{article.url}}>Read more</a>
-                    <!-- <p>{{article.content}}</p> -->
-                    <p>show id for ref: {{article.id}}</p>
-                
-                    <!-- {% for like in likes %} <h5>{{like.title}} </h5>
-            <p>{{like.description}} </p>
-            <p>{{like.author}}</p>
-            <p>{{like.date_added}}</p> -->
-                    <!-- <a href="/users/favorites/{{like_id}}">{{like.date_added}}</a> -->
-                    <form method="POST" action="/users/favorites/{{like_id}}">
-                    </form>
-                    <!-- {% endfor %} -->
-                    
-        <form method="POST " action="/users/favorites/delete/{{like_id}} ">
-            <button class="btn btn-outline-danger ">
+                <img src="{{article.urlToImage}}"></div>
+            <h6>{{article.author}}</h6>
+            <p>{{article.description}}</p>
+            <a href=" {{article.url}} ">Read more...
+                <i class=" fas fa-external-link-alt "></i>  
+                </a>
+            <p>show id for ref: {{article.id}}</p>
+
+
+            <a href="/users/delete/{{article.id}}">
+                <button class="btn btn-outline-danger">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </a>
+            <!-- <form method=" POST " action="/users/delete/{{article.id}} ">
+                    <button class="btn btn-outline-danger ">
                 <i class="fas fa-trash "></i>
-                </button> 
-             
-        </form>
-        
-   {% endfor %}
-   
+                </button>
+
+                </form> -->{% endfor %}
+
     </ul>
     </div>
-    </div>
+</div>
 
-
-    {% endblock %}
+{% endblock %}

@@ -33,7 +33,7 @@ class User(db.Model):
     
     
     # Added this line
-    articles =db.relationship("Article", backref="user")
+    articles = db.relationship("Article", backref="user")
     
     
     # likes = db.relationship("Like", back_populates="user")
@@ -231,7 +231,7 @@ class Article(db.Model):
     date_added = db.Column(db.DateTime)
     
     # Added lines below to create a relationship to the User table
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="cascade"))
     article_id = db.Column(db.Integer, db.ForeignKey("articles.id"))
     users = db.relationship("User", backref="article")
     
@@ -251,8 +251,8 @@ class Like(db.Model):
     __tablename__ = "likes"
     
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    article_id = db.Column(db.Integer, db.ForeignKey('articles.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="cascade"))
+    article_id = db.Column(db.Integer, db.ForeignKey("articles.id", ondelete="cascade"))
       
     
     # def __repr__(self):

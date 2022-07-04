@@ -30,16 +30,17 @@
                                 <a class="btn btn-sm btn-outline-secondary " href="/signup ">Sign up</a>
                                 <form action="/login">
                                     <a class="btn btn-sm btn-outline-secondary " href="{{ url_for('login') }}">Login</a> {% else%}
-                                    <form action="/users/{{g.user}} ">
+                                    <form action="/users/{{g.user.id}} ">
                                         <a class="btn btn-sm btn-outline-secondary " href="/users/{{g.user.id}} ">My Profile</a>
-                                        <form action="/favorite/likes">
-                                            <a class="btn btn-sm btn-outline-secondary " href="/users/favorites"><i class="fas fa-heart fa-md"></i>Favorites</a>
+                                        <form action="/users/favorites/">
+                                            <a class="btn btn-sm btn-outline-secondary " href="/users/favorites/"><i class="fas fa-heart fa-md"></i> Favorites</a>
                                             <form action="/logout">
                                                 <a class="btn btn-sm btn-outline-secondary " href="{{ url_for('logout') }}">Logout</a> {% endif %}
                                             </form>
                                         </form>
                                     </form>
                                 </form>
+                            </form>
                         </div>
                     </div>
                 </div>

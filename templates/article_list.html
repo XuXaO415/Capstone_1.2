@@ -21,7 +21,8 @@
             <p>{{article.description}}</p>
             <a href=" {{ article.url }} " target="_blank">Read more... </a>
             <div class="row">
-                <form method="POST" action="/users/favorites/{{likes_id}}">
+                <form method="POST" action="/users/favorites/{{article_id}}">
+                    console.log({{article_id}});
                     <button class="btn btn-sm btn-primary">
                     <i class="fas fa-bookmark"></i>
                </button>

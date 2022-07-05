@@ -234,7 +234,7 @@ def add_likes(id):
     
         
     add_like = Like(user_id=g.user.id, article_id=id)
-
+    pdb.set_trace()
     # add_like = Like(user_id=g.user.id, article_id=id, url=url, author=author, title=title, description=description, date_added=date.today())
     db.session.add(add_like)
     db.session.commit()
@@ -265,32 +265,20 @@ def list_likes():
                 # .limit(25)
                 # .all())
     # articles = Article.query.all()
-    
-    articles = (Article
-                .query
-                .order_by(Article.date_added.desc())
-                .order_by(Article.id)
-                .all())
+    #articles query to get all articles and order by date_added desc, id
+    # articles = (Article
+    #             .query
+    #             .order_by(Article.date_added.desc())
+    #             .order_by(Article.id)
+    #             #.limit(25)
+    #             .all())
     likes = (Like
                 .query
                 .order_by(Like.id)
                 .all())
     # pdb.set_trace()
-    return render_template("/users/favorite.html", articles=articles, likes=likes)
+    return render_template("/users/favorite.html", likes=likes)
 
-    
-    
-# @app.route("/users/favorite/<int:like_id>")
-# def user_favorites(like_id):
-#     """Shows info on a single liked article"""
-
-#     if not g.user:
-#         return redirect("/")
-
-
-#     # user = User.query.get_or_404(like.id)
-#     like = Like.query.get(like_id)
-#     return render_template("/users/show.html", like=like)
 
 ##############################################################################
 # Delete favorite story
@@ -305,7 +293,10 @@ def delete_like(id):
         return redirect("/")
 
 
-    remove_article = Article.query.filter_by(id=id).first()
+    # remove_article = Article.query.filter_by(id=id).first()
+    remove_article = Like(user_id=g.user.id, article_id=id)
+
+    # remove_article = Article.query.filter_by(id=id).first()
     # delete_article = Like.query.filter_by(article_id=id).first()
     
     db.session.delete(remove_article)

@@ -233,9 +233,12 @@ def add_likes(id):
         return redirect("/")
     
         
-    add_like = Like(user_id=g.user.id, article_id=id)
-    pdb.set_trace()
+    # add_like = Like(user_id=g.user.id, article_id=id)
+    # pdb.set_trace()
     # add_like = Like(user_id=g.user.id, article_id=id, url=url, author=author, title=title, description=description, date_added=date.today())
+    
+    # add_like = Article(user_id=g.user.id, article_id=id)
+    add_like = Like(user_id=g.user.id, article_id=id)
     db.session.add(add_like)
     db.session.commit()
 
@@ -248,36 +251,22 @@ def add_likes(id):
 @app.route("/users/favorites/", methods=["GET", "POST"])
 def list_likes():
     """Shows a list of user's liked articles"""
-     
 
-    # articles = Article.query.order_by(Article.date_added.desc())
-    # articles = Article.query.all()
-    # likes = Like.query.order_by(Like.date_added.desc())
-    
-    # likes = (Like
-    #             .query
-                # .order_by(Like.id)
-                # .order_by(Like.description)
-                # .order_by(Like.date_added.desc())
-                # .order_by(Like.publishedAt.desc())
-                # .order_by(Like.title.asc())
-                # .order_by(Like.description())
-                # .limit(25)
-                # .all())
-    # articles = Article.query.all()
     #articles query to get all articles and order by date_added desc, id
-    # articles = (Article
-    #             .query
-    #             .order_by(Article.date_added.desc())
-    #             .order_by(Article.id)
-    #             #.limit(25)
-    #             .all())
+    articles = (Article
+                .query
+                .order_by(Article.date_added.desc())
+                .order_by(Article.id)
+                #.limit(25)
+                .all())
     likes = (Like
                 .query
+                .order_by(Like.date_added.desc())
                 .order_by(Like.id)
+                .order_by(Like.article_id)
                 .all())
     # pdb.set_trace()
-    return render_template("/users/favorite.html", likes=likes)
+    return render_template("/users/favorite.html", articles=articles, likes=likes)
 
 
 ##############################################################################
@@ -294,12 +283,16 @@ def delete_like(id):
 
 
     # remove_article = Article.query.filter_by(id=id).first()
-    remove_article = Like(user_id=g.user.id, article_id=id)
+    # remove_like = Article(user_id=g.user.id, article_id=id)
+    """remove from likes table article_id"""
+    # remove_like = Like(user_id=g.user.id, article_id=id)
+    remove_like = Like(user_id=g.user.id, article_id=id)
+    # pdb.set_trace()
 
     # remove_article = Article.query.filter_by(id=id).first()
     # delete_article = Like.query.filter_by(article_id=id).first()
     
-    db.session.delete(remove_article)
+    db.session.delete(remove_like)
     # db.session.delete(delete_article)
     db.session.commit()
     
@@ -353,11 +346,8 @@ def show_latest_articles():
             db.session.add(new_art)
         # pdb.set_trace()
             db.session.commit()
-        # db.session.rollback()
-        
-        # db.session.refresh(new_art)
+
             article['id'] = new_art.id
-            
         else: 
             article['id'] = existing_art.id
         

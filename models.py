@@ -1,4 +1,5 @@
 from datetime import datetime
+from turtle import title
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_manager
@@ -72,7 +73,7 @@ class LatestArticle(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     url = db.Column(db.Text, nullable=False, unique=False)
-    publishedAt = db.Column(db.DateTime, nullable=False, unique=False)
+    publishedAt = db.Column(db.DateTime, nullable=False, unique=False, default=datetime.utcnow)
     domain = db.Column(db.Text, nullable=False, unique=False)
     article_id = db.Column(db.Integer, nullable=False)
     site_type = db.Column(db.Text, nullable=False)
@@ -94,7 +95,7 @@ class TopArticle(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.Text, nullable=False, unique=False)
-    publishedAt = db.Column(db.DateTime, nullable=False, unique=False)
+    publishedAt = db.Column(db.DateTime, nullable=False, unique=False, default=datetime.utcnow)
     site_type = db.Column(db.Text, nullable=False, unique=False)
     title = db.Column(db.Text, nullable=False, unique=False)
     description = db.Column(db.Text)
@@ -114,7 +115,8 @@ class WorldNews(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.Text, nullable=False, unique=False)
     author = db.Column(db.Text, nullable=False, unique=False)
-    publishedAt = db.Column(db.DateTime, nullable=False, unique=False)
+    publishedAt = db.Column(db.DateTime, nullable=False,
+                            unique=False, default=datetime.utcnow)
     title = db.Column(db.Text, nullable=False, unique=False)
     description = db.Column(db.Text)
     urlToImage= db.Column(db.Text)
@@ -123,6 +125,11 @@ class WorldNews(db.Model):
     def __repr__(self):
         world_new = self
         return f"<World New {world_new.id} {world_new.url}{world_new.author}{world_new.publishedAt}{world_new.title}{world_new.description}{world_new.urlToImage}{world_new.content}>"
+    
+    # def __repr__(self):
+    #     return f'<World News {self.id} {self.url} {self.author} {self.publishedAt} {self.title} {self.description} {self.urlToImage} {self.content}>'
+    
+
 
 class Technology(db.Model):
     """List tech news -- from NewsAPI"""
@@ -132,7 +139,8 @@ class Technology(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.Text, nullable=False, unique=False)
     author = db.Column(db.Text, nullable=False, unique=False)
-    publishedAt = db.Column(db.DateTime, nullable=False, unique=False)
+    publishedAt = db.Column(db.DateTime, nullable=False,
+                            unique=False, default=datetime.utcnow)
     title = db.Column(db.Text, nullable=False, unique=False)
     description = db.Column(db.Text)
     urlToImage = db.Column(db.Text)
@@ -149,7 +157,8 @@ class Business(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.Text, nullable=False, unique=False)
     author = db.Column(db.Text, nullable=False, unique=False)
-    publishedAt = db.Column(db.DateTime, nullable=False, unique=False)
+    publishedAt = db.Column(db.DateTime, nullable=False,
+                            unique=False, default=datetime.utcnow)
     title = db.Column(db.Text, nullable=False, unique=False)
     description = db.Column(db.Text)
     urlToImage = db.Column(db.Text)
@@ -167,7 +176,8 @@ class USPolity(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.Text, nullable=False, unique=False)
     author = db.Column(db.Text, nullable=False, unique=False)
-    publishedAt = db.Column(db.DateTime, nullable=False, unique=False)
+    publishedAt = db.Column(db.DateTime, nullable=False,
+                            unique=False, default=datetime.utcnow)
     title = db.Column(db.Text, nullable=False, unique=False)
     description = db.Column(db.Text)
     urlToImage = db.Column(db.Text)
@@ -185,7 +195,8 @@ class Science(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.Text, nullable=False, unique=False)
     author = db.Column(db.Text, nullable=False, unique=False)
-    publishedAt = db.Column(db.DateTime, nullable=False, unique=False)
+    publishedAt = db.Column(db.DateTime, nullable=False,
+                            unique=False, default=datetime.utcnow)
     title = db.Column(db.Text, nullable=False, unique=False)
     description = db.Column(db.Text)
     urlToImage = db.Column(db.Text)
@@ -203,7 +214,8 @@ class Health(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.Text, nullable=False, unique=False)
     author = db.Column(db.Text, nullable=False, unique=False)
-    publishedAt = db.Column(db.DateTime, nullable=False, unique=False)
+    publishedAt = db.Column(db.DateTime, nullable=False,
+                            unique=False, default=datetime.utcnow)
     title = db.Column(db.Text, nullable=False, unique=False)
     description = db.Column(db.Text)
     urlToImage = db.Column(db.Text)
@@ -212,10 +224,24 @@ class Health(db.Model):
     def __repr__(self):
         health_article = self
         return f"<Health Article {health_article.id}{health_article.url}{health_article.author}{health_article.publishedAt}{health_article.title}{health_article.description}{health_article.urlToImage}{health_article.content}"
+class Sports(db.Model):
+    """List sports news"""
     
-        
-
-
+    __tablename__ = "sports_news"
+    
+    id = db.Column(db.Integer, primary_key=True)
+    url = db.Column(db.Text, nullable=False, unique=False)
+    author = db.Column(db.Text, nullable=False, unique=False)
+    publishedAt = db.Column(db.DateTime, nullable=False,
+                            unique=False, default=datetime.utcnow)
+    title = db.Column(db.Text, nullable=False, unique=False)
+    description = db.Column(db.Text)
+    urlToImage = db.Column(db.Text)
+    content = db.Column(db.Text)
+    
+    def __repr__(self):
+        sports_article = self
+        return f"<Sports Article {sports_article.id}{sports_article.url}{sports_article.author}{sports_article.publishedAt}{sports_article.title}{sports_article.description}{sports_article.urlToImage}{sports_article.content}"
 class Article(db.Model):
     
     __tablename__="articles"
@@ -223,25 +249,21 @@ class Article(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.Text,  unique=True)
     author = db.Column(db.Text, unique=False)
-    publishedAt = db.Column(db.DateTime, unique=False)
+    publishedAt = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     title = db.Column(db.Text, nullable=True, unique=False)
     description = db.Column(db.Text)
     urlToImage = db.Column(db.Text)
     content = db.Column(db.Text)
-    date_added = db.Column(db.DateTime)
+    date_added = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     
     # Added lines below to create a relationship to the User table
     user_id = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="cascade"))
     article_id = db.Column(db.Integer, db.ForeignKey("articles.id"))
     users = db.relationship("User", backref="article")
     
-    # saved_articles = db.relationship("Article", secondary="user_saved_articles", backref="articles")
-    
-
-
-    # def __repr__(self):
-    #     articles = self
-    #     return f"<Articles {articles.id}{articles.url}{articles.author}{articles.publishedAt}{articles.title}{articles.description}{articles.urlToImage}{articles.content}{articles.date_added}"
+    def __repr__(self):
+        articles = self
+        return f"<Article {articles.id}{articles.url}{articles.author}{articles.publishedAt}{articles.title}{articles.description}{articles.urlToImage}{articles.content}{articles.date_added}{articles.user_id}{articles.article_id}"
 
 
 
@@ -253,11 +275,16 @@ class Like(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="cascade"))
     article_id = db.Column(db.Integer, db.ForeignKey("articles.id", ondelete="cascade"))
-      
     
-    # def __repr__(self):
-    #         likes = self
-    #         return f"<Likes {likes.id}{likes.url}{likes.author}{likes.publishedAt}{likes.title}{likes.description}{likes.urlToImage}{likes.content}{likes.date_added}"
+    # date_added = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    # url = db.Column(db.Text, unique=True)
+    # author = db.Column(db.Text,  unique=False)
+    # title = db.Column(db.Text, unique=False)
+    
+    def __repr__(self):
+        likes = self
+        return f"<Like {likes.id}{likes.user_id}{likes.article_id}{likes.date_added}{likes.url}{likes.author}{likes.title}"
+
 
 
 

@@ -224,8 +224,8 @@ def delete_user():
 ##############################################################################
 # User Favorite
 ##############################################################################
-@app.route("/users/favorites/<int:id>", methods=["GET", "POST"])
-def add_likes(id):
+@app.route("/users/favorites/<int:like_id>", methods=["GET", "POST"])
+def add_likes(like_id):
     """Enables a user to like an article"""
 
     if not g.user:
@@ -236,67 +236,92 @@ def add_likes(id):
     # add_like = Like(user_id=g.user.id, article_id=id)
     # pdb.set_trace()
     # add_like = Like(user_id=g.user.id, article_id=id, url=url, author=author, title=title, description=description, date_added=date.today())
-    
     # add_like = Article(user_id=g.user.id, article_id=id)
-    add_like = Like(user_id=g.user.id, article_id=id)
+
+    # add_like = Like(user_id=g.user.id, like_id=id)
+    
+
+    add_like = Like(user_id=g.user.id, article_id=like_id)
+    # pdb.set_trace()
+    
     db.session.add(add_like)
     db.session.commit()
 
-    flash(f"You just liked this article!", "success")
+    flash("You have successfully liked this article", "success")
+    
+    return redirect(f"/users/favorites")
 
-    return redirect(f"/users/favorites/")
+    
 
 
-# pdb.set_trace()
 @app.route("/users/favorites/", methods=["GET", "POST"])
 def list_likes():
     """Shows a list of user's liked articles"""
 
     #articles query to get all articles and order by date_added desc, id
-    articles = (Article
-                .query
-                .order_by(Article.date_added.desc())
-                .order_by(Article.id)
-                #.limit(25)
-                .all())
-    likes = (Like
-                .query
-                .order_by(Like.date_added.desc())
-                .order_by(Like.id)
-                .order_by(Like.article_id)
-                .all())
+    # article = (Article
+    #             .query
+    #             .order_by(Article.date_added.desc())
+    #             .order_by(Article.id)
+    #             #.limit(25)
+    #             .all())
+    
+    user = User.query.get_or_404(g.user.id)
+    
+    if user:
+        likes = Like.query.filter_by(user_id=g.user.id).order_by(Like.id).all()
+      
+        return render_template("/users/favorite.html", likes=likes, show_delete=True)
+       
+    else:
+    
+    # like = (Like
+    #             .query
+    #             .order_by(Like.id)
+    #             .order_by(Like.article_id)
+    #             .order_by(Like.user_id)
+    #             .all())
     # pdb.set_trace()
-    return render_template("/users/favorite.html", articles=articles, likes=likes)
+    # 
+        return render_template("/users/favorite.html")
 
 
 ##############################################################################
 # Delete favorite story
 ##############################################################################
 
-@app.route("/users/delete/<int:id>", methods=["GET", "POST"])
-def delete_like(id):
-    """Delete favorite articles"""
+@app.route("/users/delete/<int:like_id>", methods=["GET", "POST"])
+def delete_like(like_id):
+    """Currently logged in user can delete their favorite story"""
     
     if not g.user:
         flash("You are not the authorized user of this account", "danger")
         return redirect("/")
+    
+    user_liked = Like.query.filter_by(article_id=like_id, user_id=g.user.id).first()
+    db.session.delete(user_liked)
+    db.session.commit()
+    
+    return redirect("/users/favorites")
 
 
     # remove_article = Article.query.filter_by(id=id).first()
     # remove_like = Article(user_id=g.user.id, article_id=id)
-    """remove from likes table article_id"""
-    # remove_like = Like(user_id=g.user.id, article_id=id)
-    remove_like = Like(user_id=g.user.id, article_id=id)
-    # pdb.set_trace()
 
-    # remove_article = Article.query.filter_by(id=id).first()
-    # delete_article = Like.query.filter_by(article_id=id).first()
     
-    db.session.delete(remove_like)
-    # db.session.delete(delete_article)
-    db.session.commit()
+    # """remove from likes table article_id"""
+ 
+    # remove_like = Like(user_id=g.user.id, article_id=like_id)
+    # # pdb.set_trace()
+
+    # # remove_article = Article.query.filter_by(id=id).first()
+    # # delete_article = Like.query.filter_by(article_id=id).first()
     
-    return redirect(f"/users/favorites")
+    # db.session.delete(remove_like)
+    # # db.session.delete(delete_article)
+    # db.session.commit()
+    
+    # return redirect(f"/users/favorites")
 
 ##############################################################################
 # Upon successful logout, redirects user to login page

@@ -35,6 +35,8 @@ class User(db.Model):
     
     # Added this line
     articles = db.relationship("Article", backref="user")
+    # Added this line
+    # likes = db.relationship("Like", backref="user")
     
     
     # likes = db.relationship("Like", back_populates="user")
@@ -200,7 +202,7 @@ class Science(db.Model):
     title = db.Column(db.Text, nullable=False, unique=False)
     description = db.Column(db.Text)
     urlToImage = db.Column(db.Text)
-    content = db.Column(db.Text)
+    content = db.Column(db.String(500))
     
     def __repr__(self):
         science_article = self
@@ -219,7 +221,7 @@ class Health(db.Model):
     title = db.Column(db.Text, nullable=False, unique=False)
     description = db.Column(db.Text)
     urlToImage = db.Column(db.Text)
-    content = db.Column(db.Text)
+    content = db.Column(db.String(500))
 
     def __repr__(self):
         health_article = self
@@ -237,7 +239,7 @@ class Sports(db.Model):
     title = db.Column(db.Text, nullable=False, unique=False)
     description = db.Column(db.Text)
     urlToImage = db.Column(db.Text)
-    content = db.Column(db.Text)
+    content = db.Column(db.String(500))
     
     def __repr__(self):
         sports_article = self
@@ -253,13 +255,15 @@ class Article(db.Model):
     title = db.Column(db.Text, nullable=True, unique=False)
     description = db.Column(db.Text)
     urlToImage = db.Column(db.Text)
-    content = db.Column(db.Text)
+    content = db.Column(db.String(500))
     date_added = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     
     # Added lines below to create a relationship to the User table
     user_id = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="cascade"))
     article_id = db.Column(db.Integer, db.ForeignKey("articles.id"))
     users = db.relationship("User", backref="article")
+    
+    like_id = db.Column(db.Integer, db.ForeignKey("likes.id"))
     
     def __repr__(self):
         articles = self
@@ -276,6 +280,10 @@ class Like(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="cascade"))
     article_id = db.Column(db.Integer, db.ForeignKey("articles.id", ondelete="cascade"))
     
+    # like_id = db.Column(db.Integer, db.ForeignKey("likes.id"))
+
+    # article_id = db.relationship("Article", backref="likes")
+    
     # date_added = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     # url = db.Column(db.Text, unique=True)
     # author = db.Column(db.Text,  unique=False)
@@ -283,7 +291,7 @@ class Like(db.Model):
     
     def __repr__(self):
         likes = self
-        return f"<Like {likes.id}{likes.user_id}{likes.article_id}{likes.date_added}{likes.url}{likes.author}{likes.title}"
+        return f"<Like {likes.id}{likes.user_id}{likes.article_id}"
 
 
 

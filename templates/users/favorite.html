@@ -19,23 +19,21 @@
             <a href=" {{article.url}} ">Read more...
                 <i class=" fas fa-external-link-alt "></i>  
                 </a>
-            <p>show id for ref: {{article.id}}</p>
-
-
+            <p>show id for reference: {{article.id}}</p>
+            <p>show like_id for reference: {{likes.id}}</p>
+            <!-- 
+            <form method="POST" action="/users/delete/{{article.like_id}}"> -->
             <a href="/users/delete/{{article.id}}">
+                <!-- <a href="/users/delete/{{article.id}}"> -->
                 <button class="btn btn-outline-danger">
-                    <i class="fas fa-trash"></i>
+                <i class="fas fa-trash"></i>
                 </button>
+                <!-- </form> -->
             </a>
-            <!-- <form method=" POST " action="/users/delete/{{article.id}} ">
-                    <button class="btn btn-outline-danger ">
-                <i class="fas fa-trash "></i>
-                </button>
-
-                </form> -->{% endfor %}
-
+            {% endfor %}
+        </div>
     </ul>
-    </div>
 </div>
+
 
 {% endblock %}

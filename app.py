@@ -1,3 +1,4 @@
+from genericpath import exists
 import os
 
 # from flask import *
@@ -224,7 +225,7 @@ def delete_user():
 ##############################################################################
 # User Favorite
 ##############################################################################
-@app.route("/users/favorites/<int:id>", methods=["GET", "POST"])
+@app.route("/users/favorites/<int:likes_id>", methods=["GET", "POST"])
 def add_likes(likes_id):
     """Enables a user to like an article"""
 
@@ -239,13 +240,15 @@ def add_likes(likes_id):
     # add_like = Article(user_id=g.user.id, article_id=id)
 
     # add_like = Like(user_id=g.user.id, like_id=id)
-    for like in likes_id:
-        if like.article_id == likes_id:
-            flash("You have already liked this article", "danger")
-            return redirect("/")
+    like = Likes.query.all()
+
+    for like in likes:
         existing_like = Likes.query.filter_by(user_id=g.user.id, article_id=likes_id).first()
         
-        if not existing_like:
+        if existing_like:
+            flash("You have already liked this article", "danger")
+            return redirect("/")
+        else:
             add_like = Likes(user_id=g.user.id, article_id=likes_id)
             db.session.add(add_like)
             db.session.commit()
@@ -253,7 +256,7 @@ def add_likes(likes_id):
             return redirect("/")
 
     # add_like = Likes(user_id=g.user.id, likes_id=likes_id)
-    # # pdb.set_trace()
+    # # # pdb.set_trace()
     
     # db.session.add(add_like)
     # db.session.commit()

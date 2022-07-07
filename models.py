@@ -1,6 +1,4 @@
 from datetime import datetime
-from enum import unique
-from turtle import title
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_manager
@@ -298,7 +296,7 @@ class Likes(db.Model):
     # art_id = db.Column(db.Integer, db.ForeignKey("likes.id"), unique=True)
     
     
-    like_id = db.Column(db.Integer, db.ForeignKey("likes.id", ondelete="cascade"), unique=True)
+    # like_id = db.Column(db.Integer, db.ForeignKey("likes.id", ondelete="cascade"), unique=True)
 
     # article_id = db.relationship("Article", backref="likes")
     

@@ -3,7 +3,7 @@ import os
 # from flask import *
 from flask import Flask, jsonify, redirect, render_template, flash, session, g, url_for
 from datetime import date
-from flask_login import current_user, LoginManager
+from flask_login import current_user, LoginManager, user_logged_in
 import requests
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
@@ -14,7 +14,7 @@ import pdb
 from yaml import serialize
 #################################################################################
 from forms import UserAddForm, LoginForm, UserEditForm
-from models import Article, db, connect_db, User, Article, Like,  LatestArticle, TopArticle, WorldNews, Technology, Business, USPolity, Science, Health
+from models import Article, db, connect_db, User, Article, Likes,  LatestArticle, TopArticle, WorldNews, Technology, Business, USPolity, Science, Health
 #######################################ß##########################################
 # from secrets import api_key
 from dotenv import load_dotenv
@@ -224,8 +224,8 @@ def delete_user():
 ##############################################################################
 # User Favorite
 ##############################################################################
-@app.route("/users/favorites/<int:like_id>", methods=["GET", "POST"])
-def add_likes(like_id):
+@app.route("/users/favorites/<int:id>", methods=["GET", "POST"])
+def add_likes(likes_id):
     """Enables a user to like an article"""
 
     if not g.user:
@@ -233,23 +233,34 @@ def add_likes(like_id):
         return redirect("/")
     
         
-    # add_like = Like(user_id=g.user.id, article_id=id)
+    # add_like = Like(user_id=g.user.id, article_id=likes_id)
     # pdb.set_trace()
     # add_like = Like(user_id=g.user.id, article_id=id, url=url, author=author, title=title, description=description, date_added=date.today())
     # add_like = Article(user_id=g.user.id, article_id=id)
 
     # add_like = Like(user_id=g.user.id, like_id=id)
-    
+    for like in likes_id:
+        if like.article_id == likes_id:
+            flash("You have already liked this article", "danger")
+            return redirect("/")
+        existing_like = Likes.query.filter_by(user_id=g.user.id, article_id=likes_id).first()
+        
+        if not existing_like:
+            add_like = Likes(user_id=g.user.id, article_id=likes_id)
+            db.session.add(add_like)
+            db.session.commit()
+            flash("You have successfully liked this article", "success")
+            return redirect("/")
 
-    add_like = Like(user_id=g.user.id, article_id=like_id)
-    # pdb.set_trace()
+    # add_like = Likes(user_id=g.user.id, likes_id=likes_id)
+    # # pdb.set_trace()
     
-    db.session.add(add_like)
-    db.session.commit()
+    # db.session.add(add_like)
+    # db.session.commit()
 
-    flash("You have successfully liked this article", "success")
+    # flash("You have successfully liked this article", "success")
     
-    return redirect(f"/users/favorites")
+    # return redirect(f"/users/favorites")
 
     
 
@@ -258,51 +269,57 @@ def add_likes(like_id):
 def list_likes():
     """Shows a list of user's liked articles"""
 
+
     #articles query to get all articles and order by date_added desc, id
-    # article = (Article
-    #             .query
-    #             .order_by(Article.date_added.desc())
-    #             .order_by(Article.id)
-    #             #.limit(25)
-    #             .all())
+    articles = (Article
+                .query
+                .order_by(Article.date_added.desc())
+                .order_by(Article.id)
+                #.limit(25)
+                .all())
+
+
+    #likes query to get all likes and order by date_added desc, id
     
-    user = User.query.get_or_404(g.user.id)
     
-    if user:
-        likes = Like.query.filter_by(user_id=g.user.id).order_by(Like.id).all()
-      
-        return render_template("/users/favorite.html", likes=likes, show_delete=True)
-       
-    else:
-    
-    # like = (Like
-    #             .query
-    #             .order_by(Like.id)
-    #             .order_by(Like.article_id)
-    #             .order_by(Like.user_id)
-    #             .all())
-    # pdb.set_trace()
-    # 
-        return render_template("/users/favorite.html")
+    # likes = Likes.query.all()
+    """List all liked articles"""
+    likes = (Likes
+             .query
+             .order_by(Likes.id)
+             .order_by(Likes.article_id)
+             .order_by(Likes.user_id)
+             .all())
+    #
+    return render_template("/users/favorite.html", likes=likes, articles=articles)
+        # return render_template("/users/favorite.html")
 
 
 ##############################################################################
 # Delete favorite story
 ##############################################################################
 
-@app.route("/users/delete/<int:like_id>", methods=["GET", "POST"])
-def delete_like(like_id):
+@app.route("/users/delete/<int:likes_id>", methods=["GET", "POST"])
+def delete_like(likes_id):
     """Currently logged in user can delete their favorite story"""
     
-    if not g.user:
+    # if not g.user:
+    #     flash("You are not the authorized user of this account", "danger")
+    #     return redirect("/")
+    
+    likes = Likes.query.get_or_404(likes_id)
+    if likes.user_id != g.user.id:
         flash("You are not the authorized user of this account", "danger")
         return redirect("/")
     
-    user_liked = Like.query.filter_by(article_id=like_id, user_id=g.user.id).first()
-    db.session.delete(user_liked)
+    delete_like = Likes.query.filter(user_id=g.user.id, likes_id=likes_id).first()
+    # pdb.set_trace()
+    db.session.delete(delete_like)
     db.session.commit()
     
-    return redirect("/users/favorites")
+    flash("You have successfully deleted this article", "success")
+    return redirect(f"/users/favorites")
+
 
 
     # remove_article = Article.query.filter_by(id=id).first()

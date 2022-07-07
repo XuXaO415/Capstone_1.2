@@ -1,4 +1,5 @@
 from datetime import datetime
+from enum import unique
 from turtle import title
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
@@ -34,7 +35,14 @@ class User(db.Model):
     
     
     # Added this line
-    articles = db.relationship("Article", backref="user")
+    # backref is a relationship that allows you to access the user from the article
+    # articles = db.relationship("Article", backref="user")
+    
+    # Added this line
+    articles = db.relationship("Article", back_populates="user")
+    # and
+    # like = db.relationship("Likes", back_populates="user")
+
     # Added this line
     # likes = db.relationship("Like", backref="user")
     
@@ -260,10 +268,11 @@ class Article(db.Model):
     
     # Added lines below to create a relationship to the User table
     user_id = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="cascade"))
-    article_id = db.Column(db.Integer, db.ForeignKey("articles.id"))
-    users = db.relationship("User", backref="article")
+    article_id = db.Column(db.Integer, db.ForeignKey("articles.id", ondelete="cascade"))
+    user = db.relationship("User", back_populates="articles")
     
     like_id = db.Column(db.Integer, db.ForeignKey("likes.id"))
+    # likes = db.relationship("Article", back_populates="likes")
     
     def __repr__(self):
         articles = self
@@ -271,16 +280,25 @@ class Article(db.Model):
 
 
 
-class Like(db.Model):
+class Likes(db.Model):
     """Mapping user likes to article"""
     
     __tablename__ = "likes"
     
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    article_id = db.Column(db.Integer, db.ForeignKey(
+        "articles.id", ondelete="cascade"), unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="cascade"))
-    article_id = db.Column(db.Integer, db.ForeignKey("articles.id", ondelete="cascade"))
     
-    # like_id = db.Column(db.Integer, db.ForeignKey("likes.id"))
+    # user = db.relationship("User", back_populates="likes")
+   
+    
+    # article = db.relationship("Article", backref="like_id")
+    
+    # art_id = db.Column(db.Integer, db.ForeignKey("likes.id"), unique=True)
+    
+    
+    like_id = db.Column(db.Integer, db.ForeignKey("likes.id", ondelete="cascade"), unique=True)
 
     # article_id = db.relationship("Article", backref="likes")
     
@@ -291,7 +309,12 @@ class Like(db.Model):
     
     def __repr__(self):
         likes = self
-        return f"<Like {likes.id}{likes.user_id}{likes.article_id}"
+        return f"<Likes {likes.id}{likes.user_id}{likes.article_id}"
+    
+    # def likes(self):
+    #     """Show likes method"""
+    #     return Like.query.filter_by(article_id=self.id).all()
+    
 
 
 

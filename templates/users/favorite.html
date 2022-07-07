@@ -1,39 +1,50 @@
-{% extends 'base.html' %} {% block title %}Favorites{% endblock %} {% block content %}
+{% extends 'base.html' %} {% block titile %}  Favorites {% endblock %}
+
+{% block content %}
+
+<h1 class="text-center mt-3 top-text mb-3">{{ g.user.username }}'s likes</h1>
 
 
-<h1 class="text-center mt-3 top-text mb-3 ">{{ g.user.username }}'s likes</h1>
 
-<div class="card-text mb-auto ">
-    <!-- <h4 class="card-title">Likes</h4> -->
-
-    <ul>
-        {% for article in articles %}
-        <div class="container-row">
-            <div class="row">
-                <h5>{{article.title}}</h5>
-                <h6>{{article.publishedAt}}</h6>
-                <p>{{article.date_added}}</p>
-                <img src="{{article.urlToImage}}"></div>
-            <h6>{{article.author}}</h6>
-            <p>{{article.description}}</p>
-            <a href=" {{article.url}} ">Read more...
-                <i class=" fas fa-external-link-alt "></i>  
+<div class="row">
+    {% for article in articles %}    
+    <div class="col-md-4">
+        <div class="card mb-3">
+             <div class="card-body">
+                <h5 class="card-title">{{ article.title }}</h5>
+                <center>
+            <img src="{{ article.urlToImage }}" class="img">
+                <p class="card-text">{{ article.description }}</p>
+                <a href="{{ article.url }}" class="btn btn-primary">Read More...
+                    <i class="fas fa-angle-double-right"></i>
                 </a>
-            <p>show id for reference: {{article.id}}</p>
-            <p>show like_id for reference: {{likes.id}}</p>
-            <!-- 
-            <form method="POST" action="/users/delete/{{article.like_id}}"> -->
-            <a href="/users/delete/{{article.id}}">
-                <!-- <a href="/users/delete/{{article.id}}"> -->
-                <button class="btn btn-outline-danger">
-                <i class="fas fa-trash"></i>
-                </button>
-                <!-- </form> -->
-            </a>
-            {% endfor %}
+                <p>show id for reference: {{article.id}}</p>
+                <p>show like.id for reference: {{likes.id}}</p>
+                <p>show user.id for reference: {{g.user.id}}</p>
+                <p>show likes_articles_id: {{likes.article_id}}</p>
+                <p>show article likes: {{article.like_id}}</p>
+                {{ article.user_id }}
+                <p>{{likes_id}}</p>
+           
+
+                <a href="/users/delete/{{likes.id}}" class="btn btn-outline-danger">Delete</a>
+                <!-- <a href="/users/unlike/{{ article.id }}" class="btn btn-outline-warning">Unlike</a> -->
+            </div>
         </div>
-    </ul>
-</div>
+    </div>
+    {% endfor %}
+</div> 
+
 
 
 {% endblock %}
+
+ SELECT articles.id AS articles_id, articles.url AS articles_url, articles.author AS articles_author, articles."publishedAt" AS "articles_publishedAt", 
+ articles.title AS articles_title, articles.description AS articles_description, articles."urlToImage" 
+ AS "articles_urlToImage", articles.content AS articles_content, articles.date_added AS articles_date_added, 
+ articles.user_id AS articles_user_id, articles.article_id AS articles_article_id, articles.like_id AS articles_like_id 
+FROM articles 
+
+SELECT likes.id AS likes_id, likes.article_id AS likes_article_id, likes.user_id AS likes_user_id, likes.like_id AS likes_like_id 
+FROM likes
+

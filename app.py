@@ -1,5 +1,6 @@
 from genericpath import exists
 import os
+from tkinter.tix import Select
 
 # from flask import *
 from flask import Flask, jsonify, redirect, render_template, flash, session, g, url_for
@@ -7,6 +8,7 @@ from datetime import date
 from flask_login import current_user, LoginManager, user_logged_in
 import requests
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from flask_debugtoolbar import DebugToolbarExtension
 # from newsapi import NewsApiClient
@@ -240,21 +242,34 @@ def add_likes(likes_id):
     # add_like = Article(user_id=g.user.id, article_id=id)
 
     # add_like = Like(user_id=g.user.id, like_id=id)
-    like = Likes.query.all()
 
-    for like in like:
-        existing_like = Like.query.filter_by(user_id=g.user.id, article_id=likes_id).first()
-        
-        if existing_like:
-            flash("You have already liked this article", "danger")
-            return redirect("/")
-        else:
-            add_like = Like(user_id=g.user.id, article_id=likes_id)
-            db.session.add(add_like)
-            db.session.commit()
-            flash("You have successfully liked this article", "success")
-            return redirect("/users/favorites")
-
+    # if user already liked an article, flash message and redirect to home page 
+    # else add and flash message, redirect to favorites page
+    if Likes.query.filter_by(user_id=g.user.id, article_id=likes_id).first():
+        flash("You have already liked this article", "danger")
+        return redirect("/")
+    
+    else:
+        add_like = Likes(user_id=g.user.id, article_id=likes_id)
+        db.session.add(add_like)
+        db.session.commit()
+        flash("You have successfully liked this article", "success")
+        return redirect("/users/favorites/")
+    
+    
+    
+    
+    # add like to db
+    # add_likes = Likes(user_id=g.user.id, article_id=likes_id)
+    # pdb.set_trace()
+    #[SQL: INSERT INTO likes (article_id, user_id) VALUES (%(article_id)s, %(user_id)s) RETURNING likes.id]
+    
+    # db.session.add(add_likes)
+    # db.session.commit()
+    
+    # return redirect("/")
+    
+    
     # add_like = Likes(user_id=g.user.id, likes_id=likes_id)
     # # # pdb.set_trace()
     

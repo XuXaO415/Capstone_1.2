@@ -34,11 +34,10 @@ class User(db.Model):
     
     # Added this line
     # backref is a relationship that allows you to access the user from the article
-    # articles = db.relationship("Article", backref="user")
+    articles = db.relationship("Article", back_populates="user")
     
     # Added this line
-    articles = db.relationship("Article", back_populates="user")
-    # and
+    
     # like = db.relationship("Likes", back_populates="user")
 
     # Added this line
@@ -252,7 +251,7 @@ class Sports(db.Model):
         return f"<Sports Article {sports_article.id}{sports_article.url}{sports_article.author}{sports_article.publishedAt}{sports_article.title}{sports_article.description}{sports_article.urlToImage}{sports_article.content}"
 class Article(db.Model):
     
-    __tablename__="articles"
+    __tablename__= "articles"
     
     id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.Text,  unique=True)
@@ -269,7 +268,7 @@ class Article(db.Model):
     article_id = db.Column(db.Integer, db.ForeignKey("articles.id", ondelete="cascade"))
     user = db.relationship("User", back_populates="articles")
     
-    like_id = db.Column(db.Integer, db.ForeignKey("likes.id"))
+    # like_id = db.Column(db.Integer, db.ForeignKey("likes.id"))
     # likes = db.relationship("Article", back_populates="likes")
     
     def __repr__(self):
@@ -287,6 +286,10 @@ class Likes(db.Model):
     article_id = db.Column(db.Integer, db.ForeignKey(
         "articles.id", ondelete="cascade"), unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="cascade"))
+ 
+    # article = db.relationship("Article", backref="like", lazy="select")
+    # join condition with foreign key between  likes and articles
+    # article = db.Column(db.Integer, db.ForeignKey("articles.id", ondelete="cascade"))
     
     # user = db.relationship("User", back_populates="likes")
    
@@ -299,15 +302,10 @@ class Likes(db.Model):
     # like_id = db.Column(db.Integer, db.ForeignKey("likes.id", ondelete="cascade"), unique=True)
 
     # article_id = db.relationship("Article", backref="likes")
-    
-    # date_added = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    # url = db.Column(db.Text, unique=True)
-    # author = db.Column(db.Text,  unique=False)
-    # title = db.Column(db.Text, unique=False)
-    
+
     def __repr__(self):
-        likes = self
-        return f"<Likes {likes.id}{likes.user_id}{likes.article_id}"
+        like = self
+        return f"<Likes {like.id}{like.user_id}{like.article_id}"
     
     # def likes(self):
     #     """Show likes method"""

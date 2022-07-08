@@ -242,18 +242,18 @@ def add_likes(likes_id):
     # add_like = Like(user_id=g.user.id, like_id=id)
     like = Likes.query.all()
 
-    for like in likes:
-        existing_like = Likes.query.filter_by(user_id=g.user.id, article_id=likes_id).first()
+    for like in like:
+        existing_like = Like.query.filter_by(user_id=g.user.id, article_id=likes_id).first()
         
         if existing_like:
             flash("You have already liked this article", "danger")
             return redirect("/")
         else:
-            add_like = Likes(user_id=g.user.id, article_id=likes_id)
+            add_like = Like(user_id=g.user.id, article_id=likes_id)
             db.session.add(add_like)
             db.session.commit()
             flash("You have successfully liked this article", "success")
-            return redirect("/")
+            return redirect("/users/favorites")
 
     # add_like = Likes(user_id=g.user.id, likes_id=likes_id)
     # # # pdb.set_trace()
@@ -310,12 +310,12 @@ def delete_like(likes_id):
     #     flash("You are not the authorized user of this account", "danger")
     #     return redirect("/")
     
-    likes = Likes.query.get_or_404(likes_id)
+    likes = Like.query.get_or_404(likes_id)
     if likes.user_id != g.user.id:
         flash("You are not the authorized user of this account", "danger")
         return redirect("/")
     
-    delete_like = Likes.query.filter(user_id=g.user.id, likes_id=likes_id).first()
+    delete_like = Like.query.filter(user_id=g.user.id, likes_id=likes_id).first()
     # pdb.set_trace()
     db.session.delete(delete_like)
     db.session.commit()

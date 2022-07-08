@@ -30,14 +30,13 @@
                     <div>{{world_new.author}} </div>
                     <div>{{world_new.source.name}}</div>
                     <div>{{world_new.publishedAt}}</div>
+                    <!-- <p>{{article_world_new_id}}</p> -->
                 </div>
                 <p class="card-text mb-auto">{{ world_new.description }}</p>
                 <a href="{{ world_new.url }}" target="_blank">Continue reading...</a>
                 <!-- <p>id {{world_new}}</p> -->
-                <!-- <form method="POST" action="/users/{{g.user.id}}/favorite"> -->
-                <form method="POST" action="/users/favorites/{{like_id}}">
+                <form method="POST" action="/users/favorites/{{article_id}}">
                     <button class=" btn btn-sm btn-primary ">
-            <!-- <i class="fa fa-thumbs-up "></i> -->
                        <i class="fas fa-bookmark"></i>
             </button>
 
@@ -60,26 +59,24 @@
                     {{latest_article.author}}
                     <div> {{latest_article.source.name}} </div>
                     <div> {{latest_article.publishedAt}} </div>
+                    <p>{{latest_article.article_id}}</p>
                     <!-- <div>Article: {{latest_article}} </div> -->
 
                 </div>
+
                 <p class="mb-auto my-auto ">{{latest_article.description}}</p>
                 <a href="{{latest_article.url}} " target="_blank ">Continue reading...</a>
-                <form method="POST" action="/users/favorites/{{like_id}}">
-
-                    <!-- <form method="POST" action="/users/favorite/{{latest_article.id}}"> -->
-                    <!-- console.log({{latest_article.url}}) -->
-
-                    <!-- <form method="POST" action="/users/favorite/{{new_art_id}}"> -->
-                    <!-- <form method="POST" action="/users/{{ g.user.id }}/favorite"> -->
-                    <!-- <form method="POST" action="/users/favorite/{{like_id}}"> -->
-
-                    <!-- <form method="POST" action="/users/{{ g.user.id }}/favorite"> -->
+                <!-- <form method="POST" action="/users/favorites/{{latest_article.article_id}}">
                     <button class="btn btn-sm btn-primary ">
-            <!-- <i class="fa fa-thumbs-up "></i> -->
                 <i class="fas fa-bookmark"></i>
             </button>
-                </form>
+                </form> -->
+                <a href="/users/favorites/{{latest_article.id}}">
+                    <button class="btn btn-sm btn-primary ">
+                        <i class="fas fa-bookmark"></i>
+                    </button>
+
+                </a>
                 <hr /> {% endfor%}
 
             </div>

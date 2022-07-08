@@ -13,28 +13,32 @@
                     <strong>{{article.title}}</strong>
                 </center>
             </h3>
-
             <img src="{{article.urlToImage}}" class="float-right" style="width: 60%" />
+            <div class="ln-caption">{{ article.author }}/ {{article.source.name}}</div>
 
-            <div class="ln-caption">{{ article.author }}/{{article.source.name}}</div>
-            <p>{{article.date_published}}</p>
+            <p>{{article.publishedAt}}</p>
             <p>{{article.description}}</p>
-            <a href=" {{ article.url }} " target="_blank">Read more... </a>
-            <div class="row">
-                <form method="POST" action="/users/favorites/{{article_id}}">
-                    console.log({{article_id}});
-                    <button class="btn btn-sm btn-primary">
-                    <i class="fas fa-bookmark"></i>
-               </button>
-                </form>
-                <!-- 
 
-                <form method="POST" action="/users/delete/{{ favorite_article_id }}">
-                    <button class="btn btn-sm btn-secondary">
-            <i class="fa fa-thumbs-down"></i>
+            <a href=" {{ article.url }}" class="btn btn-primary" target="_blank">Read more...
+                <i class="fas fa-external-link-alt"></i>
+            </a>
+
+            <form method="POST" action="/users/favorites/{{article.likes_id}}">
+                <p>{{ article.likes_id }}</p>
+
+                <button class="btn btn-sm btn-primary">
+                    <i class="fas fa-bookmark"></i>
+                    </button>
+            </form>
+
+
+            <!-- [SQL: INSERT INTO likes (article_id, user_id) VALUES (%(article_id)s, %(user_id)s) RETURNING likes.id] -->
+            <form method="POST" action="/users/delete/{{ article.id }}">
+                <button class="btn btn-sm btn-secondary">
+            <i class="fa fa-trash"></i>
           </button>
-                </form> -->
-            </div>
+            </form>
+
         </div>
     </div>
 

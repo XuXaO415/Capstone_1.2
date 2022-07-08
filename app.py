@@ -262,7 +262,7 @@ def add_likes(likes_id):
     # add like to db
     # add_likes = Likes(user_id=g.user.id, article_id=likes_id)
     # pdb.set_trace()
-    #[SQL: INSERT INTO likes (article_id, user_id) VALUES (%(article_id)s, %(user_id)s) RETURNING likes.id]
+
     
     # db.session.add(add_likes)
     # db.session.commit()
@@ -293,7 +293,6 @@ def list_likes():
                 .query
                 .order_by(Article.date_added.desc())
                 .order_by(Article.id)
-                #.limit(25)
                 .all())
 
 
@@ -320,26 +319,25 @@ def list_likes():
 @app.route("/users/delete/<int:likes_id>", methods=["GET", "POST"])
 def delete_like(likes_id):
     """Currently logged in user can delete their favorite story"""
-    
-    # if not g.user:
-    #     flash("You are not the authorized user of this account", "danger")
-    #     return redirect("/")
-    
-    likes = Like.query.get_or_404(likes_id)
-    if likes.user_id != g.user.id:
+        
+    if not g.user:
         flash("You are not the authorized user of this account", "danger")
         return redirect("/")
     
-    delete_like = Like.query.filter(user_id=g.user.id, likes_id=likes_id).first()
+    # delete_like = Likes.query.get_or_404(likes_id)
     # pdb.set_trace()
-    db.session.delete(delete_like)
-    db.session.commit()
     
-    flash("You have successfully deleted this article", "success")
-    return redirect(f"/users/favorites")
-
-
-
+    if Likes.query.filter_by(user_id=g.user.id, article_id=likes_id).first():
+        delete_like = Likes.query.filter_by(user_id=g.user.id, article_id=likes_id).first()
+        db.session.delete(delete_like)
+        db.session.commit()
+        # pdb.set_trace()
+        flash("You have successfully deleted this article", "success")
+        return redirect("/users/favorites")
+    
+    else:
+        return redirect("/")
+   
     # remove_article = Article.query.filter_by(id=id).first()
     # remove_like = Article(user_id=g.user.id, article_id=id)
 

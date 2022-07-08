@@ -19,16 +19,18 @@
                     <i class="fas fa-angle-double-right"></i>
                 </a>
                 <p>show id for reference: {{article.id}}</p>
-                <p>show like.id for reference: {{likes.id}}</p>
+                <p>show like.id for reference: {{likes}}</p>
                 <p>show user.id for reference: {{g.user.id}}</p>
                 <p>show likes_articles_id: {{likes.article_id}}</p>
-                <p>show article likes: {{article.like_id}}</p>
-                {{ article.user_id }}
-                <p>{{likes_id}}</p>
+                <p>show article likes: {{ article.likes_id }}</p>
+                <p>{{ article.title }}</p>
+                {{ articles.article_id }}
+                {{article.date_added}}
+              
            
 
-                <a href="/users/delete/{{likes.id}}" class="btn btn-outline-danger">Delete</a>
-                <!-- <a href="/users/unlike/{{ article.id }}" class="btn btn-outline-warning">Unlike</a> -->
+                <a href="/users/delete/{{article.id}}" class="btn btn-outline-danger">Delete</a>
+             
             </div>
         </div>
     </div>
@@ -40,12 +42,8 @@
 
 {% endblock %}
 
- SELECT articles.id AS articles_id, articles.url AS articles_url, articles.author AS articles_author, articles."publishedAt" AS "articles_publishedAt", 
- articles.title AS articles_title, articles.description AS articles_description, articles."urlToImage" 
- AS "articles_urlToImage", articles.content AS articles_content, articles.date_added AS articles_date_added, 
- articles.user_id AS articles_user_id, articles.article_id AS articles_article_id, articles.like_id AS articles_like_id 
-FROM articles 
 
-SELECT likes.id AS likes_id, likes.article_id AS likes_article_id, likes.user_id AS likes_user_id, likes.like_id AS likes_like_id 
-FROM likes
+
+<!-- SELECT likes.id AS likes_id, likes.article_id AS likes_article_id, likes.user_id AS likes_user_id, likes.like_id AS likes_like_id 
+FROM likes -->
 

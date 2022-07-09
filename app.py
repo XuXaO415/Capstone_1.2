@@ -107,8 +107,8 @@ def homepage():
 def signup():
     """Handle user registration"""
     
-    # if CURR_USER_KEY in session:
-    #     del session[CURR_USER_KEY]
+    if CURR_USER_KEY in session:
+        del session[CURR_USER_KEY]
     
     form = UserAddForm()
     
@@ -124,6 +124,7 @@ def signup():
             )
             db.session.add(user)
             db.session.commit()
+            # pdb.set_trace()
             
         except IntegrityError:
             flash("Sorry, that username is already taken", "error")
@@ -257,30 +258,9 @@ def add_likes(likes_id):
         return redirect("/users/favorites/")
     
     
-    
-    
-    # add like to db
-    # add_likes = Likes(user_id=g.user.id, article_id=likes_id)
-    # pdb.set_trace()
-
-    
-    # db.session.add(add_likes)
-    # db.session.commit()
-    
-    # return redirect("/")
-    
-    
-    # add_like = Likes(user_id=g.user.id, likes_id=likes_id)
-    # # # pdb.set_trace()
-    
-    # db.session.add(add_like)
-    # db.session.commit()
-
-    # flash("You have successfully liked this article", "success")
-    
-    # return redirect(f"/users/favorites")
-
-    
+##############################################################################
+# User Favorites
+##############################################################################
 
 
 @app.route("/users/favorites/", methods=["GET", "POST"])

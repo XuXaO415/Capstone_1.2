@@ -18,7 +18,8 @@
                 <a href="{{ article.url }}" class="btn btn-primary" target="_blank">Read More...
                     <i class="fas fa-angle-double-right"></i>
                 </a>
-                <p>article.id:  {{article.id}}</p>
+                <!-- likes.id is article.id -->
+                <p>likes.id:  {{article.id}}</p>
                 <p>show likes for reference: {{likes}}</p>
                 <p>show user.id for reference: {{g.user.id}}</p>
                 <p>show likes_articles_id: {{likes.article_id}}</p>
@@ -29,6 +30,13 @@
                 <p>likes.article.id: {{likes.article_id}}</p>
                 <p>article.date_added: {{article.date_added}}</p>
                 <p>{{likes.article_id}}</p>
+
+                <p>{{likes.user_id}}</p>
+                <p>article.like_id => like.id: {{article.id}}</p>
+                <p>article.user_id: {{article.user_id}}</p>
+                <p>article.like_id: {{article.article_id}}</p>
+               
+
               
            
 

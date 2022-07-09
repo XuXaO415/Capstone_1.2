@@ -281,7 +281,8 @@ def list_likes():
     #             .order_by(Article.like_id)
     #             .order_by(Article.date_added.desc())
     #             .all())
-
+    art = Likes.query.filter_by(user_id=g.user.id).all()
+    
     article = (Likes
             .query
             .order_by(Likes.id)
@@ -301,7 +302,7 @@ def list_likes():
     #          .order_by(Likes.user_id)
     #          .all())
     #
-    return render_template("/users/favorite.html", likes=like, articles=article)
+    return render_template("/users/favorite.html", likes=like, articles=article, art=art)
         # return render_template("/users/favorite.html")
 
 

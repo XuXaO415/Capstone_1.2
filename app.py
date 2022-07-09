@@ -5,18 +5,19 @@ from tkinter.tix import Select
 # from flask import *
 from flask import Flask, jsonify, redirect, render_template, flash, session, g, url_for
 from datetime import date
-from flask_login import current_user, LoginManager, user_logged_in
+from flask_login import current_user, LoginManager, login_user, login_required, logout_user
 import requests
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from flask_debugtoolbar import DebugToolbarExtension
-# from newsapi import NewsApiClient
+
 import pdb
 
 from yaml import serialize
 #################################################################################
 from forms import UserAddForm, LoginForm, UserEditForm
+from flask_wtf import FlaskForm
 from models import Article, db, connect_db, User, Article, Likes,  LatestArticle, TopArticle, WorldNews, Technology, Business, USPolity, Science, Health
 #######################################ß##########################################
 # from secrets import api_key
@@ -26,6 +27,7 @@ load_dotenv()
 
 app = Flask(__name__)
 
+
 CURR_USER_KEY = "curr_user"
 
 
@@ -34,14 +36,15 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SECRET_KEY'] = os.environ.get('API_KEY', 'SECRET_KEY')
-##'This is classified information'
+
+login = login_manager = LoginManager()
+login_manager.login_view = 'login'
 
 toolbar = DebugToolbarExtension(app)
-# db = SQLAlchemy(app)
 
 connect_db(app)
 
-    
+
 ##############################################################################
 # Add user to g
 ##############################################################################
@@ -50,7 +53,6 @@ connect_db(app)
 def add_user_to_g():
     """If we're logged in, add curr user to Flask global."""
 
-    # pdb.set_trace()
     if CURR_USER_KEY in session:
         g.user = User.query.get(session[CURR_USER_KEY])
 
@@ -74,6 +76,8 @@ def do_logout():
 
     if CURR_USER_KEY in session:
         del session[CURR_USER_KEY]
+     
+     
         
 ##############################################################################
 # Homepage
@@ -142,7 +146,7 @@ def signup():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """Handle user login"""
-    
+        
     form = LoginForm()
     
     if form.validate_on_submit():
@@ -170,14 +174,11 @@ def show_user_profile(user_id):
     return render_template('users/profile.html', user=user)
 
 
-# nea_db =  # SELECT DISTINCT date_published FROM likes
-# nea_db-  # ORDER BY date_published ASC;
-
-
 ##############################################################################
 # User profile edit form
 ##############################################################################
 @app.route("/users/<int:user_id>/edit", methods=["GET", "POST"])
+# @login_required
 def edit_user(user_id):
     """Edit user profile"""
     
@@ -187,6 +188,7 @@ def edit_user(user_id):
     
     user = g.user
     form = UserEditForm(obj=g.user)
+
         
     if form.validate_on_submit():
         if User.authenticate(form.username.data, form.password.data):
@@ -367,9 +369,11 @@ def page_not_found(e):
 def show_latest_articles():
     API_SECRET_KEY = os.getenv('API_SECRET_KEY')
     
-    # url = ('https://newsapi.org/v2/top-headlines?' 'language=en' 'qinTitle=query' 'apiKey={API_SECRET_KEY}')
-    # res = requests.get(url)
-    # print(res.text)
+    url = ('https://newsapi.org/v2/top-headlines?' 'language=en' 'qinTitle=query' 'apiKey={API_SECRET_KEY}')
+    res = requests.get(url)
+    print(res.text)
+    
+    
     res = requests.get(
         f"https://newsapi.org/v2/top-headlines?category=general&country=us&pageSize=10&apiKey={API_SECRET_KEY}")
     # pdb.set_trace()
@@ -380,7 +384,8 @@ def show_latest_articles():
         existing_art = Article.query.filter_by(url=article['url']).first()
         if not existing_art:
             new_art = Article(url=article['url'], author=article['author'],  title=article['title'],
-                          description=article['description'], urlToImage=article['urlToImage'], content=article['content'], date_added=date.today())
+                          description=article['description'], urlToImage=article['urlToImage'], content=article['content'], 
+                          date_added=date.today())
             db.session.add(new_art)
         # pdb.set_trace()
             db.session.commit()
@@ -478,14 +483,21 @@ def search_all_articles():
     API_KEY = os.getenv('API_KEY')
     API_SECRET_KEY = os.getenv('API_SECRET_KEY')
     
+    # pdb.set_trace()
     querystring = {
-        "query": request.args['q'], "sort_by": "relevant", "use_lucene_syntax": "true"}
+        "query": requests.args['q'], "sort_by": "relevant", "use_lucene_syntax": "true"}
+  
     
     latestquery = {
-        "query": request.args['q'],  "sort_by": "recent", "use_lucene_syntax": "true"}
+        "query": requests.args['q'],  "sort_by": "recent", "use_lucene_syntax": "true"}
     
-    querytitle = {"query": "+title:\"China Is Mining Bitcoin Underground: Report\"",
-                  "sort_by": "recent", "use_lucene_syntax": "true"}
+    # res = requests.get(
+    #     "https://api.newsapi.org/v2/everything", params=querystring, headers={"X-Api-Key": API_SECRET_KEY})
+    
+    
+    # querytitle = {
+    #     "query": "+title:\"China Is Mining Bitcoin Underground: Report\"",
+    #               "sort_by": "recent", "use_lucene_syntax": "true"}
 
     
     headers = {
@@ -504,22 +516,45 @@ def search_all_articles():
                             params=latestquery)
     
     response = requests.get(url)
+    print(response.json())
+    
+    title_requests = response.json()['articles']
+    print(title_requests)
+    
     
     relevant_articles = relevant_response.json()
     rel_art = relevant_articles['articles'][0:10]
+    
+    recent_articles = recent_response.json()
+    rec_art = recent_articles['articles'][0:10]
+    
+    
+    
     for art in rel_art:
         res = requests.get(f"https://newsapi.org/v2/top-headlines?country=us&apiKey={API_SECRET_KEY}"
         # res = requests.get(f"https://newsapi.org/v2/everything?qinTitle=China Is Mining Bitcoin Underground: Report&apiKey={API_SECRET_KEY}"
                                     )
         print(res.json()['articles'][0]['description'])
         art['description'] = res.json()['articles'][0]['description']
-    
-    title_request = response.json()
-    print (response.text)
+        
+        for art in rec_art:
+            res = requests.get(f"https://newsapi.org/v2/top-headlines?country=us&apiKey={API_SECRET_KEY}"
+            # res = requests.get(f"https://newsapi.org/v2/everything?qinTitle=China Is Mining Bitcoin Underground: Report&apiKey={API_SECRET_KEY}"
+                                        )
+            print(res.json()['articles'][0]['description'])
+            art['description'] = res.json()['articles'][0]['description']
+            
+    return render_template("top_articles.html", articles=rel_art, title='Search Results', articles2=rec_art)
 
-    # return jsonify(top_articles)
+
+    
+    # title_request = response.json()
+    # print (response.text)
+
+    # # return jsonify(top_articles)
    
-    return render_template("top_articles.html", top_articles=relevant_articles['articles'][0:10], titlequery=title_request)
+    # return render_template("top_articles.html", top_articles=relevant_articles['articles'][0:10],
+    #                        new_articles=recent_articles['articles'][0:10], titlequery=title_request)
 
 
     # return render_template("latest_articles.html", latest_articles=recent_articles['articles'][0:10], titlequery=title_request)

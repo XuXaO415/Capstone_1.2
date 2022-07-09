@@ -8,6 +8,7 @@ from datetime import date
 from flask_login import current_user, LoginManager, login_user, login_required, logout_user
 import requests
 from flask_sqlalchemy import SQLAlchemy
+from flask_moment import Moment
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from flask_debugtoolbar import DebugToolbarExtension
@@ -26,6 +27,8 @@ load_dotenv()
 #################################################################################
 
 app = Flask(__name__)
+
+moment = Moment(app)
 
 
 CURR_USER_KEY = "curr_user"
@@ -271,26 +274,34 @@ def list_likes():
 
 
     #articles query to get all articles and order by date_added desc, id
-    articles = (Article
-                .query
-                .order_by(Article.date_added.desc())
-                .order_by(Article.id)
-                .all())
+    # articles = (Article
+    #             .query
+    #             .order_by(Article.id)
+    #             .order_by(Article.user_id)
+    #             .order_by(Article.like_id)
+    #             .order_by(Article.date_added.desc())
+    #             .all())
 
+    article = (Likes
+            .query
+            .order_by(Likes.id)
+            .order_by(Likes.user_id)
+            .order_by(Likes.article_id)
+            .all())
 
     #likes query to get all likes and order by date_added desc, id
     
     
-    # likes = Likes.query.all()
+    like = Likes.query.all()
     """List all liked articles"""
-    likes = (Likes
-             .query
-             .order_by(Likes.id)
-             .order_by(Likes.article_id)
-             .order_by(Likes.user_id)
-             .all())
+    # likes = (Likes
+    #          .query
+    #          .order_by(Likes.id)
+    #          .order_by(Likes.article_id)
+    #          .order_by(Likes.user_id)
+    #          .all())
     #
-    return render_template("/users/favorite.html", likes=likes, articles=articles)
+    return render_template("/users/favorite.html", likes=like, articles=article)
         # return render_template("/users/favorite.html")
 
 
@@ -300,7 +311,7 @@ def list_likes():
 
 @app.route("/users/delete/<int:likes_id>", methods=["GET", "POST"])
 def delete_like(likes_id):
-    """Currently logged in user can delete their favorite story"""
+    """Current logged in user can delete their favorite story"""
         
     if not g.user:
         flash("You are not the authorized user of this account", "danger")
@@ -310,7 +321,9 @@ def delete_like(likes_id):
     # pdb.set_trace()
     
     if Likes.query.filter_by(user_id=g.user.id, article_id=likes_id).first():
-        delete_like = Likes.query.filter_by(user_id=g.user.id, article_id=likes_id).first()
+        # delete_like = Likes.query.filter_by(user_id=g.user.id, article_id=likes_id).first()
+        delete_like = Likes.query.filter_by(
+            user_id=g.user.id, likes_id=likes_id).first()
         db.session.delete(delete_like)
         db.session.commit()
         # pdb.set_trace()
@@ -385,7 +398,7 @@ def show_latest_articles():
         if not existing_art:
             new_art = Article(url=article['url'], author=article['author'],  title=article['title'],
                           description=article['description'], urlToImage=article['urlToImage'], content=article['content'], 
-                          date_added=date.today())
+                          date_added=date.today(), user_id=g.user.id)
             db.session.add(new_art)
         # pdb.set_trace()
             db.session.commit()

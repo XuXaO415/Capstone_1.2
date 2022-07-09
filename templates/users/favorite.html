@@ -18,14 +18,17 @@
                 <a href="{{ article.url }}" class="btn btn-primary" target="_blank">Read More...
                     <i class="fas fa-angle-double-right"></i>
                 </a>
-                <p>show id for reference: {{article.id}}</p>
-                <p>show like.id for reference: {{likes}}</p>
+                <p>article.id:  {{article.id}}</p>
+                <p>show likes for reference: {{likes}}</p>
                 <p>show user.id for reference: {{g.user.id}}</p>
                 <p>show likes_articles_id: {{likes.article_id}}</p>
-                <p>show article likes: {{ article.likes_id }}</p>
-                <p>{{ article.title }}</p>
-                {{ articles.article_id }}
-                {{article.date_added}}
+                <p>show article likes: {{ article.like_id }}</p>
+                <p>show likes_user_id: {{likes.user_id}}</p>
+                <p>show likes_id: {{likes.id}}</p>
+                <p>article.user_id: {{article.user_id}}</p>
+                <p>likes.article.id: {{likes.article_id}}</p>
+                <p>article.date_added: {{article.date_added}}</p>
+                <p>{{likes.article_id}}</p>
               
            
 
@@ -37,13 +40,20 @@
     {% endfor %}
     
 </div> 
-
-
-
 {% endblock %}
 
 
 
 <!-- SELECT likes.id AS likes_id, likes.article_id AS likes_article_id, likes.user_id AS likes_user_id, likes.like_id AS likes_like_id 
 FROM likes -->
+
+
+
+
+
+
+
+
+
+
 

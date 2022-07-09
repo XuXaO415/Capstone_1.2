@@ -1,4 +1,5 @@
 from datetime import datetime
+from operator import index
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_manager
@@ -22,7 +23,7 @@ class User(db.Model):
 
     __tablename__ = "users"
 
-    # Added ForeignKey to user_id
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     first_name = db.Column(db.Text, nullable=False)
     last_name = db.Column(db.Text, nullable=False)
@@ -33,19 +34,19 @@ class User(db.Model):
     
     
     # Added this line
-    # backref is a relationship that allows you to access the user from the article
-    articles = db.relationship("Article", back_populates="user")
-    
+    # back_populates is a relationship that allows you to access the user from the article
+    # lazy dynamically loads the user when you access the user
+    articles = db.relationship("Article", backref="user")
     # Added this line
+    # back_populates is a relationship that allows you to access the user from the like
+    likes = db.relationship("Likes", backref="user")
     
-    # like = db.relationship("Likes", back_populates="user")
+    # backref argument defines a relationship that will be created on the other model?
+    
+    def __repr__(self):
+        return f"<User #{self.id}: {self.username}, {self.email}>"
+    
 
-    # Added this line
-    # likes = db.relationship("Like", backref="user")
-    
-    
-    # likes = db.relationship("Like", back_populates="user")
-    # likes = db.relationship('User', secondary='likes')
 
     @classmethod
     def signup(cls, first_name, last_name, email, username, pwd):
@@ -133,10 +134,6 @@ class WorldNews(db.Model):
         world_new = self
         return f"<World New {world_new.id} {world_new.url}{world_new.author}{world_new.publishedAt}{world_new.title}{world_new.description}{world_new.urlToImage}{world_new.content}>"
     
-    # def __repr__(self):
-    #     return f'<World News {self.id} {self.url} {self.author} {self.publishedAt} {self.title} {self.description} {self.urlToImage} {self.content}>'
-    
-
 
 class Technology(db.Model):
     """List tech news -- from NewsAPI"""
@@ -249,56 +246,67 @@ class Sports(db.Model):
     def __repr__(self):
         sports_article = self
         return f"<Sports Article {sports_article.id}{sports_article.url}{sports_article.author}{sports_article.publishedAt}{sports_article.title}{sports_article.description}{sports_article.urlToImage}{sports_article.content}"
+
+
 class Article(db.Model):
-    
-    __tablename__= "articles"
-    
+
+    __tablename__ = "articles"
+
     id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.Text,  unique=True)
     author = db.Column(db.Text, unique=False)
-    publishedAt = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    publishedAt = db.Column(db.DateTime, nullable=False,
+                            default=datetime.utcnow)
     title = db.Column(db.Text, nullable=True, unique=False)
     description = db.Column(db.Text)
     urlToImage = db.Column(db.Text)
     content = db.Column(db.String(500))
-    date_added = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    
-    # Added lines below to create a relationship to the User table
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="cascade"))
-    article_id = db.Column(db.Integer, db.ForeignKey("articles.id", ondelete="cascade"))
-    user = db.relationship("User", back_populates="articles")
-    
-    # like_id = db.Column(db.Integer, db.ForeignKey("likes.id"))
-    # likes = db.relationship("Article", back_populates="likes")
-    
-    def __repr__(self):
-        articles = self
-        return f"<Article {articles.id}{articles.url}{articles.author}{articles.publishedAt}{articles.title}{articles.description}{articles.urlToImage}{articles.content}{articles.date_added}{articles.user_id}{articles.article_id}"
+    date_added = db.Column(db.DateTime, nullable=False,
+                           default=datetime.utcnow)
 
+    # Added lines below to create a relationship to the User table
+    user_id = db.Column(db.Integer, db.ForeignKey(
+        "users.id", ondelete="cascade"))
+    like_id = db.Column(db.Integer, db.ForeignKey(
+        "likes.id", ondelete="cascade"))
+
+    # I don't think I need this line...for now
+    # article_id = db.Column(db.Integer, db.ForeignKey("articles.id", ondelete="cascade"))
+
+    # I don't think I need this line...for now
+    # user = db.relationship("User", back_populates="articles")
+
+    def __repr__(self):
+        return f"<Article {self.title}>"
+
+    # def __repr__(self):
+    #     articles = self
+    #     return f"<Article {articles.id}{articles.url}{articles.author}{articles.publishedAt}{articles.title}{articles.description}{articles.urlToImage}{articles.content}{articles.date_added}{articles.user_id}{articles.article_id}"
 
 
 class Likes(db.Model):
     """Mapping user likes to article"""
-    
+
     __tablename__ = "likes"
-    
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     article_id = db.Column(db.Integer, db.ForeignKey(
         "articles.id", ondelete="cascade"), unique=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="cascade"))
- 
+    user_id = db.Column(db.Integer, db.ForeignKey(
+        "users.id", ondelete="cascade"))
+
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+
     # article = db.relationship("Article", backref="like", lazy="select")
     # join condition with foreign key between  likes and articles
     # article = db.Column(db.Integer, db.ForeignKey("articles.id", ondelete="cascade"))
-    
+
     # user = db.relationship("User", back_populates="likes")
-   
-    
+
     # article = db.relationship("Article", backref="like_id")
-    
+
     # art_id = db.Column(db.Integer, db.ForeignKey("likes.id"), unique=True)
-    
-    
+
     # like_id = db.Column(db.Integer, db.ForeignKey("likes.id", ondelete="cascade"), unique=True)
 
     # article_id = db.relationship("Article", backref="likes")
@@ -306,11 +314,14 @@ class Likes(db.Model):
     def __repr__(self):
         like = self
         return f"<Likes {like.id}{like.user_id}{like.article_id}"
-    
-    # def likes(self):
-    #     """Show likes method"""
-    #     return Like.query.filter_by(article_id=self.id).all()
-    
+
+    # @classmethod
+    # def register(cls, **kwargs):
+    #     """Register user with hashed password and return user"""
+
+    #     hashed = bcrypt.generate_password_hash(kwargs["password"]).decode("UTF-8")
+    #     kwargs["password"] = hashed
+    #     return cls(**kwargs)
 
 
 

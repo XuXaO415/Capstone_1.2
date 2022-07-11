@@ -20,7 +20,8 @@
     <div class="col-md-6">
         <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
             <div class="col p-4 d-flex flex-column position-static">
-                <strong class="d-inline-block mb-2 text-primary">World News</strong> {% for world_new in world_news %}
+                <strong class="d-inline-block mb-2 text-primary">World News</strong> 
+                {% for world_new in world_news %}
                 <h3 class="mb-0">{{world_new.title}}</h3>
                 <center>
                     <img src="{{world_new.urlToImage}} " />
@@ -30,12 +31,12 @@
                     <div>{{world_new.author}} </div>
                     <div>{{world_new.source.name}}</div>
                     <div>{{world_new.publishedAt}}</div>
-                    <!-- <p>{{article_world_new_id}}</p> -->
+                    <p>{{world_new.id}}</p>
                 </div>
                 <p class="card-text mb-auto">{{ world_new.description }}</p>
                 <a href="{{ world_new.url }}" target="_blank">Continue reading...</a>
                 <!-- <p>id {{world_new}}</p> -->
-                <form method="POST" action="/users/favorites/{{article_id}}">
+                <form method="POST" action="/users/favorites/{{world_new.id}}">
                     <button class=" btn btn-sm btn-primary ">
                        <i class="fas fa-bookmark"></i>
             </button>
@@ -49,34 +50,39 @@
     <div class="col-md-6 ">
         <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative ">
             <div class="col p-4 d-flex flex-column position-static ">
-                <strong class="d-inline-block mb-2 text-success ">Trending News</strong> {% for latest_article in latest_articles %}
+                <strong class="d-inline-block mb-2 text-success ">Trending News</strong> 
+                {% for latest_article in latest_articles %}
                 <h3 class="mb-0 ">{{latest_article.title}}</h3>
+                <!-- <h3>{{latest_article.id}}</h3> -->
                 <center>
                     <img src="{{latest_article.urlToImage}} " />
                 </center>
 
-                <div class="mb-1 text-muted ">
+                <div class="mb-1 text-muted">
                     {{latest_article.author}}
                     <div> {{latest_article.source.name}} </div>
                     <div> {{latest_article.publishedAt}} </div>
-                    <p>{{latest_article.article_id}}</p>
+                    <p>{{latest_article.id}}</p>
                     <!-- <div>Article: {{latest_article}} </div> -->
 
                 </div>
 
                 <p class="mb-auto my-auto ">{{latest_article.description}}</p>
-                <a href="{{latest_article.url}} " target="_blank ">Continue reading...</a>
-                <!-- <form method="POST" action="/users/favorites/{{latest_article.article_id}}">
+                <a href="{{latest_article.url}} " target="_blank ">Continue reading...   </a>
+                <form method="POST"  action="/users/favorites/{{latest_article.id}}">
                     <button class="btn btn-sm btn-primary ">
                 <i class="fas fa-bookmark"></i>
             </button>
-                </form> -->
-                <a href="/users/favorites/{{latest_article.id}}">
+                </form>
+
+                <!-- <a href="/users/favorites/{{latest_article_id}}">
                     <button class="btn btn-sm btn-primary ">
                         <i class="fas fa-bookmark"></i>
                     </button>
+                </a> -->
 
-                </a>
+
+
                 <hr /> {% endfor%}
 
             </div>

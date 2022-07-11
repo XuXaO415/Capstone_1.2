@@ -31,10 +31,13 @@
                 </button> -->
             <form method="POST" action="/users/favorites/{{latest_article.id}}">
                 <p>{{ latest_article.id }}</p>
-                <button class="btn btn-sm btn-primary">
-            <i class="fas fa-bookmark"></i>
-               </button>
-                <!-- <form method="POST" action="/users/delete/{{ latest_articles.id }}">
+                <p>{{latest_article.user_id}}</p>
+
+
+                    <button class="btn btn-sm btn-primary">
+                    <i class="fas fa-bookmark"></i>
+                    </button>
+                    <!-- <form method="POST" action="/users/delete/{{ latest_articles.id }}">
                     <button class="btn btn-sm btn-secondary">
             <i class="fa fa-thumbs-down"></i>
           </button>

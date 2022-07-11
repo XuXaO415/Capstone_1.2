@@ -292,24 +292,25 @@ def list_likes():
             .all())
 
     #likes query to get all likes and order by date_added desc, id
-    like = (Article
-            .query
-            .order_by(Article.id)
-            .order_by(Article.user_id)
-            .order_by(Article.like_id)
-            .all())
-    
-
-    
+    # like = (Article
+    #         .query
+    #         .order_by(Article.id)
+    #         .order_by(Article.user_id)
+    #         .order_by(Article.like_id)
+    #         .order_by(Article.date_added.desc())
+    #         .order_by(Article.title)
+    #         .order_by(Article.description)
+    #         .all())
     
     # like = Likes.query.all()
+    
     """List all liked articles"""
-    # like = (Likes
-    #          .query
-    #          .order_by(Likes.id)
-    #          .order_by(Likes.article_id)
-    #          .order_by(Likes.user_id)
-    #          .all())
+    like = (Likes
+             .query
+             .order_by(Likes.id)
+             .order_by(Likes.article_id)
+             .order_by(Likes.user_id)
+             .all())
     #
     return render_template("/users/favorite.html", likes=like, articles=article)
         # return render_template("/users/favorite.html")
@@ -330,7 +331,9 @@ def delete_like(likes_id):
     # delete_like = Likes.query.get_or_404(likes_id)
     # pdb.set_trace()
     
-    if Likes.query.filter_by(user_id=g.user.id, article_id=likes_id).first():
+    # if Likes.query.filter_by(user_id=g.user.id, article_id=likes_id).first():
+    
+    if Likes.query.all():
         # delete_like = Likes.query.filter_by(user_id=g.user.id, article_id=likes_id).first()
         delete_like = Likes.query.filter_by(
             user_id=g.user.id, article_id=likes_id).first()
@@ -407,8 +410,9 @@ def show_latest_articles():
         existing_art = Article.query.filter_by(url=article['url']).first()
         if not existing_art:
             new_art = Article(url=article['url'], author=article['author'],  title=article['title'],
-                          description=article['description'], urlToImage=article['urlToImage'], content=article['content'], 
-                          date_added=date.today(), user_id=g.user.id)
+                          description=article['description'], urlToImage=article['urlToImage'], content=article['content'],
+                           user_id=article['user_id'], date_added=article['date_added'], like_id=article['like_id'])
+                           
             db.session.add(new_art)
         # pdb.set_trace()
             db.session.commit()

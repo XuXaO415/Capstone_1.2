@@ -386,6 +386,30 @@ def page_not_found(e):
     """404 Not Found"""
     return render_template("404.html"), 404
 
+##############################################################################
+# save_article function that saves the articles to the database
+##############################################################################
+def save_article(res):
+    """Save article to database"""
+    articles = res.json()['articles']
+
+    for article in articles:
+        existing_art = Article.query.filter_by(url=article['url']).first()
+        if not existing_art:
+            new_art = Article(url=article['url'], author=article['author'],  title=article['title'],
+                              description=article['description'], urlToImage=article['urlToImage'], content=article['content'])
+            #    user_id=article['user_id'], date_added=article['date_added'], like_id=article['like_id'])
+
+            db.session.add(new_art)
+        # pdb.set_trace()
+            db.session.commit()
+
+            article['id'] = new_art.id
+        else:
+            article['id'] = existing_art.id
+
+    return articles
+
 
 ##############################################################################
 # Homepage quick link that displays latest news
@@ -425,7 +449,7 @@ def show_world_news():
     
     return render_template("article_list.html", articles=world_new, title='World News')
 ##############################################################################
-# Homepage quick link that displays tech news
+# Page link displays tech news
 ##############################################################################
 
 @app.route("/technology", methods=["GET", "POST"])
@@ -438,7 +462,9 @@ def show_tech_news():
     
     return render_template("article_list.html", articles=tech_news, title='Technology')
     
-    
+##############################################################################
+# Page link that displays business news
+##############################################################################
 @app.route("/business", methods=["GET","POST"])
 def show_business_news():
     API_SECRET_KEY = os.getenv('API_SECRET_KEY')
@@ -450,7 +476,9 @@ def show_business_news():
  
     return render_template("article_list.html", articles=business_news, title='Business')
 
-
+##############################################################################
+# Page link that displays US news
+##############################################################################
 @app.route("/us_news", methods=["GET", "POST"])
 def show_us_news():
     API_SECRET_KEY = os.getenv('API_SECRET_KEY')
@@ -461,7 +489,9 @@ def show_us_news():
     
     return render_template("article_list.html", articles=national_news, title='U.S News')
 
-
+##############################################################################
+# Page link that displays science news
+##############################################################################
 @app.route("/science", methods=["GET", "POST"])
 def show_science_news():
     API_SECRET_KEY = os.getenv('API_SECRET_KEY')
@@ -472,17 +502,17 @@ def show_science_news():
 
     return render_template("article_list.html", articles=science_news, title='Science')
 
-
+##############################################################################
+# Pag link that displays health news
+##############################################################################
 @app.route("/health", methods=["GET", "POST"])
 def show_health_news():
     API_SECRET_KEY = os.getenv('API_SECRET_KEY')
     res = requests.get(
         f"https://newsapi.org/v2/top-headlines?category=health&country=us&pageSize=15&apiKey={API_SECRET_KEY}")
     
-    
     health_news = save_article(res)
 
-    
     return render_template("article_list.html", articles=health_news, title='Health')
 ##############################################################################
 # Search box for all news
@@ -582,23 +612,3 @@ def add_header(req):
 
 
 ##############################################################################
-def save_article(res):
-    articles = res.json()['articles']
-
-    for article in articles:
-        # pdb.set_trace()
-        existing_art = Article.query.filter_by(url=article['url']).first()
-        if not existing_art:
-            new_art = Article(url=article['url'], author=article['author'],  title=article['title'],
-                          description=article['description'], urlToImage=article['urlToImage'], content=article['content'])
-                        #    user_id=article['user_id'], date_added=article['date_added'], like_id=article['like_id'])
-           
-            db.session.add(new_art)
-        # pdb.set_trace()
-            db.session.commit()
-
-            article['id'] = new_art.id
-        else: 
-            article['id'] = existing_art.id
-            
-    return articles

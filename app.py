@@ -405,7 +405,7 @@ def show_latest_articles():
     
     res = requests.get(
         f"https://newsapi.org/v2/top-headlines?category=general&country=us&pageSize=10&apiKey={API_SECRET_KEY}")
-    # pdb.set_trace()
+
     latest_article = save_article(res)
 
     return render_template("latest_articles.html", latest_articles=latest_article)
@@ -433,8 +433,9 @@ def show_tech_news():
     API_SECRET_KEY = os.getenv('API_SECRET_KEY')
     res = requests.get(
         f"https://newsapi.org/v2/top-headlines?category=technology&country=us&pageSize=15&apiKey={API_SECRET_KEY}")
-    tech_news = res.json()['articles']
-    print(res.json())
+    
+    tech_news = save_article(res)
+    
     return render_template("article_list.html", articles=tech_news, title='Technology')
     
     
@@ -444,8 +445,9 @@ def show_business_news():
     
     res = requests.get(
         f"https://newsapi.org/v2/top-headlines?category=business&country=us&pageSize=15&apiKey={API_SECRET_KEY}")
-    business_news = res.json()['articles']
-    print(res.json())
+    
+    business_news = save_article(res)
+ 
     return render_template("article_list.html", articles=business_news, title='Business')
 
 
@@ -454,8 +456,9 @@ def show_us_news():
     API_SECRET_KEY = os.getenv('API_SECRET_KEY')
     res = requests.get(
         f"https://newsapi.org/v2/top-headlines?country=us&pageSize=15&apiKey={API_SECRET_KEY}")
-    national_news = res.json()['articles']
-    print(res.json())
+    
+    national_news = save_article(res)
+    
     return render_template("article_list.html", articles=national_news, title='U.S News')
 
 
@@ -464,9 +467,10 @@ def show_science_news():
     API_SECRET_KEY = os.getenv('API_SECRET_KEY')
     res = requests.get(
         f"https://newsapi.org/v2/top-headlines?category=science&country=us&pageSize=15&apiKey={API_SECRET_KEY}")
-    science_article = res.json()['articles']
-    print(res.json())
-    return render_template("article_list.html", articles=science_article, title='Science')
+    
+    science_news = save_article(res)
+
+    return render_template("article_list.html", articles=science_news, title='Science')
 
 
 @app.route("/health", methods=["GET", "POST"])
@@ -474,8 +478,10 @@ def show_health_news():
     API_SECRET_KEY = os.getenv('API_SECRET_KEY')
     res = requests.get(
         f"https://newsapi.org/v2/top-headlines?category=health&country=us&pageSize=15&apiKey={API_SECRET_KEY}")
-    health_news = res.json()['articles']
-    print(res.json())
+    
+    
+    health_news = save_article(res)
+
     
     return render_template("article_list.html", articles=health_news, title='Health')
 ##############################################################################
@@ -577,9 +583,6 @@ def add_header(req):
 
 ##############################################################################
 def save_article(res):
-    
-    
-    
     articles = res.json()['articles']
 
     for article in articles:

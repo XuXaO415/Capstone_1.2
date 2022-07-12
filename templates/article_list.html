@@ -14,34 +14,46 @@
                 </center>
             </h3>
             <img src="{{article.urlToImage}}" class="float-right" style="width: 60%" />
-            <div class="ln-caption">{{ article.author }}/ {{article.source.name}}</div>
+            <div class="ln-caption">Author: {{article.author}}</div>
+            <div class="ln-caption" >{{article.source.name}}
+            <div class="ln-caption">Published: {{article.publishedAt}}</div>
+            <!-- <p>{{article.date_added}}</p> -->
 
-            <p>{{article.publishedAt}}</p>
+            <p>{{article.id}}</p>
             <p>{{article.description}}</p>
+            <p>{{article.content}}</p>
+            <p>{{article.user_id}}</p>
+
 
             <a href=" {{ article.url }}" class="btn btn-primary" target="_blank">Read more...
                 <i class="fas fa-external-link-alt"></i>
             </a>
+                    
+            <form method="POST" action="/users/favorites/{{article.id}}">
 
-            <form method="POST" action="/users/favorites/{{article.likes_id}}">
-                <p>{{ article.likes_id }}</p>
+                <!-- <p>article.id: {{ article.article_id }}</p> -->
+                <p>article.id: {{ article.article_id }}</p>
 
                 <button class="btn btn-sm btn-primary">
                     <i class="fas fa-bookmark"></i>
                     </button>
+
             </form>
-
-
-            <!-- [SQL: INSERT INTO likes (article_id, user_id) VALUES (%(article_id)s, %(user_id)s) RETURNING likes.id] -->
-            <form method="POST" action="/users/delete/{{ article.id }}">
-                <button class="btn btn-sm btn-secondary">
-            <i class="fa fa-trash"></i>
-          </button>
-            </form>
-
         </div>
     </div>
+    
+<!-- 
+         <form method="POST" action="/users/delete/{{ article.likes_id }}">
+            <button class="btn btn-sm btn-secondary">
+            <i class="fa fa-trash"></i>
+          </button>
+        </form>  -->
+
+
+    </div>
+
 
     {% endfor %}
+
 </article>
 {% endblock %}

@@ -393,6 +393,9 @@ def page_not_found(e):
 
 @app.route("/latest_articles", methods =["GET", "POST"])
 def show_latest_articles():
+    """Shows a list of latest articles"""
+    
+    
     API_SECRET_KEY = os.getenv('API_SECRET_KEY')
     
     url = ('https://newsapi.org/v2/top-headlines?' 'language=en' 'qinTitle=query' 'apiKey={API_SECRET_KEY}')
@@ -403,32 +406,9 @@ def show_latest_articles():
     res = requests.get(
         f"https://newsapi.org/v2/top-headlines?category=general&country=us&pageSize=10&apiKey={API_SECRET_KEY}")
     # pdb.set_trace()
-    latest_art = res.json()['articles']
-    
-    for article in latest_art:
-        # pdb.set_trace()
-        existing_art = Article.query.filter_by(url=article['url']).first()
-        if not existing_art:
-            new_art = Article(url=article['url'], author=article['author'],  title=article['title'],
-                          description=article['description'], urlToImage=article['urlToImage'], content=article['content'])
-                        #    user_id=article['user_id'], date_added=article['date_added'], like_id=article['like_id'])
-           
-            db.session.add(new_art)
-        # pdb.set_trace()
-            db.session.commit()
+    latest_article = save_article(res)
 
-            article['id'] = new_art.id
-        else: 
-            article['id'] = existing_art.id
-        
-            
-        
-        
-    # print(res.json())
-    # article['new_art.id']
-    
-    # pdb.set_trace()
-    return render_template("latest_articles.html", latest_articles=latest_art)
+    return render_template("latest_articles.html", latest_articles=latest_article)
 ##############################################################################
 
 @app.route("/world_news", methods=["GET", "POST"])
@@ -441,9 +421,7 @@ def show_world_news():
     res = requests.get(
         f"https://newsapi.org/v2/top-headlines?q=international&language=en&pageSize=15&apiKey={API_SECRET_KEY}")
     
-    world_new =res.json()['articles']
- 
-    print(res.json())
+    world_new = save_article(res)
     
     return render_template("article_list.html", articles=world_new, title='World News')
 ##############################################################################
@@ -598,4 +576,26 @@ def add_header(req):
 
 
 ##############################################################################
+def save_article(res):
+    
+    
+    
+    articles = res.json()['articles']
 
+    for article in articles:
+        # pdb.set_trace()
+        existing_art = Article.query.filter_by(url=article['url']).first()
+        if not existing_art:
+            new_art = Article(url=article['url'], author=article['author'],  title=article['title'],
+                          description=article['description'], urlToImage=article['urlToImage'], content=article['content'])
+                        #    user_id=article['user_id'], date_added=article['date_added'], like_id=article['like_id'])
+           
+            db.session.add(new_art)
+        # pdb.set_trace()
+            db.session.commit()
+
+            article['id'] = new_art.id
+        else: 
+            article['id'] = existing_art.id
+            
+    return articles

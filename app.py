@@ -410,9 +410,9 @@ def show_latest_articles():
         existing_art = Article.query.filter_by(url=article['url']).first()
         if not existing_art:
             new_art = Article(url=article['url'], author=article['author'],  title=article['title'],
-                          description=article['description'], urlToImage=article['urlToImage'], content=article['content'],
-                           user_id=article['user_id'], date_added=article['date_added'], like_id=article['like_id'])
-                           
+                          description=article['description'], urlToImage=article['urlToImage'], content=article['content'])
+                        #    user_id=article['user_id'], date_added=article['date_added'], like_id=article['like_id'])
+           
             db.session.add(new_art)
         # pdb.set_trace()
             db.session.commit()

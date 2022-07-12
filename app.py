@@ -85,7 +85,7 @@ def do_logout():
 ##############################################################################
 # Homepage
 ##############################################################################
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def homepage():
     """Homepage"""
     API_SECRET_KEY = os.getenv('API_SECRET_KEY')
@@ -93,17 +93,16 @@ def homepage():
     res = requests.get(
         f"https://newsapi.org/v2/everything?q=latin-america&q=asia&q=europe&language=en&sortBy=popularity&pageSize=5&domains=apnews.com,reuters.com,npr.org,bbc.com,economist.com,wsj.com,politifact.com,thebureauinvestigates.com&apiKey={API_SECRET_KEY}")
 
-    world_new = res.json()['articles']
-    print(res.json())
+    world_news = save_article(res)
     
     res = requests.get(
         f"https://newsapi.org/v2/everything?q=top-news&language=en&sortBy=publishedAt&pageSize=5&domains=apnews.com,reuters.com,npr.org,economist.com,wsj.com,bbc.com,politifact.com,thebureauinvestigates.com&apiKey={API_SECRET_KEY}")
 
-    latest_article = res.json()['articles']
-    # print(res.json())
+    latest_article = save_article(res)
+
   
 
-    return render_template("index.html", world_news=world_new, latest_articles=latest_article)
+    return render_template("index.html", world_news=world_news, latest_articles=latest_article)
 
 
 ##############################################################################
@@ -401,7 +400,6 @@ def save_article(res):
             #    user_id=article['user_id'], date_added=article['date_added'], like_id=article['like_id'])
 
             db.session.add(new_art)
-        # pdb.set_trace()
             db.session.commit()
 
             article['id'] = new_art.id

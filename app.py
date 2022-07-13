@@ -1,21 +1,22 @@
-from genericpath import exists
 import os
-from tkinter.tix import Select
+from genericpath import exists
+from turtle import title
+##############################################################################
 
 # from flask import *
 from flask import Flask, jsonify, redirect, render_template, flash, session, g, url_for
 from datetime import date
-from flask_login import current_user, LoginManager, login_user, login_required, logout_user
+from flask_login import current_user, LoginManager, login_user, login_required, logout_user, user_logged_in
 import requests
 from flask_sqlalchemy import SQLAlchemy
 from flask_moment import Moment
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from flask_debugtoolbar import DebugToolbarExtension
+from flask_bootstrap import Bootstrap
+
 
 import pdb
-
-from yaml import serialize
 #################################################################################
 from forms import UserAddForm, LoginForm, UserEditForm
 from flask_wtf import FlaskForm
@@ -28,11 +29,10 @@ load_dotenv()
 
 app = Flask(__name__)
 
+bootstrap = Bootstrap(app)
 moment = Moment(app)
 
-
 CURR_USER_KEY = "curr_user"
-
 
 app.config['SQLALCHEMY_DATABASE_URI'] = (os.environ.get('DATABASE_URL', 'postgresql:///nea_db'))
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -40,8 +40,6 @@ app.config['SQLALCHEMY_ECHO'] = True
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SECRET_KEY'] = os.environ.get('API_KEY', 'SECRET_KEY')
 
-login = login_manager = LoginManager()
-login_manager.login_view = 'login'
 
 toolbar = DebugToolbarExtension(app)
 
@@ -99,9 +97,7 @@ def homepage():
         f"https://newsapi.org/v2/everything?q=top-news&language=en&sortBy=publishedAt&pageSize=5&domains=apnews.com,reuters.com,npr.org,economist.com,wsj.com,bbc.com,politifact.com,thebureauinvestigates.com&apiKey={API_SECRET_KEY}")
 
     latest_article = save_article(res)
-
-  
-
+    
     return render_template("index.html", world_news=world_news, latest_articles=latest_article)
 
 
@@ -180,7 +176,6 @@ def show_user_profile(user_id):
 # User profile edit form
 ##############################################################################
 @app.route("/users/<int:user_id>/edit", methods=["GET", "POST"])
-# @login_required
 def edit_user(user_id):
     """Edit user profile"""
     
@@ -268,51 +263,67 @@ def add_likes(likes_id):
 
 
 @app.route("/users/favorites/", methods=["GET", "POST"])
-def list_likes():
+def user_favorite():
     """Shows a list of user's liked articles"""
 
+    # if g.user:
+        
+    #     like = Article.query.join(Likes, (Article.id == Likes.article_id)).filter(Likes.user_id == g.user.id).all()
+    articles = Likes.query.filter_by(user_id=g.user.id).order_by(Likes.id.desc()).all()
+        
+    likes = []
+        
+    for article in articles:
+        like = Article.query.filter_by(id=article.article_id).first()
+      
+        likes.append(like)
+        # likes.append(article.article_id)
+      
+#SELECT articles.id AS articles_id, articles.url AS articles_url, articles.author AS articles_author, 
+# articles."publishedAt" AS "articles_publishedAt", articles.title AS articles_title, articles.description AS articles_description, articles."urlToImage" AS "articles_urlToImage", articles.content AS articles_content, articles.date_added AS articles_date_added, articles.user_id AS articles_user_id, articles.like_id AS articles_like_id
+# FROM articles
 
-    #articles query to get all articles and order by date_added desc, id
-    # articles = (Article
-    #             .query
-    #             .order_by(Article.id)
-    #             .order_by(Article.user_id)
-    #             .order_by(Article.like_id)
-    #             .order_by(Article.date_added.desc())
-    #             .all())
-    # art = Likes.query.filter_by(user_id=g.user.id).all()
     
-    article = (Likes
-            .query
-            .order_by(Likes.id)
-            .order_by(Likes.user_id)
-            .order_by(Likes.article_id)
-            .order_by(Likes.timestamp.desc())
-            .all())
+    
+    return render_template("/users/favorite.html", articles=articles)
+            
+    
+    # article = (Likes
+    #         .query
+    #         .order_by(Likes.id)
+    #         .order_by(Likes.user_id)
+    #         .order_by(Likes.article_id)
+    #         .order_by(Likes.timestamp.desc())
+    #         .all())
+    
 
-    #likes query to get all likes and order by date_added desc, id
+
+    # # #likes query to get all likes and order by date_added desc, id
     # like = (Article
     #         .query
     #         .order_by(Article.id)
     #         .order_by(Article.user_id)
     #         .order_by(Article.like_id)
+    #         .order_by(Article.content)
     #         .order_by(Article.date_added.desc())
     #         .order_by(Article.title)
     #         .order_by(Article.description)
     #         .all())
     
-    # like = Likes.query.all()
+
     
-    """List all liked articles"""
-    like = (Likes
-             .query
-             .order_by(Likes.id)
-             .order_by(Likes.article_id)
-             .order_by(Likes.user_id)
-             .all())
-    #
-    return render_template("/users/favorite.html", likes=like, articles=article)
-        # return render_template("/users/favorite.html")
+    # # like = Likes.query.all()
+    
+    # """List all liked articles"""
+    # # like = (Likes
+    # #          .query
+    # #          .order_by(Likes.id)
+    # #          .order_by(Likes.article_id)
+    # #          .order_by(Likes.user_id)
+    # #          .all())
+    # # #
+    # return render_template("/users/favorite.html", likes=like, articles=article)
+
 
 
 ##############################################################################
@@ -437,8 +448,8 @@ def show_latest_articles():
 def show_world_news():
     API_SECRET_KEY = os.getenv('API_SECRET_KEY')
     
-    # url = ('https://newsapi.org/v2/top-headlines?' 'language=en' 'qinTitle=query' 'pageSize=10' 'apiKey={API_SECRET_KEY}')
-    # res = requests.get(url)
+    url = ('https://newsapi.org/v2/top-headlines?' 'language=en' 'qinTitle=query' 'pageSize=10' 'apiKey={API_SECRET_KEY}')
+    res = requests.get(url)
     
     res = requests.get(
         f"https://newsapi.org/v2/top-headlines?q=international&language=en&pageSize=15&apiKey={API_SECRET_KEY}")
@@ -566,8 +577,7 @@ def search_all_articles():
     
     recent_articles = recent_response.json()
     rec_art = recent_articles['articles'][0:10]
-    
-    
+
     
     for art in rel_art:
         res = requests.get(f"https://newsapi.org/v2/top-headlines?country=us&apiKey={API_SECRET_KEY}"

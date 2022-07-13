@@ -22,33 +22,22 @@
             <p>{{article.id}}</p>
             <p>{{article.description}}</p>
             <p>{{article.content}}</p>
-            <p>{{article.user_id}}</p>
+       
 
 
             <a href=" {{ article.url }}" class="btn btn-primary" target="_blank">Read more...
                 <i class="fas fa-external-link-alt"></i>
+             
             </a>
                     
             <form method="POST" action="/users/favorites/{{article.id}}">
-
-                <!-- <p>article.id: {{ article.article_id }}</p> -->
-                <p>article.id: {{ article.article_id }}</p>
-
-                <button class="btn btn-sm btn-primary">
+            <button class="btn btn-sm btn-primary">
                     <i class="fas fa-bookmark"></i>
                     </button>
-
             </form>
         </div>
     </div>
     
-<!-- 
-         <form method="POST" action="/users/delete/{{ article.likes_id }}">
-            <button class="btn btn-sm btn-secondary">
-            <i class="fa fa-trash"></i>
-          </button>
-        </form>  -->
-
 
     </div>
 
@@ -57,3 +46,10 @@
 
 </article>
 {% endblock %}
+
+ SELECT articles.id AS articles_id, articles.url AS articles_url,
+  articles.author AS articles_author, articles."publishedAt" AS "articles_publishedAt", 
+  articles.title AS articles_title, articles.description AS articles_description, articles."urlToImage" 
+  AS "articles_urlToImage", articles.content AS articles_content, 
+  articles.date_added AS articles_date_added, articles.user_id AS articles_user_id, 
+  articles.article_id AS articles_article_id 

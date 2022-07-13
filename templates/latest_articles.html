@@ -19,29 +19,20 @@
             <p>{{ latest_article.date_published }}</p>
             <p> {{latest_article.description}}</p>
             <a href="{{ latest_article.url }}" class="btn btn-primary" target="_blank">Read more...
-            <i class="fas fa-external-link-alt"></i>
-            <!-- </br>
-            <i class="fa fa-share-alt"></i> -->
+            <i class="fas fa-external-link-square-alt"></i>
+            {# <!-- </br>
+            <i class="fa fa-share-alt"></i> --> #}
              </a>
-            <!-- <form method="POST" action="/users/{{g.user.id}}/favorite"> -->
-            <!-- <form method="POST" action="/users/{{g.user.id}}/favorite">
-                <input type="hidden" name="article_id" value="{{latest_article.id}}">
-                <button class="btn btn-outline-primary">
-                    <i class="fas fa-heart"></i>
-                </button> -->
+
             <form method="POST" action="/users/favorites/{{latest_article.id}}">
                 <p>{{ latest_article.id }}</p>
                 <p>{{latest_article.user_id}}</p>
 
-
-                    <button class="btn btn-sm btn-primary">
+                <button class="btn btn-sm btn-primary">
                     <i class="fas fa-bookmark"></i>
                     </button>
-                    <!-- <form method="POST" action="/users/delete/{{ latest_articles.id }}">
-                    <button class="btn btn-sm btn-secondary">
-            <i class="fa fa-thumbs-down"></i>
-          </button>
-                </form> -->
+
+
             </form>
         </div>
     </div>

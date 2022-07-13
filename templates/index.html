@@ -30,18 +30,17 @@
                     <div>{{world_new.author}} </div>
                     <div>{{world_new.source.name}}</div>
                     <div>{{world_new.publishedAt}}</div>
-                    <p>{{world_new.id}}</p>
+                   
                 </div>
                 <p class="card-text mb-auto">{{ world_new.description }}</p>
-                <a href="{{ world_new.url }}" target="_blank">Continue reading...
+                <a href="{{ world_new.url }} " target="_blank ">Continue reading...
                 <i class="fas fa-fas fa-external-link-square-alt"></i></a>
-                <!-- <p>id {{world_new}}</p> -->
-                <form method="POST" action="/users/favorites/{{world_new.id}}">
+                <a href="/users/favorites/{{world_new.id}}">
                     <button class=" btn btn-sm btn-primary ">
                        <i class="fas fa-bookmark"></i>
             </button>
 
-                </form>
+                </a>
                 <hr /> {% endfor %}
             </div>
         </div>
@@ -52,7 +51,6 @@
             <div class="col p-4 d-flex flex-column position-static ">
                 <strong class="d-inline-block mb-2 text-success ">Trending News</strong> {% for latest_article in latest_articles %}
                 <h3 class="mb-0 ">{{latest_article.title}}</h3>
-                <!-- <h3>{{latest_article.id}}</h3> -->
                 <center>
                     <img src="{{latest_article.urlToImage}} " />
                 </center>
@@ -61,28 +59,19 @@
                     {{latest_article.author}}
                     <div> {{latest_article.source.name}} </div>
                     <div> {{latest_article.publishedAt}} </div>
-                    <p>{{latest_article.id}}</p>
-
-
+               
                 </div>
 
                 <p class="mb-auto my-auto ">{{latest_article.description}}</p>
                 <a href="{{latest_article.url}} " target="_blank ">Continue reading...
                 <i class="fas fa-fas fa-external-link-square-alt"></i></a>
-                <form method="POST" action="/users/favorites/{{latest_article.id}}">
+                <a href="/users/favorites/{{latest_article.id}}">
                     <button class="btn btn-sm btn-primary ">
                 <i class="fas fa-bookmark"></i>
             </button>
-                </form>
-
-
-
-
-
+                </a>
                 <hr /> {% endfor%}
-
             </div>
-
         </div>
         <!--lists fake news sites https://infogram.com/politifacts-fake-news-almanac-1gew2vjdxl912nj -->
     </div>

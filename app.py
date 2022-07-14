@@ -316,8 +316,6 @@ def user_favorite():
 
     # return render_template("/users/favorite.html", articles=article, likes=like)
 
-
-
 ##############################################################################
 # Delete favorite story
 ##############################################################################

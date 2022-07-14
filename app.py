@@ -14,6 +14,7 @@ from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_bootstrap import Bootstrap
+from datetime import datetime
 
 
 import pdb
@@ -234,17 +235,7 @@ def add_likes(likes_id):
     if not g.user:
         flash("You are not the authorized user of this account", "danger")
         return redirect("/")
-    
-        
-    # add_like = Like(user_id=g.user.id, article_id=likes_id)
-    # pdb.set_trace()
-    # add_like = Like(user_id=g.user.id, article_id=id, url=url, author=author, title=title, description=description, date_added=date.today())
-    # add_like = Article(user_id=g.user.id, article_id=id)
 
-    # add_like = Like(user_id=g.user.id, like_id=id)
-
-    # if user already liked an article, flash message and redirect to home page 
-    # else add and flash message, redirect to favorites page
     if Likes.query.filter_by(user_id=g.user.id, article_id=likes_id).first():
         flash("You have already liked this article", "danger")
         return redirect("/")
@@ -257,6 +248,7 @@ def add_likes(likes_id):
         return redirect("/users/favorites/")
     
     
+ 
 ##############################################################################
 # User Favorites
 ##############################################################################
@@ -266,10 +258,13 @@ def add_likes(likes_id):
 def user_favorite():
     """Shows a list of user's liked articles"""
 
-    # if g.user:
-        
-    #     like = Article.query.join(Likes, (Article.id == Likes.article_id)).filter(Likes.user_id == g.user.id).all()
-    articles = Likes.query.filter_by(user_id=g.user.id).order_by(Likes.id.desc()).all()
+
+    # articles = Likes.query.filter_by(user_id=g.user.id).order_by(Likes.id.desc()).group_by(Likes.article_id).all()
+    # print(Likes.id)
+    
+    articles = Likes.query.with_entities(Likes.article_id, Likes.user_id, Likes.id, 
+                                         Likes.timestamp, Article.content, Article.title, Article.urlToImage, Article.description, Article.publishedAt, Article.author, Article.url,
+                                         Article.date_added).filter_by(user_id=g.user.id).distinct().join(Article).order_by(Likes.id.desc()).all()
         
     likes = []
         
@@ -279,11 +274,7 @@ def user_favorite():
         likes.append(like)
         # likes.append(article.article_id)
       
-#SELECT articles.id AS articles_id, articles.url AS articles_url, articles.author AS articles_author, 
-# articles."publishedAt" AS "articles_publishedAt", articles.title AS articles_title, articles.description AS articles_description, articles."urlToImage" AS "articles_urlToImage", articles.content AS articles_content, articles.date_added AS articles_date_added, articles.user_id AS articles_user_id, articles.like_id AS articles_like_id
-# FROM articles
 
-    
     
     return render_template("/users/favorite.html", articles=articles)
             
@@ -321,8 +312,9 @@ def user_favorite():
     # #          .order_by(Likes.article_id)
     # #          .order_by(Likes.user_id)
     # #          .all())
-    # # #
-    # return render_template("/users/favorite.html", likes=like, articles=article)
+    
+
+    # return render_template("/users/favorite.html", articles=article, likes=like)
 
 
 

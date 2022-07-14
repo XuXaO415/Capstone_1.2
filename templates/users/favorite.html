@@ -1,68 +1,55 @@
-{% extends 'base.html' %} {% block titile %}  Favorites {% endblock %}
-
-{% block content %}
+{% extends 'base.html' %} {% block titile %} Favorites {% endblock %} {% block content %}
 
 <h1 class="text-center mt-3 top-text mb-3">{{ g.user.username }}'s likes</h1>
-
+<hr>
 
 
 <div class="row">
-    {% for article in articles %}    
-    <div class="col-md-4">
-        <div class="card mb-3">
-             <div class="card-body">
-                <h5 class="card-title">{{ article.title }}</h5>
-                <center>
-            <img src="{{ article.urlToImage }}" class="float-right" style="width: 60%" />
-            <div class="ln-caption">Author: {{ article.author }}</div>
-            <p>{{ article.date_published }}</p>
-                <p class="card-text">{{ article.description }}</p>
-                <a href="{{ article.url }}" class="btn btn-primary" target="_blank">Read More...
-                    <i class="fas fa-angle-double-right"></i>
-                </a>
-               
-                
-             
-                <p>article.like_id => likes.id: {{article.id}}</p>
-                <p>article.user_id: {{article.user_id}}</p>
-                <p>article.like_article_id: {{article.article_id}}</p>
-                <!-- <p>article.like_timestamp: {{article.timestamp}}</p> -->
-                <p>likes: {{likes}}</p>
+{% for article in articles %}
+<section class="border-bottom pb-4 mb-5">
+<div class="row gx-5">
+<div class="col-md-6 mb-4">
+<div class="bg-light border rounded p-5">
+{# <h3 class="font-weight-bold mb-3">{{ article.title }}</h3> #}
+<img src="{{ article.urlToImage }}" class="img-fluid rounded">
+</div>
+</div>
 
-                <p>article.title: {{article.title}}</p>
-                <p>article.descrption: {{article.description}}</p>
+<div class="col-md-6 mb-4">
+<span class="badge bg-info px-2 py-1 shadow-1-strong mb-3">{{article.date_added}}</span>
+<h4><strong>{{ article.title }}</strong></h4>
+<p class="text-muted">Date published: <i>{{article.publishedAt}}</i></p>
+<p class="text-muted">{{ article.author }}</p>
+<p class="text-muted">
+<p>{{ article.description }}</p>
 
-                <p>like.id: {{likes.id}}</p>
-                <p>like.user_id: {{likes.user_id}}</p>
-                <p>likes.article_id: {{likes.article_id}}</p>
-             
+<br>
+<p>{{article.content}}</p>
 
-             <p>{{ article.id }}</p>
-               
+ <p>
+ <a href="{{ article.url }}" data-mdb-ripple-color="primary"  class="btn btn-primary" target="_blank">Read More</a>
+ </p>
 
-              
+  <a href="/users/delete/{{article.article_id}}" data-mdb-ripple-color="danger" class="btn btn-outline-danger">Delete</a>
+
+
+
+
+
+
+        {# <div class="col-md-6 mb-4">
+      
+            <p class="text-muted">{{ article.description }}</p>
+            <p class="text-muted">{{ article.publishedAt }}</p>
+      
+            <p class="text-muted">{{article.urlToImage}}</p> #}
            
-
-                <a href="/users/delete/{{article.article_id}}" class="btn btn-outline-danger">Delete</a>
-             
-            </div>
+            {# <button data-mdb-ripple-color="primary" class="btn btn-primary" target="_blank"></button> #}
+         
         </div>
     </div>
+    </section>
     {% endfor %}
-    
-</div> 
-{% endblock %}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+{%endblock%}

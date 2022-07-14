@@ -1,5 +1,6 @@
 from datetime import datetime
 from operator import index
+from turtle import title
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_manager
@@ -31,17 +32,19 @@ class User(db.Model):
     username = db.Column(db.Text, nullable=False, unique=True)
     password = db.Column(db.Text, nullable=False)
     
-    
-    
     # Added this line
     # back_populates is a relationship that allows you to access the user from the article
     # lazy dynamically loads the user when you access the user
-    articles = db.relationship("Article", backref="user")
+    # articles = db.relationship("Article", backref="user")
     # Added this line
     # back_populates is a relationship that allows you to access the user from the like
-    likes = db.relationship("Likes", backref="user")
-    
+    # likes = db.relationship("Likes", backref="user")
     # backref argument defines a relationship that will be created on the other model?
+    
+    # article_likes = db.relationship("Likes", backref="article", primaryjoin="and_(Likes.article_id == Article.id," "Likes.user_id == User.id)")
+   
+    
+    
     
     def __repr__(self):
         return f"<User #{self.id}: {self.username}, {self.email}>"
@@ -72,6 +75,14 @@ class User(db.Model):
             return user
         else:
             return False
+        
+            # @classmethod
+    # def register(cls, **kwargs):
+    #     """Register user with hashed password and return user"""
+
+    #     hashed = bcrypt.generate_password_hash(kwargs["password"]).decode("UTF-8")
+    #     kwargs["password"] = hashed
+    #     return cls(**kwargs)
 
 
 class LatestArticle(db.Model):
@@ -245,7 +256,7 @@ class Sports(db.Model):
     
     def __repr__(self):
         sports_article = self
-        return f"<Sports Article {sports_article.id}{sports_article.url}{sports_article.author}{sports_article.publishedAt}{sports_article.title}{sports_article.description}{sports_article.urlToImage}{sports_article.content}"
+        return f"<Sports Article #{sports_article.id}{sports_article.url}{sports_article.author}{sports_article.publishedAt}{sports_article.title}{sports_article.description}{sports_article.urlToImage}{sports_article.content}"
 
 
 class Article(db.Model):
@@ -265,23 +276,22 @@ class Article(db.Model):
                            default=datetime.utcnow)
 
     # Added lines below to create a relationship to the User table
-    user_id = db.Column(db.Integer, db.ForeignKey(
-        "users.id", ondelete="cascade"))
-    like_id = db.Column(db.Integer, db.ForeignKey(
-        "likes.id", ondelete="cascade"))
+    # user_id = db.Column(db.Integer, db.ForeignKey(
+    #     "users.id", ondelete="cascade"))
+    # like_id = db.Column(db.Integer, db.ForeignKey(
+    #     "likes.id", ondelete="cascade"))
+    #change this user likes
+    article_likes = db.relationship("Likes", backref="article", primaryjoin="Likes.article_id == Article.id")
+    
+    def _repr_(self):
+        return f"<Article #{self.id}{self.url}{self.author}{self.publishedAt}{self.title}{self.description}{self.urlToImage}{self.content}"
 
-    # I don't think I need this line...for now
-    # article_id = db.Column(db.Integer, db.ForeignKey("articles.id", ondelete="cascade"))
-
-    # I don't think I need this line...for now
-    # user = db.relationship("User", back_populates="articles")
-
-    def __repr__(self):
-        return f"<Article {self.title}>"
+    # def __repr__(self):
+    #     return f"<Article #{self.title}, {self.url}, {self.author}, {self.publishedAt}, {self.description}, {self.urlToImage}, {self.date_added}, {self.user_id}, {self.like_id}>"
 
     # def __repr__(self):
     #     articles = self
-    #     return f"<Article {articles.id}{articles.url}{articles.author}{articles.publishedAt}{articles.title}{articles.description}{articles.urlToImage}{articles.content}{articles.date_added}{articles.user_id}{articles.article_id}"
+    #     return f"<Articles #{articles.id}{articles.url}{articles.author}{articles.publishedAt}{articles.title}{articles.description}{articles.urlToImage}{articles.content}{articles.date_added}{articles.user_id}{articles.article_id}"
 
 
 class Likes(db.Model):
@@ -296,6 +306,17 @@ class Likes(db.Model):
         "users.id", ondelete="cascade"))
 
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    
+ 
+    #added these lines
+    # authors_id = db.relationship("User", back_populates="likes")
+    # title_id = db.relationship("Article", back_populates="likes")
+    # description_id = db.relationship("Article", back_populates="likes")
+    # urlToImage_id = db.relationship("Article", back_populates="likes")
+    # content_id = db.relationship("Article", back_populates="likes")
+    # date_add_id = db.relationship("Article", back_populates="likes")
+    
+    
 
     # article = db.relationship("Article", backref="like", lazy="select")
     # join condition with foreign key between  likes and articles
@@ -312,16 +333,9 @@ class Likes(db.Model):
     # article_id = db.relationship("Article", backref="likes")
 
     def __repr__(self):
-        like = self
-        return f"<Likes {like.id}{like.user_id}{like.article_id}"
+        return f"<Likes #{self.id}{self.user_id}{self.article_id}"
 
-    # @classmethod
-    # def register(cls, **kwargs):
-    #     """Register user with hashed password and return user"""
 
-    #     hashed = bcrypt.generate_password_hash(kwargs["password"]).decode("UTF-8")
-    #     kwargs["password"] = hashed
-    #     return cls(**kwargs)
 
 
 

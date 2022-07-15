@@ -1,59 +1,65 @@
-{% extends 'base.html' %} {% block titile %} Favorites {% endblock %} {% block content %}
+{% extends 'base.html' %} {% block titile %} Favorites {% endblock %} {% block
+content %}
 
 <h1 class="text-center mt-3 top-text mb-3">{{ g.user.username }}'s likes</h1>
-<hr>
-
+<hr />
 
 <div class="row">
-{% for article in articles %}
-<section class="border-bottom pb-4 mb-5">
-<div class="row gx-5">
-<div class="col-md-6 mb-4">
-<div class="bg-light border rounded p-5">
-{# <h3 class="font-weight-bold mb-3">{{ article.title }}</h3> #}
+  {% for article in articles %}
+  <section class="border-bottom pb-4 mb-5">
+    <div class="row gx-5">
+      <div class="col-md-6 mb-4">
+        <div class="bg-light border rounded p-5">
+          {#
+          <h3 class="font-weight-bold mb-3">{{ article.title }}</h3>
+          #}
 
-<span class="badge bg-info px-2 py-1 shadow-1-strong mb-3">Date added: {{article.timestamp.strftime('%m-%d-%Y∙%H:%M') }}</span>
-<img src="{{ article.urlToImage }}" class="img-fluid rounded">
+          <span class="badge bg-info px-2 py-1 shadow-1-strong mb-3"
+            >Date added: {{article.timestamp.strftime('%m-%d-%Y∙%H:%M') }}</span
+          >
+            {# <img src="{{article.urlToImage}}"></div> #}
+          <img src="{{ article.urlToImage }}" class="img-fluid rounded" />
 
-<span class="credit text-muted" aria-label="Image credit">{{ article.author }}</span>
-<div class="credit-caption text-muted" aria-label="Image caption">{{ article.description | truncate(250) }}</div>
-
-</div>
-</div>
-
-<div class="col-md-6 mb-4">
-
-<h4><strong>{{ article.title | truncate(60) }}</strong></h4>
-<span class="time text-muted"><i>{{ article.publishedAt.strftime('%m-%d-%Y∙%H:%M') }}</i></span>
-{# <p class="text-muted">Date published: <i>{{article.publishedAt.strftime('%m-%d-%Y∙%H:%M')}}</i></p> #}
-<div class="Article" data-id="{{ article.id }}">
-<p>{{article.content | truncate(2000) }}</p>
-</div>
-
- <p>
- <a href="{{ article.url }}" data-mdb-ripple-color="primary"  class="btn btn-primary" target="_blank">Read More</a>
- </p>
-
-  <a href="/users/delete/{{article.article_id}}" data-mdb-ripple-color="danger" class="btn btn-outline-danger">Delete</a>
-
-
-
-
-
-
-        {# <div class="col-md-6 mb-4">
-      
-            <p class="text-muted">{{ article.description }}</p>
-            <p class="text-muted">{{ article.publishedAt }}</p>
-      
-            <p class="text-muted">{{article.urlToImage}}</p> #}
-           
-            {# <button data-mdb-ripple-color="primary" class="btn btn-primary" target="_blank"></button> #}
-         
+          <span class="credit text-muted" aria-label="Image credit"
+            >{{ article.author }}</span
+          >
+          <div class="credit-caption text-muted" aria-label="Image caption">
+            {{ article.description | truncate(250) }}
+          </div>
         </div>
+      </div>
+
+      <div class="col-md-6 mb-4">
+        <h4><strong>{{ article.title | truncate(60) }}</strong></h4>
+        <span class="time text-muted"
+          ><i>{{ article.publishedAt.strftime('%m-%d-%Y∙%H:%M') }}</i></span
+        >
+        {#
+        <p class="text-muted">
+          Date published:
+          <i>{{article.publishedAt.strftime('%m-%d-%Y∙%H:%M')}}</i>
+        </p>
+        #}
+        <div class="clearfix">
+      
+        <div class="Article" data-id="{{ article.id }}">
+          <p>{{article.content | truncate(2000) }}</p>
+        </div>
+
+        <p>
+          <a
+            href="{{ article.url }}"
+            data-mdb-ripple-color="primary"
+            class="btn btn-primary"
+            target="_blank">Read More</a>
+        </p>
+
+        <a
+          href="/users/delete/{{article.article_id}}"
+          data-mdb-ripple-color="danger"
+          class="btn btn-outline-danger">Delete</a>
+      </div>
     </div>
-    </section>
-    {% endfor %}
-
-
-{%endblock%}
+  </section>
+  {% endfor %} {%endblock%}
+</div>

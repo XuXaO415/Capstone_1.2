@@ -5,7 +5,7 @@ from turtle import title
 
 # from flask import *
 from flask import Flask, jsonify, redirect, render_template, flash, session, g, url_for
-from datetime import date
+from datetime import datetime
 from flask_login import current_user, LoginManager, login_user, login_required, logout_user, user_logged_in
 import requests
 from flask_sqlalchemy import SQLAlchemy
@@ -14,7 +14,8 @@ from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_bootstrap import Bootstrap
-from datetime import datetime
+
+from newsapi import NewsApiClient
 
 
 import pdb
@@ -262,7 +263,7 @@ def user_favorite():
     # articles = Likes.query.filter_by(user_id=g.user.id).order_by(Likes.id.desc()).group_by(Likes.article_id).all()
     # print(Likes.id)
     
-    articles = Likes.query.with_entities(Likes.article_id, Likes.user_id, Likes.id, 
+    articles = Likes.query.with_entities(Likes.article_id, Likes.user_id, Likes.id, Likes.timestamp,
                                          Likes.timestamp, Article.content, Article.title, Article.urlToImage, Article.description, Article.publishedAt, Article.author, Article.url,
                                          Article.date_added).filter_by(user_id=g.user.id).distinct().join(Article).order_by(Likes.id.desc()).all()
         
@@ -391,39 +392,55 @@ def page_not_found(e):
 ##############################################################################
 def save_article(res):
     """Save article to database"""
+    
+
     articles = res.json()['articles']
 
     for article in articles:
-        existing_art = Article.query.filter_by(url=article['url']).first()
-        if not existing_art:
+        if existing_art := Article.query.filter_by(url=article['url']).first():
+            article['id'] = existing_art.id
+
+        else:
             new_art = Article(url=article['url'], author=article['author'],  title=article['title'],
                               description=article['description'], urlToImage=article['urlToImage'], content=article['content'])
-            #    user_id=article['user_id'], date_added=article['date_added'], like_id=article['like_id'])
 
             db.session.add(new_art)
             db.session.commit()
 
             article['id'] = new_art.id
-        else:
-            article['id'] = existing_art.id
-
     return articles
 
+    # articles = res.json()['articles']
+
+    # for article in articles:
+    #     existing_art = Article.query.filter_by(url=article['url']).first()
+    #     if not existing_art:
+    #         new_art = Article(url=article['url'], author=article['author'],  title=article['title'],
+    #                           description=article['description'], urlToImage=article['urlToImage'], content=article['content'])
+
+    #         db.session.add(new_art)
+    #         db.session.commit()
+
+    #         article['id'] = new_art.id
+    #     else:
+    #         article['id'] = existing_art.id
+
+    # return articles
 
 ##############################################################################
 # Homepage quick link that displays latest news
 ##############################################################################
-
 @app.route("/latest_articles", methods =["GET", "POST"])
 def show_latest_articles():
-    """Shows a list of latest articles"""
+    """Shows a list of latest articles from API"""
     
-    
+ 
     API_SECRET_KEY = os.getenv('API_SECRET_KEY')
     
     url = ('https://newsapi.org/v2/top-headlines?' 'language=en' 'qinTitle=query' 'apiKey={API_SECRET_KEY}')
     res = requests.get(url)
-    print(res.text)
+
+
     
     
     res = requests.get(
@@ -436,9 +453,10 @@ def show_latest_articles():
 
 @app.route("/world_news", methods=["GET", "POST"])
 def show_world_news():
+    """Show world news"""
     API_SECRET_KEY = os.getenv('API_SECRET_KEY')
     
-    url = ('https://newsapi.org/v2/top-headlines?' 'language=en' 'qinTitle=query' 'pageSize=10' 'apiKey={API_SECRET_KEY}')
+    url = ('https://newsapi.org/v2/top-headlines?' 'language=en' 'qinTitle=query' 'pageSize=20' 'apiKey={API_SECRET_KEY}')
     res = requests.get(url)
     
     res = requests.get(
@@ -453,6 +471,7 @@ def show_world_news():
 
 @app.route("/technology", methods=["GET", "POST"])
 def show_tech_news():
+    """Show news related to technology"""
     API_SECRET_KEY = os.getenv('API_SECRET_KEY')
     res = requests.get(
         f"https://newsapi.org/v2/top-headlines?category=technology&country=us&pageSize=15&apiKey={API_SECRET_KEY}")
@@ -466,6 +485,7 @@ def show_tech_news():
 ##############################################################################
 @app.route("/business", methods=["GET","POST"])
 def show_business_news():
+    """Show news related to business"""
     API_SECRET_KEY = os.getenv('API_SECRET_KEY')
     
     res = requests.get(
@@ -480,6 +500,7 @@ def show_business_news():
 ##############################################################################
 @app.route("/us_news", methods=["GET", "POST"])
 def show_us_news():
+    """Show news related to U.S"""
     API_SECRET_KEY = os.getenv('API_SECRET_KEY')
     res = requests.get(
         f"https://newsapi.org/v2/top-headlines?country=us&pageSize=15&apiKey={API_SECRET_KEY}")
@@ -493,6 +514,7 @@ def show_us_news():
 ##############################################################################
 @app.route("/science", methods=["GET", "POST"])
 def show_science_news():
+    """Show news related to science"""
     API_SECRET_KEY = os.getenv('API_SECRET_KEY')
     res = requests.get(
         f"https://newsapi.org/v2/top-headlines?category=science&country=us&pageSize=15&apiKey={API_SECRET_KEY}")
@@ -506,6 +528,7 @@ def show_science_news():
 ##############################################################################
 @app.route("/health", methods=["GET", "POST"])
 def show_health_news():
+    """Show news related to health"""
     API_SECRET_KEY = os.getenv('API_SECRET_KEY')
     res = requests.get(
         f"https://newsapi.org/v2/top-headlines?category=health&country=us&pageSize=15&apiKey={API_SECRET_KEY}")
@@ -518,6 +541,7 @@ def show_health_news():
 ##############################################################################
 @app.route("/search", methods=["GET","POST"])
 def search_all_articles():
+    """Search for articles"""
    
     HOST = os.getenv('HOST')
     API_KEY = os.getenv('API_KEY')

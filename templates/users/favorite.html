@@ -11,20 +11,24 @@
 <div class="col-md-6 mb-4">
 <div class="bg-light border rounded p-5">
 {# <h3 class="font-weight-bold mb-3">{{ article.title }}</h3> #}
+
+<span class="badge bg-info px-2 py-1 shadow-1-strong mb-3">Date added: {{article.timestamp.strftime('%m-%d-%Y∙%H:%M') }}</span>
 <img src="{{ article.urlToImage }}" class="img-fluid rounded">
+
+<span class="credit text-muted" aria-label="Image credit">{{ article.author }}</span>
+<div class="credit-caption text-muted" aria-label="Image caption">{{ article.description | truncate(250) }}</div>
+
 </div>
 </div>
 
 <div class="col-md-6 mb-4">
-<span class="badge bg-info px-2 py-1 shadow-1-strong mb-3">{{article.date_added}}</span>
-<h4><strong>{{ article.title }}</strong></h4>
-<p class="text-muted">Date published: <i>{{article.publishedAt}}</i></p>
-<p class="text-muted">{{ article.author }}</p>
-<p class="text-muted">
-<p>{{ article.description }}</p>
 
-<br>
-<p>{{article.content}}</p>
+<h4><strong>{{ article.title | truncate(60) }}</strong></h4>
+<span class="time text-muted"><i>{{ article.publishedAt.strftime('%m-%d-%Y∙%H:%M') }}</i></span>
+{# <p class="text-muted">Date published: <i>{{article.publishedAt.strftime('%m-%d-%Y∙%H:%M')}}</i></p> #}
+<div class="Article" data-id="{{ article.id }}">
+<p>{{article.content | truncate(2000) }}</p>
+</div>
 
  <p>
  <a href="{{ article.url }}" data-mdb-ripple-color="primary"  class="btn btn-primary" target="_blank">Read More</a>

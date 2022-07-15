@@ -24,7 +24,7 @@ content %}
             >{{ article.author }}</span
           >
           <div class="credit-caption text-muted" aria-label="Image caption">
-            {{ article.description | truncate(250) }}
+            {{ article.description }}
           </div>
         </div>
       </div>
@@ -43,7 +43,7 @@ content %}
         <div class="clearfix">
       
         <div class="Article" data-id="{{ article.id }}">
-          <p>{{article.content | truncate(2000) }}</p>
+          <p>{{article.content }}</p>
         </div>
 
         <p>

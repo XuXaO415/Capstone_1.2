@@ -4,7 +4,7 @@ from turtle import title
 ##############################################################################
 
 # from flask import *
-from flask import Flask, jsonify, redirect, render_template, flash, session, g, url_for
+from flask import Flask, get_flashed_messages, jsonify, redirect, render_template, flash, session, g, url_for
 from datetime import datetime
 from flask_login import current_user, LoginManager, login_user, login_required, logout_user, user_logged_in
 import requests
@@ -74,11 +74,14 @@ def do_login(user):
 ##############################################################################
 # User logout
 ##############################################################################
+@app.route('/logout')
 def do_logout():
     """Logout user."""
 
     if CURR_USER_KEY in session:
         del session[CURR_USER_KEY]
+        
+        return redirect(url_for('login'))
      
      
         
@@ -100,7 +103,10 @@ def homepage():
 
     latest_article = save_article(res)
     
+    
     return render_template("index.html", world_news=world_news, latest_articles=latest_article)
+
+# @app.route("")
 
 
 ##############################################################################
@@ -128,7 +134,8 @@ def signup():
             )
             db.session.add(user)
             db.session.commit()
-            # pdb.set_trace()
+            get_flashed_messages()
+            flash("Successfully signed up!")
             
         except IntegrityError:
             flash("Sorry, that username is already taken", "error")
@@ -190,7 +197,7 @@ def edit_user(user_id):
 
         
     if form.validate_on_submit():
-        if User.authenticate(form.username.data, form.password.data):
+        if User.authenticate(form.username.data, form.email.data, form.password.data):
 
             user.username = form.username.data
             user.email = form.email.data
@@ -206,7 +213,7 @@ def edit_user(user_id):
             flash("Incorrect password", "danger")
             return redirect(f"/users/{g.user.id}")
     else:
-        return render_template("/users/edit.html", form=form, user_id=g.user.id)
+        return render_template("users/edit.html", form=form, user_id=user_id)
     
 ##############################################################################
 # Delete User
@@ -214,6 +221,8 @@ def edit_user(user_id):
 @app.route("/users/delete", methods=["POST"])
 def delete_user():
     """Delete user"""
+    
+    
     if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
@@ -441,8 +450,6 @@ def show_latest_articles():
     res = requests.get(url)
 
 
-    
-    
     res = requests.get(
         f"https://newsapi.org/v2/top-headlines?category=general&country=us&pageSize=10&apiKey={API_SECRET_KEY}")
 

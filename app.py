@@ -106,7 +106,23 @@ def homepage():
     
     return render_template("index.html", world_news=world_news, latest_articles=latest_article)
 
-# @app.route("")
+##############################################################################
+#Set up pagination for the articles
+# @app.route("/articles", methods=["GET", "POST"])
+# def get_articles(page):
+#     """Get articles from database"""
+    
+#     page = requests.args.get('page', 1, type=int)
+#     articles = Article.query.order_by(Article.id.desc()).paginate(page, app.config['POSTS_PER_PAGE'], False)
+#     next_url = url_for('get_articles', page=articles.next_num) if articles.has_next else None
+#     prev_url = url_for('get_articles', page=articles.prev_num) if articles.has_prev else None
+    
+#     paginate = Article.query.paginate(page, per_page=5)
+ 
+    
+#     return render_template("index.html", articles=articles, paginate=paginate, next_url=next_url, prev_url=prev_url)
+
+    
 
 
 ##############################################################################

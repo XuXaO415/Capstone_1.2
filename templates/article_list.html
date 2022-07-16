@@ -1,55 +1,65 @@
 {% extends 'base.html' %} {% block title %}{{title}}{% endblock %} {% block content %}
 
-<article class="story story-tech_news">
+<div class="container">
+    <news class="news news-feed">
+    <h1 class="news-title text-center">{{title}}</h1>
+    <div class="container-row">
+    <hr> {% for article in articles %}
+    <section class="border-bottom pb-4 mb-5">
+    <div class="row gx-5">
+        <div class="col-md-6 mb-4">
+            <span class="badge bd-alert badge-primary px-2 py-1 shadow-1-strong mb-3">{{article.source.name}}</span>
+        
+            {% if article.urlToImage %}
+            <img src="{{article.urlToImage}}" class="img-fluid rounded" alt="{{article.title}}" />
+            {% else %}
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg" class="img-fluid rounded" alt="{{article.url}}" />
+            {% endif %}
 
-    <h1 class="text-center">{{title}}</h1>
-    <hr/> {% for article in articles %}
+            </div>
+        <div class="col-md-6 mb-4">
+        <h4><strong>{{article.title}}</strong></h4>
+   
 
-
-    <div class="top-container">
-        <div class="row">
-            <h3>
-                <center>
-                    <strong>{{article.title}}</strong>
-                </center>
-            </h3>
-            <img src="{{article.urlToImage}}" class="float-right" style="width: 60%" />
-            <div class="ln-caption">Author: {{article.author}}</div>
-            <div class="ln-caption" >{{article.source.name}}
-            <div class="ln-caption">Published: {{article.publishedAt}}</div>
-            <!-- <p>{{article.date_added}}</p> -->
-
-            <p>{{article.id}}</p>
-            <p>{{article.description}}</p>
-            <p>{{article.content}}</p>
-       
-
-
-            <a href=" {{ article.url }}" class="btn btn-primary" target="_blank">Read more...
-                <i class="fas fa-external-link-alt"></i>
-             
-            </a>
-                    
-            <form method="POST" action="/users/favorites/{{article.id}}">
-            <button class="btn btn-sm btn-primary">
-                    <i class="fas fa-bookmark"></i>
-                    </button>
-            </form>
+         
+            
+      
         </div>
-    </div>
+            
     
-
     </div>
-
+    </section>
 
     {% endfor %}
-
-</article>
+    </div>
+    </news>
+    
 {% endblock %}
 
- SELECT articles.id AS articles_id, articles.url AS articles_url,
-  articles.author AS articles_author, articles."publishedAt" AS "articles_publishedAt", 
-  articles.title AS articles_title, articles.description AS articles_description, articles."urlToImage" 
-  AS "articles_urlToImage", articles.content AS articles_content, 
-  articles.date_added AS articles_date_added, articles.user_id AS articles_user_id, 
-  articles.article_id AS articles_article_id 
+
+
+
+
+{#     
+</hr>
+
+{% for article in articles %}
+</hr>
+
+{% if article.title == title %}
+{% else %}
+<div class="card mb-3">
+<div class="card-body">
+<h5 class="card-title">{{article.title}}</h5>
+</hr>
+<p class="card-text">{{article.content}}</p>
+<a href="{{article.url}}" class="btn btn-primary">Read More</a>
+</div>
+{% endif %}
+</div>
+{% endfor %}
+</div> #}
+
+
+
+

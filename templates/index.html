@@ -1,10 +1,15 @@
 {% extends 'base.html'%} {% block title %}Homepage{% endblock %} {% block content %}
 
+<div class="container">
+    <div class="row mb-2">
+     
+            
+   
 <section class="py-2 text-center container mt-2">
     <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
             <h1 class="fw-light">
-                <i class="fas fa-balance-scale"></i> Search Aletheia
+             Search <i class="fas fa-balance-scale"></i> Aletheia 
             </h1>
             <form class="d-flex" action="/search">
                 <input class="form-control me-2" type="text" name="q" id="search" required style="text-transform: capitalize" placeholder=" Search Anything " aria-label="Search " />
@@ -21,13 +26,18 @@
         <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
             <div class="col p-4 d-flex flex-column position-static">
                 <strong class="d-inline-block mb-2 text-primary">World News</strong> {% for world_new in world_news %}
-                <h3 class="mb-0">{{world_new.title}}</h3>
+                <h3 class="mb-0">{{world_new.title | truncate(60)}}</h3>
                 <center>
-                    <img src="{{world_new.urlToImage}} " />
+                    <img src="{{world_new.urlToImage}} " class="img-fluid rounded"/>
                 </center>
 
                 <div class="mb-1 text-muted">
-                    <div>{{world_new.author}} </div>
+                {% if world_new.author %}
+                   <a href="{{world_new.url}}" class="badge badge-pill badge-light px-2 py-1 shadow-1-strong mb-3">{{world_new.author}}</a>
+            {% else %}
+                       <a href="{{world_new.url}}" class="badge badge-pill badge-info px-2 py-1 shadow-1-strong mb-3">{{world_new.url | truncate(29)}}</a>
+            {% endif %}
+                    
                     <div>{{world_new.source.name}}</div>
                     <div>{{world_new.publishedAt}}</div>
                    
@@ -39,24 +49,28 @@
                     <button class=" btn btn-sm btn-primary ">
                        <i class="fas fa-bookmark"></i>
             </button>
-
                 </a>
                 <hr /> {% endfor %}
             </div>
         </div>
     </div>
+    
 
     <div class="col-md-6 ">
-        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative ">
+        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
             <div class="col p-4 d-flex flex-column position-static ">
                 <strong class="d-inline-block mb-2 text-success ">Trending News</strong> {% for latest_article in latest_articles %}
-                <h3 class="mb-0 ">{{latest_article.title}}</h3>
+                <h3 class="mb-0 ">{{latest_article.title | truncate(60)}}</h3>
                 <center>
-                    <img src="{{latest_article.urlToImage}} " />
+                    <img src="{{latest_article.urlToImage}} " class="img-fluid rounded" />
                 </center>
 
                 <div class="mb-1 text-muted">
-                    {{latest_article.author}}
+                {% if latest_article.author %}
+                     <a href="{{latest_article.url}}" class="badge badge-pill badge-light px-2 py-1 shadow-1-strong mb-3">{{latest_article.author}}</a>
+            {% else %}
+                       <a href="{{latest_article.url}}" class="badge badge-pill badge-info px-2 py-1 shadow-1-strong mb-3">{{latest_article.url | truncate(29)}}</a>
+            {% endif %}
                     <div> {{latest_article.source.name}} </div>
                     <div> {{latest_article.publishedAt}} </div>
                
@@ -74,7 +88,9 @@
             </div>
         </div>
     </div>
+    
 </div>
+
 
 <!-- Pagination setion -->
 {# 
@@ -101,6 +117,7 @@
             </ul>
         </div>
     </div> #}
+    </div>
 
     {% endblock %}
 

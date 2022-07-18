@@ -403,36 +403,6 @@ def save_article(res):
             print(e)
     return articles
 
-
-##############################################################################
-
-# def save_article(res):
-#     articles = res.json()['articles']
-#     # save_article(res)
-#     for article in res.json()['articles']:
-#         # try:
-#             if existing_art := Article.query.filter_by(url=article['url']).first():
-#                 article['id'] = existing_art.id
-
-#             else:
-#                 new_art = Article(url=article['url'], author=article['author'],  title=article['title'],
-#                                   description=article['description'], urlToImage=article['urlToImage'], content=article['content'])
-
-#                 db.session.add(new_art)
-#                 db.session.commit()
-
-#                 article['id'] = new_art.id
-#         # except KeyError as e:
-#         # except NameError as e:
-#         # except TypeError as e:
- 
-#             # print(e)
-#             return articles
-#         # return res.json()['articles']
-
-    
-    
-
 ##############################################################################
 # Homepage quick link that displays latest news
 ##############################################################################

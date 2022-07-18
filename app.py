@@ -400,46 +400,7 @@ def page_not_found(e):
 ##############################################################################
 def save_article(res):
     """Save article to database"""
-    
-    # pdb.set_trace()
-    # if not g.user:
-    #     flash("You are not the authorized user of this account", "danger")
-    #     return redirect("/")
-    
-    
-    # articles = res.json()['articles']
 
-    # for article in articles:
-    #     if existing_art := Article.query.filter_by(url=article['url']).first():
-    #         article['id'] = existing_art.id
-
-    #     else:
-    #         new_art = Article(url=article['url'], author=article['author'],  title=article['title'],
-    #                           description=article['description'], urlToImage=article['urlToImage'], content=article['content'])
-
-    #         db.session.add(new_art)
-    #         db.session.commit()
-
-    #         article['id'] = new_art.id
-    # return articles
-
-    # articles = res.json()['articles']
-
-    # for article in articles:
-    #     existing_art = Article.query.filter_by(url=article['url']).first()
-    #     if not existing_art:
-    #         new_art = Article(url=article['url'], author=article['author'],  title=article['title'],
-    #                           description=article['description'], urlToImage=article['urlToImage'], content=article['content'])
-
-    #         db.session.add(new_art)
-    #         db.session.commit()
-
-    #         article['id'] = new_art.id
-    #     else:
-    #         article['id'] = existing_art.id
-
-    # return articles
-    
     articles = res.json()['articles']
 
     for article in articles:

@@ -82,8 +82,6 @@ def do_logout():
         
         return redirect(url_for('login'))
      
-     
-        
 ##############################################################################
 # Homepage
 ##############################################################################
@@ -95,7 +93,10 @@ def homepage():
     res = requests.get(
         f"https://newsapi.org/v2/everything?q=latin-america&q=asia&q=europe&language=en&sortBy=popularity&pageSize=5&domains=apnews.com,reuters.com,npr.org,bbc.com,economist.com,wsj.com,politifact.com,thebureauinvestigates.com&apiKey={API_SECRET_KEY}")
 
+  # avoid KeyError world_new when saving to db
+    # pdb.set_trace()
     world_new = save_article(res)
+
     # world_new = world_new.get(res)
     
     res = requests.get(
@@ -400,25 +401,29 @@ def page_not_found(e):
 def save_article(res):
     """Save article to database"""
     
-    pdb.set_trace()
-    articles = res.json()['articles']
-
-    for article in articles:
-        if existing_art := Article.query.filter_by(url=article['url']).first():
-            article['id'] = existing_art.id
-
-        else:
-            new_art = Article(url=article['url'], author=article['author'],  title=article['title'],
-                              description=article['description'], urlToImage=article['urlToImage'], content=article['content'])
-
-            db.session.add(new_art)
-            db.session.commit()
-
-            article['id'] = new_art.id
-    return articles
-
+    # pdb.set_trace()
+    # if not g.user:
+    #     flash("You are not the authorized user of this account", "danger")
+    #     return redirect("/")
+    
+    
     # articles = res.json()['articles']
 
+    # for article in articles:
+    #     if existing_art := Article.query.filter_by(url=article['url']).first():
+    #         article['id'] = existing_art.id
+
+    #     else:
+    #         new_art = Article(url=article['url'], author=article['author'],  title=article['title'],
+    #                           description=article['description'], urlToImage=article['urlToImage'], content=article['content'])
+
+    #         db.session.add(new_art)
+    #         db.session.commit()
+
+    #         article['id'] = new_art.id
+    # return articles
+
+    # articles = res.json()['articles']
 
     # for article in articles:
     #     existing_art = Article.query.filter_by(url=article['url']).first()
@@ -435,24 +440,25 @@ def save_article(res):
 
     # return articles
     
-    # articles = res.json()['articles']
+    articles = res.json()['articles']
 
-    # for article in articles:
-    #     try:
-    #         if existing_art := Article.query.filter_by(url=article['url']).first():
-    #             article['id'] = existing_art.id
+    for article in articles:
+        try:
+            if existing_art := Article.query.filter_by(url=article['url']).first():
+                article['id'] = existing_art.id
+                print(dir(existing_art))
 
-    #         else:
-    #             new_art = Article(url=article['url'], author=article['author'],  title=article['title'],
-    #                               description=article['description'], urlToImage=article['urlToImage'], content=article['content'])
+            else:
+                new_art = Article(url=article['url'], author=article['author'],  title=article['title'],
+                                  description=article['description'], urlToImage=article['urlToImage'], content=article['content'])
 
-    #             db.session.add(new_art)
-    #             db.session.commit()
+                db.session.add(new_art)
+                db.session.commit()
 
-    #             article['id'] = new_art.id
-    #     except Exception as e:
-    #         print(e)
-    # return articles
+                article['id'] = new_art.id
+        except Exception as e:
+            print(e)
+    return articles
 
 
 ##############################################################################

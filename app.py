@@ -422,8 +422,8 @@ def show_latest_articles():
 
     latest_article = save_article(res)
 
-    # return render_template("latest_articles.html", latest_articles=latest_article)
-    return render_template("latest_articles.html", articles=latest_article)
+    return render_template("latest_articles.html", latest_articles=latest_article)
+
 ##############################################################################
 
 @app.route("/world_news", methods=["GET", "POST"])

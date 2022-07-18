@@ -287,43 +287,6 @@ def user_favorite():
     
     return render_template("/users/favorite.html", articles=articles)
             
-    
-    # article = (Likes
-    #         .query
-    #         .order_by(Likes.id)
-    #         .order_by(Likes.user_id)
-    #         .order_by(Likes.article_id)
-    #         .order_by(Likes.timestamp.desc())
-    #         .all())
-    
-
-
-    # # #likes query to get all likes and order by date_added desc, id
-    # like = (Article
-    #         .query
-    #         .order_by(Article.id)
-    #         .order_by(Article.user_id)
-    #         .order_by(Article.like_id)
-    #         .order_by(Article.content)
-    #         .order_by(Article.date_added.desc())
-    #         .order_by(Article.title)
-    #         .order_by(Article.description)
-    #         .all())
-    
-
-    
-    # # like = Likes.query.all()
-    
-    # """List all liked articles"""
-    # # like = (Likes
-    # #          .query
-    # #          .order_by(Likes.id)
-    # #          .order_by(Likes.article_id)
-    # #          .order_by(Likes.user_id)
-    # #          .all())
-    
-
-    # return render_template("/users/favorite.html", articles=article, likes=like)
 
 ##############################################################################
 # Delete favorite story

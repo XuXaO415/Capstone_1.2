@@ -354,24 +354,6 @@ def delete_like(likes_id):
     
     else:
         return redirect("/")
-   
-    # remove_article = Article.query.filter_by(id=id).first()
-    # remove_like = Article(user_id=g.user.id, article_id=id)
-
-    
-    # """remove from likes table article_id"""
- 
-    # remove_like = Like(user_id=g.user.id, article_id=like_id)
-    # # pdb.set_trace()
-
-    # # remove_article = Article.query.filter_by(id=id).first()
-    # # delete_article = Like.query.filter_by(article_id=id).first()
-    
-    # db.session.delete(remove_like)
-    # # db.session.delete(delete_article)
-    # db.session.commit()
-    
-    # return redirect(f"/users/favorites")
 
 ##############################################################################
 # Upon successful logout, redirects user to login page

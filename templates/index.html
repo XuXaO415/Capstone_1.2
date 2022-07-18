@@ -26,7 +26,8 @@
         <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
             <div class="col p-4 d-flex flex-column position-static">
                 <strong class="d-inline-block mb-2 text-primary">World News</strong> {% for world_new in world_news %}
-                <h3 class="mb-0">{{world_new.title | truncate(60)}}</h3>
+                {# <h3 class="mb-0">{{world_new.title | truncate(60)}}</h3> #}
+                   <h3 class="mb-0">{{world_new.title}}</h3>
                 <center>
                     <img src="{{world_new.urlToImage}} " class="img-fluid rounded"/>
                 </center>
@@ -38,7 +39,7 @@
                        <a href="{{world_new.url}}" class="badge badge-pill badge-info px-2 py-1 shadow-1-strong mb-3">{{world_new.url | truncate(29)}}</a>
             {% endif %}
                     
-                    <div>{{world_new.source.name}}</div>
+                    {# <div>{{world_new.source.name}}</div> #}
                     <div>{{world_new.publishedAt}}</div>
                    
                 </div>
@@ -60,7 +61,8 @@
         <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
             <div class="col p-4 d-flex flex-column position-static ">
                 <strong class="d-inline-block mb-2 text-success ">Trending News</strong> {% for latest_article in latest_articles %}
-                <h3 class="mb-0 ">{{latest_article.title | truncate(60)}}</h3>
+                {# <h3 class="mb-0 ">{{latest_article.title | truncate(60)}}</h3> #}
+                <h3 class="mb-0 ">{{latest_article.title}}</h3>
                 <center>
                     <img src="{{latest_article.urlToImage}} " class="img-fluid rounded" />
                 </center>
@@ -71,7 +73,7 @@
             {% else %}
                        <a href="{{latest_article.url}}" class="badge badge-pill badge-info px-2 py-1 shadow-1-strong mb-3">{{latest_article.url | truncate(29)}}</a>
             {% endif %}
-                    <div> {{latest_article.source.name}} </div>
+                    {# <div> {{latest_article.source.name}} </div> #}
                     <div> {{latest_article.publishedAt}} </div>
                
                 </div>

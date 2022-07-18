@@ -11,15 +11,15 @@
             <span class="badge bd-alert badge-primary px-2 py-1 shadow-1-strong mb-3">{{article.source.name}}</span>
         
             {% if article.urlToImage %}
-            <img src="{{article.urlToImage}}" class="img-fluid rounded" alt="{{article.title}}" />
+            <img src="{{article.urlToImage}}" class="img-fluid rounded" alt="{{article.title}}" width="auto" height="auto" />
             {% else %}
-            <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg" class="img-fluid rounded" alt="{{article.url}}" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg" class="img-fluid rounded" width="60%" height="60%" alt="{{article.url}}" target="_blank" />
             {% endif %}
 
             {% if article.author %}
-            <a href="{{article.url}}" class="badge badge-pill badge-light px-2 py-1 shadow-1-strong mb-3">{{article.author}}</a>
+            <a href="{{article.url}}" class="badge badge-pill badge-light px-2 py-1 shadow-1-strong mb-3" target="_blank">{{article.author}}</a>
             {% else %}
-            <a href="{{article.url}}" class="badge badge-pill badge-light px-2 py-1 shadow-1-strong mb-3">{{article.url | truncate(29)}}</a>
+            <a href="{{article.url}}" class="badge badge-pill badge-light px-2 py-1 shadow-1-strong mb-3" target="_blank">{{article.url | truncate(29)}}</a>
             {% endif %}
           
       
@@ -30,12 +30,12 @@
         <h4><strong>{{article.title | truncate(63)}}</strong></h4>
         <p class="text-justify text-muted" >{{article.description}}</p>
 
-
         {% if article.description == article.content %}
         <p class="text-justify text-muted" >{{article.description}}</p>
         {% else %}
-        <p class="text-justify" >{{article.content}}</p>
+        <p class="text-justify">{{article.content}}</p>
         {% endif %}
+
 
 
             <a href="{{ article.url }}"
@@ -45,6 +45,10 @@
             <form method="POST" action="/users/favorites/{{article.id}}">
         
             <button type="submit" class="btn btn-primary btn-md btn-rounded mb-3">Add to Favorites</button>
+            </form>
+
+            <form method="POST" action="/users/dislikes/{{article.id}}">
+            <button type="submit" class="btn btn-alert btn-md btn-rounded mb-3">Add to Dislikes</button>
             </form>
 
 

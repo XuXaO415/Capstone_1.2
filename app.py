@@ -1,6 +1,5 @@
 import os
-from genericpath import exists
-from turtle import title
+
 ##############################################################################
 
 # from flask import *
@@ -96,34 +95,16 @@ def homepage():
     res = requests.get(
         f"https://newsapi.org/v2/everything?q=latin-america&q=asia&q=europe&language=en&sortBy=popularity&pageSize=5&domains=apnews.com,reuters.com,npr.org,bbc.com,economist.com,wsj.com,politifact.com,thebureauinvestigates.com&apiKey={API_SECRET_KEY}")
 
-    world_news = save_article(res)
+    world_new = save_article(res)
+    # world_new = world_new.get(res)
     
     res = requests.get(
         f"https://newsapi.org/v2/everything?q=top-news&language=en&sortBy=publishedAt&pageSize=5&domains=apnews.com,reuters.com,npr.org,economist.com,wsj.com,bbc.com,politifact.com,thebureauinvestigates.com&apiKey={API_SECRET_KEY}")
 
     latest_article = save_article(res)
     
-    
-    return render_template("index.html", world_news=world_news, latest_articles=latest_article)
-
-##############################################################################
-#Set up pagination for the articles
-# @app.route("/articles", methods=["GET", "POST"])
-# def get_articles(page):
-#     """Get articles from database"""
-    
-#     page = requests.args.get('page', 1, type=int)
-#     articles = Article.query.order_by(Article.id.desc()).paginate(page, app.config['POSTS_PER_PAGE'], False)
-#     next_url = url_for('get_articles', page=articles.next_num) if articles.has_next else None
-#     prev_url = url_for('get_articles', page=articles.prev_num) if articles.has_prev else None
-    
-#     paginate = Article.query.paginate(page, per_page=5)
- 
-    
-#     return render_template("index.html", articles=articles, paginate=paginate, next_url=next_url, prev_url=prev_url)
-
-    
-
+    return render_template("index.html", world_news=world_new, latest_articles=latest_article)
+    # return render_template("index.html", world_news=res, latest_articles=res)
 
 ##############################################################################
 # User signup
@@ -184,6 +165,7 @@ def login():
         flash("Invalid credentials.", "danger")
         
     return render_template('users/login.html', form=form)
+
 
 
 ##############################################################################
@@ -418,7 +400,7 @@ def page_not_found(e):
 def save_article(res):
     """Save article to database"""
     
-
+    pdb.set_trace()
     articles = res.json()['articles']
 
     for article in articles:
@@ -437,6 +419,7 @@ def save_article(res):
 
     # articles = res.json()['articles']
 
+
     # for article in articles:
     #     existing_art = Article.query.filter_by(url=article['url']).first()
     #     if not existing_art:
@@ -451,6 +434,55 @@ def save_article(res):
     #         article['id'] = existing_art.id
 
     # return articles
+    
+    # articles = res.json()['articles']
+
+    # for article in articles:
+    #     try:
+    #         if existing_art := Article.query.filter_by(url=article['url']).first():
+    #             article['id'] = existing_art.id
+
+    #         else:
+    #             new_art = Article(url=article['url'], author=article['author'],  title=article['title'],
+    #                               description=article['description'], urlToImage=article['urlToImage'], content=article['content'])
+
+    #             db.session.add(new_art)
+    #             db.session.commit()
+
+    #             article['id'] = new_art.id
+    #     except Exception as e:
+    #         print(e)
+    # return articles
+
+
+##############################################################################
+
+# def save_article(res):
+#     articles = res.json()['articles']
+#     # save_article(res)
+#     for article in res.json()['articles']:
+#         # try:
+#             if existing_art := Article.query.filter_by(url=article['url']).first():
+#                 article['id'] = existing_art.id
+
+#             else:
+#                 new_art = Article(url=article['url'], author=article['author'],  title=article['title'],
+#                                   description=article['description'], urlToImage=article['urlToImage'], content=article['content'])
+
+#                 db.session.add(new_art)
+#                 db.session.commit()
+
+#                 article['id'] = new_art.id
+#         # except KeyError as e:
+#         # except NameError as e:
+#         # except TypeError as e:
+ 
+#             # print(e)
+#             return articles
+#         # return res.json()['articles']
+
+    
+    
 
 ##############################################################################
 # Homepage quick link that displays latest news
@@ -471,7 +503,8 @@ def show_latest_articles():
 
     latest_article = save_article(res)
 
-    return render_template("latest_articles.html", latest_articles=latest_article)
+    # return render_template("latest_articles.html", latest_articles=latest_article)
+    return render_template("latest_articles.html", articles=latest_article)
 ##############################################################################
 
 @app.route("/world_news", methods=["GET", "POST"])
@@ -485,6 +518,7 @@ def show_world_news():
     res = requests.get(
         f"https://newsapi.org/v2/top-headlines?q=international&language=en&pageSize=15&apiKey={API_SECRET_KEY}")
     
+    # pdb.set_trace()
     world_new = save_article(res)
     
     return render_template("article_list.html", articles=world_new, title='World News')

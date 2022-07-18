@@ -585,18 +585,6 @@ def search_all_articles():
             
     return render_template("top_articles.html", articles=rel_art, title='Search Results', articles2=rec_art)
 
-
-    
-    # title_request = response.json()
-    # print (response.text)
-
-    # # return jsonify(top_articles)
-   
-    # return render_template("top_articles.html", top_articles=relevant_articles['articles'][0:10],
-    #                        new_articles=recent_articles['articles'][0:10], titlequery=title_request)
-
-
-    # return render_template("latest_articles.html", latest_articles=recent_articles['articles'][0:10], titlequery=title_request)
 ##############################################################################
 @ app.after_request
 def add_header(req):

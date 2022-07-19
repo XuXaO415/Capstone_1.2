@@ -1,4 +1,5 @@
 import os
+from crypt import methods
 
 ##############################################################################
 
@@ -172,67 +173,108 @@ def login():
 ##############################################################################
 # User profile
 ##############################################################################
-@app.route("/users/<int:user_id>")
-def show_user_profile(user_id):
+@app.route("/users/<int:user_id>", methods=["GET"])
+def user_profile(user_id):
 
     user = User.query.get_or_404(user_id)
-
-    return render_template('users/profile.html', user=user)
+    
+    return render_template("users/profile.html", user=user)
 
 
 ##############################################################################
 # User profile edit form
 ##############################################################################
-@app.route("/users/<int:user_id>/edit", methods=["GET", "POST"])
-def edit_user(user_id):
-    """Edit user profile"""
+# @app.route("/users/<int:user_id>/edit", methods=["GET", "POST"])
+# def edit_user(user_id):
+#     """Edit user profile"""
     
-    if not g.user:
-        flash("Access unauthorized.", "danger")
-        return redirect("/")
+#     if not g.user:
+#         flash("Access unauthorized.", "danger")
+#         return redirect("/")
     
-    user = g.user
-    form = UserEditForm(obj=g.user)
+#     user = g.user
+#     form = UserEditForm(obj=g.user)
 
         
-    if form.validate_on_submit():
-        if User.authenticate(form.username.data, form.email.data, form.password.data):
+#     if form.validate_on_submit():
+#         if User.authenticate(form.username.data, form.email.data, form.password.data):
 
-            user.username = form.username.data
-            user.email = form.email.data
-            user.password = form.password.data
+#             user.username = form.username.data
+#             user.email = form.email.data
+#             user.password = form.password.data
         
-            db.session.add(g.user)
-            db.session.commit()   
+#             # db.session.add(g.user)
+#             db.session.commit()   
            
             
-            flash("Your profile has been updated.", "success")
-            return redirect(f"/users/{g.user.id}")
-        else: 
-            flash("Incorrect password", "danger")
-            return redirect(f"/users/{g.user.id}")
-    else:
-        return render_template("users/edit.html", form=form, user_id=user_id)
+#             flash("Your profile has been updated.", "success")
+#             return redirect(f"/users/{g.user.id}")
+#         else: 
+#             flash("Incorrect password", "danger")
+#             return redirect(f"/users/{g.user.id}")
+#     else:
+#         return render_template("users/edit.html", form=form, user_id=user_id)
     
 ##############################################################################
-# Delete User
-##############################################################################
-@app.route("/users/delete", methods=["POST"])
-def delete_user():
-    """Delete user"""
-    
+# Edit User Profile and update db with new info. When finished, redirect to updated profile
+
+@app.route("/users/<int:user_id>/edit")
+def edit_user(user_id):
     
     if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
+    g.user.id = user_id
+    form = UserEditForm(obj=g.user)
+
+    if not form.validate_on_submit():
+        return render_template("users/edit.html", form=form, user_id=user_id)
+    if User.authenticate(form.username.data, form.email.data, form.password.data):
+        g.user.username = form.username.data
+        g.user.email = form.email.data
+        g.user.password = form.password.data
+        # db.session.add(g.user)
+        db.session.commit()
+        flash("Your profile has been updated.", "success")
+        return redirect(f"/users/{g.user.id}")
+ 
+
+    else:
+        flash("Incorrect password", "danger")
+        return redirect("/users/login")
+
+
+            
+    
+
+    
+##############################################################################
+# Delete User and remove user from database
+##############################################################################
+@app.route("/users/delete/<int:user_id>", methods=["POST"])
+def delete_user(user_id):
+    """Delete user"""
+    
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+    g.user.id = user_id
     
     do_logout()
-    flash (f"Your account has successfully been deleted", "success")
-    
+    flash("Account deleted. We hope to see you again!", "success")
     db.session.delete(g.user)
     db.session.commit()
+    
     return redirect("/signup")
+    
 
+    
+    # do_logout()
+    # flash (f"Your account has successfully been deleted", "success")
+    
+    # db.session.delete(g.user)
+    # db.session.commit()
+    # return redirect("/signup")
 
 ##############################################################################
 # User Favorite
@@ -256,21 +298,13 @@ def add_likes(likes_id):
         flash("You have successfully liked this article", "success")
         return redirect("/users/favorites/")
     
-    
- 
 ##############################################################################
 # User Favorites
 ##############################################################################
-
-
 @app.route("/users/favorites/", methods=["GET", "POST"])
 def user_favorite():
     """Shows a list of user's liked articles"""
 
-
-    # articles = Likes.query.filter_by(user_id=g.user.id).order_by(Likes.id.desc()).group_by(Likes.article_id).all()
-    # print(Likes.id)
-    
     articles = Likes.query.with_entities(Likes.article_id, Likes.user_id, Likes.id, Likes.timestamp,
                                          Likes.timestamp, Article.content, Article.title, Article.urlToImage, Article.description, Article.publishedAt, Article.author, Article.url,
                                          Article.date_added).filter_by(user_id=g.user.id).distinct().join(Article).order_by(Likes.id.desc()).all()
@@ -279,19 +313,14 @@ def user_favorite():
         
     for article in articles:
         like = Article.query.filter_by(id=article.article_id).first()
-      
         likes.append(like)
-        # likes.append(article.article_id)
-      
-
-    
+        
     return render_template("/users/favorite.html", articles=articles)
             
 
 ##############################################################################
 # Delete favorite story
 ##############################################################################
-
 @app.route("/users/delete/<int:likes_id>", methods=["GET", "POST"])
 def delete_like(likes_id):
     """Current logged in user can delete their favorite story"""
@@ -300,28 +329,19 @@ def delete_like(likes_id):
         flash("You are not the authorized user of this account", "danger")
         return redirect("/")
     
-    # delete_like = Likes.query.get_or_404(likes_id)
-    # pdb.set_trace()
-    
-    # if Likes.query.filter_by(user_id=g.user.id, article_id=likes_id).first():
-    
     if Likes.query.all():
-        # delete_like = Likes.query.filter_by(user_id=g.user.id, article_id=likes_id).first()
         delete_like = Likes.query.filter_by(
             user_id=g.user.id, article_id=likes_id).first()
         db.session.delete(delete_like)
         db.session.commit()
-        # pdb.set_trace()
         flash("You have successfully deleted this article", "success")
         return redirect("/users/favorites")
-    
     else:
         return redirect("/")
 
 ##############################################################################
 # Upon successful logout, redirects user to login page
 ##############################################################################
-
 @app.route("/logout")
 def logout():
 
@@ -330,11 +350,9 @@ def logout():
     
     return redirect(url_for("login"))
 
-
 ##############################################################################
 # Super simple 404 page
 ##############################################################################
-
 @app.errorhandler(404)
 def page_not_found(e):
     """404 Not Found"""

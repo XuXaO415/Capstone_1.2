@@ -5,33 +5,27 @@
         <div class="container">
             <h1 class="mt-5">Edit Your Profile</h1>
 
-            <form method="POST" id="user_form">
-                {{ form.hidden_tag() }} 
-                {% for field in form if field.widget.input_type != 'hidden' and field.name != 'password' %} 
-                {% for error in field.errors %}
-                <span class="text-danger ">{{ error }}</span> 
-                {% endfor %}
-                
-                {{ field(placeholder=field.label.text, class="form-control mb-2 ") }} 
-                </form>
-                {% endfor %}
+            <form method="POST" id="user.form">
+                {{ form.hidden_tag() }} {% for field in form if field.widget.input_type != 'hidden' and field.name != 'password' %} {% for error in field.errors %}
+                <span class="text-danger ">{{ error }}</span> {% endfor %} {{ field(placeholder=field.label.text, class="form-control mb-2 ") }}
+            </form>
+            {% endfor %}
 
-                <p>To confirm changes, enter your password:</p>
-                {% if form.password.errors %} 
-                {% for error in form.password.errors %}
-                <span class="text-danger ">
+            <p>To confirm changes, enter your password:</p>
+            {% if form.password.errors %} {% for error in form.password.errors %}
+            <span class="text-danger ">
                     {{ error }}
                 </span> 
-                    {% endfor %} 
-                    {% endif %} 
-                    {{ form.password(placeholder="Enter your password to confirm ", class="form-control mb-2 ") }}
-                
-                <div class="edit-btn-area ">
-                    <form action="/users/{{user_id}}/edit" , methods="POST">
-                        <button class="btn btn-primary " type="submit ">Update</button>
-                        <a href="/users/{{ user_id }} " class="btn btn-outline-secondary ">Cancel</a>
-                        </div>
-                    </form>
+                {% endfor %} 
+                {% endif %} 
+                {{ form.password(placeholder="Enter your password to confirm ", class="form-control mb-2 ") }}
+
+            <div class="edit-btn-area ">
+                <form action="/users/{{user_id}}/edit" , methods="POST">
+                    <button class="btn btn-primary " type="submit ">Update</button>
+                    <a href="/users/{{ user_id }} " class="btn btn-outline-secondary ">Cancel</a>
+
+                </form>
             </div>
 
         </div>
@@ -39,4 +33,4 @@
 
 
 
-{% endblock %}
+    {% endblock %}

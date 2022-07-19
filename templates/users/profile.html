@@ -1,10 +1,13 @@
-{% extends 'users/edit.html' %} {% block title %}{{ g.user.username}}'s profile{% endblock %} {% block content %}
+{# {% extends 'users/edit.html' %} {% block title %}{{ g.user.username}}'s profile{% endblock %} {% block content %} #}
 
+
+{% extends 'base.html' %} {% block title %}{{ g.user.username}}'s profile{% endblock %} {% block content %}
 <div class="row justify-content-md-center">
     <div class="col-md-4">
         <div class="container">
             <center>
                 <h1 class="mt-5">Edit profile for {{ g.user.username }}</h1>
+            
 
                 <div>
                     <h2 class="user-details-title text-warning mt-3">
@@ -18,14 +21,17 @@
                         <p class="mb-0 user-password"><span>Password:</span> XXXXX</p>
                     </div>
                 </div>
-
+{# 
                 <form action="/users/{{user.id}}/edit" , methods="POST">
-                    <button class="btn btn-primary">Edit</button>
+                    <button class="btn btn-primary">Edit</button> #}
+                    <a href="/users/{{ g.user.id }}/edit" class="btn btn-primary">Edit</a>
 
                     <form class="col-md-6" action="/users/delete" method="POST">
                         <button class="btn btn-danger profile-btn">Delete</button>
                     </form>
-
+                </form>
+            </center>
+            </div>
         </div>
     </div>
     {% endblock %}

@@ -26,7 +26,7 @@
         <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
             <div class="col p-4 d-flex flex-column position-static">
                 <strong class="d-inline-block mb-2 text-primary">World News</strong> {% for world_new in world_news %}
-                {# <h3 class="mb-0">{{world_new.title | truncate(60)}}</h3> #}
+                <h3 class="mb-0">{{world_new.title | truncate(60)}}</h3>
                    <h3 class="mb-0">{{world_new.title}}</h3>
                 <center>
                     <img src="{{world_new.urlToImage}} " class="img-fluid rounded"/>
@@ -39,7 +39,7 @@
                        <a href="{{world_new.url}}" class="badge badge-pill badge-info px-2 py-1 shadow-1-strong mb-3">{{world_new.url | truncate(29)}}</a>
             {% endif %}
                     
-                    {# <div>{{world_new.source.name}}</div> #}
+                    <div>{{world_new.source.name}}</div>
                     <div>{{world_new.publishedAt}}</div>
                    
                 </div>

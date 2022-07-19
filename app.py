@@ -218,7 +218,7 @@ def user_profile(user_id):
 ##############################################################################
 # Edit User Profile and update db with new info. When finished, redirect to updated profile
 
-@app.route("/users/<int:user_id>/edit")
+@app.route("/users/<int:user_id>/edit/", methods=["GET", "POST"])
 def edit_user(user_id):
     
     if not g.user:
@@ -226,6 +226,7 @@ def edit_user(user_id):
         return redirect("/")
     # pdb.set_trace()
     g.user.id = user_id
+    user = User.query.filter(user_id == g.user.id).first()
     form = UserEditForm(obj=g.user)
 
     if not form.validate_on_submit():

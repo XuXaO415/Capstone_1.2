@@ -21,9 +21,9 @@
                 {{ form.password(placeholder="Enter your password to confirm ", class="form-control mb-2 ") }}
 
             <div class="edit-btn-area ">
-                <form action="/users/{{user_id}}/edit" , methods="POST">
+                <form action="/users/{{g.user.id}}/edit" , methods="POST">
                     <button class="btn btn-primary " type="submit ">Update</button>
-                    <a href="/users/{{ user_id }} " class="btn btn-outline-secondary ">Cancel</a>
+                    <a href="/users/{{ g.user.id }} " class="btn btn-outline-secondary ">Cancel</a>
 
                 </form>
             </div>

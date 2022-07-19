@@ -224,16 +224,18 @@ def edit_user(user_id):
     if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
+    # pdb.set_trace()
     g.user.id = user_id
     form = UserEditForm(obj=g.user)
 
     if not form.validate_on_submit():
-        return render_template("users/edit.html", form=form, user_id=user_id)
+        return render_template("users/edit.html", form=form, user_id=g.user.id)
     if User.authenticate(form.username.data, form.email.data, form.password.data):
         g.user.username = form.username.data
         g.user.email = form.email.data
         g.user.password = form.password.data
-        # db.session.add(g.user)
+        # pdb.set_trace()
+        db.session.add(g.user.id)
         db.session.commit()
         flash("Your profile has been updated.", "success")
         return redirect(f"/users/{g.user.id}")
@@ -241,7 +243,7 @@ def edit_user(user_id):
 
     else:
         flash("Incorrect password", "danger")
-        return redirect("/users/login")
+        return render_template("/users/signup.html")
 
 
             
@@ -251,17 +253,18 @@ def edit_user(user_id):
 ##############################################################################
 # Delete User and remove user from database
 ##############################################################################
-@app.route("/users/delete/<int:user_id>", methods=["POST"])
-def delete_user(user_id):
+@app.route("/users/delete", methods=["POST"])
+def delete_user():
     """Delete user"""
     
     if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
-    g.user.id = user_id
+
     
     do_logout()
     flash("Account deleted. We hope to see you again!", "success")
+    # pdb.set_trace()
     db.session.delete(g.user)
     db.session.commit()
     

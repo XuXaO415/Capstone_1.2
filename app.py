@@ -1,5 +1,5 @@
 import os
-from crypt import methods
+import re 
 
 ##############################################################################
 
@@ -97,8 +97,6 @@ def homepage():
   # avoid KeyError world_new when saving to db
     # pdb.set_trace()
     world_new = save_article(res)
-
-    # world_new = world_new.get(res)
     
     res = requests.get(
         f"https://newsapi.org/v2/everything?q=top-news&language=en&sortBy=publishedAt&pageSize=5&domains=apnews.com,reuters.com,npr.org,economist.com,wsj.com,bbc.com,politifact.com,thebureauinvestigates.com&apiKey={API_SECRET_KEY}")
@@ -106,7 +104,6 @@ def homepage():
     latest_article = save_article(res)
     
     return render_template("index.html", world_news=world_new, latest_articles=latest_article)
-    # return render_template("index.html", world_news=res, latest_articles=res)
 
 ##############################################################################
 # User signup
@@ -218,24 +215,27 @@ def user_profile(user_id):
 ##############################################################################
 # Edit User Profile and update db with new info. When finished, redirect to updated profile
 
-@app.route("/users/<int:user_id>/edit/", methods=["GET", "POST"])
+@app.route("/users/<int:user_id>/edit", methods=["GET", "POST"])
 def edit_user(user_id):
+    
+    # pdb.set_trace()
     
     if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
     # pdb.set_trace()
     g.user.id = user_id
-    user = User.query.filter(user_id == g.user.id).first()
+    # user = User.query.filter(user_id == g.user.id).first()
     form = UserEditForm(obj=g.user)
 
     if not form.validate_on_submit():
+        # return render_template("users/edit.html", form=form, user_id=user_id)
         return render_template("users/edit.html", form=form, user_id=g.user.id)
     if User.authenticate(form.username.data, form.email.data, form.password.data):
         g.user.username = form.username.data
         g.user.email = form.email.data
         g.user.password = form.password.data
-        # pdb.set_trace()
+
         db.session.add(g.user.id)
         db.session.commit()
         flash("Your profile has been updated.", "success")
@@ -264,6 +264,7 @@ def delete_user():
 
     
     do_logout()
+    get_flashed_messages()
     flash("Account deleted. We hope to see you again!", "success")
     # pdb.set_trace()
     db.session.delete(g.user)
@@ -271,15 +272,6 @@ def delete_user():
     
     return redirect("/signup")
     
-
-    
-    # do_logout()
-    # flash (f"Your account has successfully been deleted", "success")
-    
-    # db.session.delete(g.user)
-    # db.session.commit()
-    # return redirect("/signup")
-
 ##############################################################################
 # User Favorite
 ##############################################################################
@@ -374,7 +366,7 @@ def save_article(res):
         try:
             if existing_art := Article.query.filter_by(url=article['url']).first():
                 article['id'] = existing_art.id
-                print(dir(existing_art))
+                # print(dir(existing_art))
 
             else:
                 new_art = Article(url=article['url'], author=article['author'],  title=article['title'],
@@ -403,7 +395,7 @@ def show_latest_articles():
 
 
     res = requests.get(
-        f"https://newsapi.org/v2/top-headlines?category=general&country=us&pageSize=10&apiKey={API_SECRET_KEY}")
+        f"https://newsapi.org/v2/top-headlines?category=general&country=us&pageSize=15&apiKey={API_SECRET_KEY}")
 
     latest_article = save_article(res)
 

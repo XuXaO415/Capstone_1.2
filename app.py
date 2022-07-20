@@ -13,7 +13,7 @@ from flask_moment import Moment
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from flask_debugtoolbar import DebugToolbarExtension
-from flask_bootstrap import Bootstrap
+# from flask_bootstrap import Bootstrap
 
 from newsapi import NewsApiClient
 

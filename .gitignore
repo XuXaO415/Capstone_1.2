@@ -3,3 +3,10 @@ __pycache__
 venv
 secrets.py
 .env
+search.html
+seed.py
+tables.sql
+top_articles.html
+v1.favorite.html
+extra_code.html
+config.py

@@ -31,8 +31,8 @@ load_dotenv()
 
 app = Flask(__name__)
 
-bootstrap = Bootstrap(app)
-moment = Moment(app)
+# bootstrap = Bootstrap(app)
+# moment = Moment(app)
 
 CURR_USER_KEY = "curr_user"
 

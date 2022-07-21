@@ -56,6 +56,7 @@ connect_db(app)
 def add_user_to_g():
     """If we're logged in, add curr user to Flask global."""
 
+    # pdb.set_trace()
     if CURR_USER_KEY in session:
         g.user = User.query.get(session[CURR_USER_KEY])
 
@@ -94,8 +95,6 @@ def homepage():
     res = requests.get(
         f"https://newsapi.org/v2/everything?q=latin-america&q=asia&q=europe&language=en&sortBy=popularity&pageSize=5&domains=apnews.com,reuters.com,npr.org,bbc.com,economist.com,wsj.com,politifact.com,thebureauinvestigates.com&apiKey={API_SECRET_KEY}")
 
-  # avoid KeyError world_new when saving to db
-    # pdb.set_trace()
     world_new = save_article(res)
     
     res = requests.get(
@@ -125,8 +124,7 @@ def signup():
                 last_name = form.last_name.data,
                 email = form.email.data,
                 username = form.username.data,
-                pwd = form.password.data,
-                
+                pwd = form.password.data
             )
             db.session.add(user)
             db.session.commit()
@@ -138,6 +136,7 @@ def signup():
             return render_template("users/signup.html", form=form)
         
         do_login(user)
+        flash("Successfully signed up!", "success")
         return redirect('/')
     
     else:
@@ -158,7 +157,7 @@ def login():
         
         if user:
             do_login(user)
-            flash(f"Hello, {user.username}!", "success")
+            flash(f"Welcome back, {user.username}!", "success")
             return redirect("/")
         
         flash("Invalid credentials.", "danger")
@@ -181,76 +180,36 @@ def user_profile(user_id):
 ##############################################################################
 # User profile edit form
 ##############################################################################
-# @app.route("/users/<int:user_id>/edit", methods=["GET", "POST"])
-# def edit_user(user_id):
-#     """Edit user profile"""
-    
-#     if not g.user:
-#         flash("Access unauthorized.", "danger")
-#         return redirect("/")
-    
-#     user = g.user
-#     form = UserEditForm(obj=g.user)
-
-        
-#     if form.validate_on_submit():
-#         if User.authenticate(form.username.data, form.email.data, form.password.data):
-
-#             user.username = form.username.data
-#             user.email = form.email.data
-#             user.password = form.password.data
-        
-#             # db.session.add(g.user)
-#             db.session.commit()   
-           
-            
-#             flash("Your profile has been updated.", "success")
-#             return redirect(f"/users/{g.user.id}")
-#         else: 
-#             flash("Incorrect password", "danger")
-#             return redirect(f"/users/{g.user.id}")
-#     else:
-#         return render_template("users/edit.html", form=form, user_id=user_id)
-    
-##############################################################################
-# Edit User Profile and update db with new info. When finished, redirect to updated profile
-
 @app.route("/users/<int:user_id>/edit", methods=["GET", "POST"])
 def edit_user(user_id):
-    
-    # pdb.set_trace()
+    """Edit user profile"""
     
     if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
-    # pdb.set_trace()
-    g.user.id = user_id
-    # user = User.query.filter(user_id == g.user.id).first()
+    
+    user = g.user
     form = UserEditForm(obj=g.user)
 
-    if not form.validate_on_submit():
-        # return render_template("users/edit.html", form=form, user_id=user_id)
-        return render_template("users/edit.html", form=form, user_id=g.user.id)
-    if User.authenticate(form.username.data, form.email.data, form.password.data):
-        g.user.username = form.username.data
-        g.user.email = form.email.data
-        g.user.password = form.password.data
+        
+    if form.validate_on_submit():
+        if User.authenticate(form.username.data, form.password.data):
 
-        db.session.add(g.user.id)
-        db.session.commit()
-        flash("Your profile has been updated.", "success")
-        return redirect(f"/users/{g.user.id}")
- 
-
-    else:
-        flash("Incorrect password", "danger")
-        return render_template("/users/signup.html")
-
-
+            user.username = form.username.data
+            user.password = form.password.data
+        
+            # db.session.add(g.user)
+            db.session.commit()   
+           
             
-    
-
-    
+            flash("Your profile has been updated.", "success")
+            return redirect(f"/users/{g.user.id}")
+        else: 
+            flash("Incorrect password", "danger")
+            return redirect(f"/users/{g.user.id}")
+    else:
+        return render_template("users/edit.html", form=form, user_id=user_id)
+        
 ##############################################################################
 # Delete User and remove user from database
 ##############################################################################
@@ -572,6 +531,5 @@ def add_header(req):
     req.headers["Expires"] = "0"
     req.headers['Cache-Control'] = 'public, max-age=0'
     return req
-
 
 ##############################################################################

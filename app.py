@@ -91,11 +91,13 @@ def do_logout():
 def homepage():
     """Homepage"""
     API_SECRET_KEY = os.getenv('API_SECRET_KEY')
-
+    
+    
     res = requests.get(
         f"https://newsapi.org/v2/everything?q=latin-america&q=asia&q=europe&language=en&sortBy=popularity&pageSize=5&domains=apnews.com,reuters.com,npr.org,bbc.com,economist.com,wsj.com,politifact.com,thebureauinvestigates.com&apiKey={API_SECRET_KEY}")
-
+    # pdb.set_trace()
     world_new = save_article(res)
+    
     
     res = requests.get(
         f"https://newsapi.org/v2/everything?q=top-news&language=en&sortBy=publishedAt&pageSize=5&domains=apnews.com,reuters.com,npr.org,economist.com,wsj.com,bbc.com,politifact.com,thebureauinvestigates.com&apiKey={API_SECRET_KEY}")

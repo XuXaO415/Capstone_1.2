@@ -1,59 +1,69 @@
 {% extends 'base.html' %} {% block title %}Latest Articles{% endblock %} {% block content %}
 
 
-<article class="story story-latest_news">
+<div class="container">
+    <news class="latest latest-news">
+    <h1 class="latest-news-title text-center">Latest News</h1>
+    <div class="container-row">
+    <hr> {% for latest_article in latest_articles %}
+    <section class="border-bottom pb-4 mb-5">
+    <div class="row gx-5">
+    <div class="col-md-6 mb-4">
+    <span class="badge bd-alert badge-primary px-2 py-1 shadow-1-strong mb-3">{{latest_article.source.name}}</span>
 
-    <h1 class="text-center">Latest News</h1>
-    <hr/> {% for latest_article in latest_articles %}
+                {% if latest_article.urlToImage %}
+            <img src="{{latest_article.urlToImage}}" class="img-fluid rounded" alt="{{latest_article.title}}" width="auto" height="auto" />
+            {% else %}
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg" class="img-fluid rounded" width="60%" height="60%" alt="{{latest_article.url}}" target="_blank" />
+            {% endif %}
 
-    <div class="latest-container">
-        <div class="row">
-            <h3>
-                <center>
-                    <strong>{{latest_article.title}}</strong>
-                </center>
-            </h3>
-            <img src="{{ latest_article.urlToImage }}" class="float-right" style="width:60%" />
-            <div class="ln-caption">Author: {{ latest_article.author}} {{latest_article.date_published}}</div>
+            {% if latest_article.author %}
+            <a href="{{latest_article.url}}" class="badge badge-pill badge-light px-2 py-1 shadow-1-strong mb-3" target="_blank">{{latest_article.author}}</a>
+            {% else %}
+            <a href="{{latest_article.url}}" class="badge badge-pill badge-light px-2 py-1 shadow-1-strong mb-3" target="_blank">{{latest_article.url | truncate(29)}}</a>
+            {% endif %}
+    </div>
+         <div class="col-md-6 mb-4">
+            <span class="badge badge-pill badge-success px-2 py-1 shadow-1-strong mb-3">{{ latest_article.publishedAt }}</span>
+            <h4><strong>{{latest_article.title | truncate(63)}}</strong></h4>
+            <p class="text-justify text-muted">{{latest_article.description}}</p>
 
-            <p>{{ latest_article.date_published }}</p>
-            <p> {{latest_article.description}}</p>
-            <a href="{{ latest_article.url }}" class="btn btn-primary" target="_blank">Read more...
-            <i class="fas fa-external-link-square-alt"></i>
-            {# <!-- </br>
-            <i class="fa fa-share-alt"></i> --> #}
-             </a>
+            {% if latest_article.description == latest_article.content %}
+            <p class="text-justify text-muted">{{latest_article.description}}</p>
+            {% else %}
+            <p class="text-justify">{{latest_article.content}}</p>
+            {% endif %}
 
+            <a href="{{ latest_article.url }}" data-mdb-ripple-color="primary" class="btn btn-primary btn-sm btn-rounded mb-3" target="_blank">Read More</a>
+
+            <div class="float-right">
             <form method="POST" action="/users/favorites/{{latest_article.id}}">
-                {# <p>{{ latest_article.id }}</p>
-                <p>{{latest_article.user_id}}</p> #}
-
-                <button class="btn btn-sm btn-primary">
+                <button class="btn btn-sm btn-primary btn-md btn-rounded mb-3">
                     <i class="fas fa-bookmark"></i>
                     </button>
-
             </form>
         </div>
-    </div>
 
+    </section>
     {% endfor %}
-</article>
+    </div>
+    </news>
+    {% endblock %}
 
-{% endblock%}
-
-    <footer class="sticky-footer ">
-        <div class="container text-center ">
-            <small>&copy;2022 Aletheia</small>
-            <p>
-                <small>Made with <i class="fa fa-far fa-heart" aria-hidden="true"></i> by Xuxa415</small>
-            </p>
-                <p>
-                    <span class="contact-links">
+<footer class="sticky-footer ">
+    <div class="container text-center ">
+        <small>&copy;2022 Aletheia</small>
+        <p>
+            <small>Made with <i class="fa fa-far fa-heart" aria-hidden="true"></i> by Xuxa415</small>
+        </p>
+        <p>
+            <span class="contact-links">
                         <a href="https://www.linkedin.com/in/covalle415/" target="_blank">
                             <i class="fab fa-linkedin-in"></i>
                         </a>
                         <a href="https://github.com/XuXaO415" target="_blank">
                             <i class="fab fa-github"></i>
+                            </a>
              
                         <span>
                             <a href="https://www.instagram.com" target="_blank">
@@ -64,10 +74,9 @@
                             </a>
                           
                         </span>
-                        <p>
-                    <small><a href="#">Back to top</a></small>
-                    </p>
-                </center>
-                </p>
-        </div>
-    </footer>
+            <p>
+                <small><a href="#">Back to top</a></small>
+            </p>
+        </p>
+    </div>
+</footer>

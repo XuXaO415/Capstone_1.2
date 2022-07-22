@@ -1,15 +1,15 @@
 {% extends 'base.html' %} {% block title %}{{title}}{% endblock %} {% block content %}
 
 <div class="container">
-    <news class="news news-feed">
+  <news class="news news-feed">
     <h1 class="news-title text-center">{{title}}</h1>
     <div class="container-row">
-    <hr> {% for article in articles %}
-    <section class="border-bottom pb-4 mb-5">
-    <div class="row gx-5">
-        <div class="col-md-6 mb-4">
+      <hr> {% for article in articles %}
+      <section class="border-bottom pb-4 mb-5">
+        <div class="row gx-5">
+          <div class="col-md-6 mb-4">
             <span class="badge bd-alert badge-primary px-2 py-1 shadow-1-strong mb-3">{{article.source.name}}</span>
-        
+
             {% if article.urlToImage %}
             <img src="{{article.urlToImage}}" class="img-fluid rounded" alt="{{article.title}}" width="auto" height="auto" />
             {% else %}
@@ -21,48 +21,39 @@
             {% else %}
             <a href="{{article.url}}" class="badge badge-pill badge-light px-2 py-1 shadow-1-strong mb-3" target="_blank">{{article.url | truncate(29)}}</a>
             {% endif %}
-          
-      
-
-            </div>
-        <div class="col-md-6 mb-4">
-        <span class="badge badge-pill badge-success px-2 py-1 shadow-1-strong mb-3">{{ article.publishedAt }}</span>
-        <h4><strong>{{article.title | truncate(63)}}</strong></h4>
-        <p class="text-justify text-muted" >{{article.description}}</p>
-
-        {% if article.description == article.content %}
-        <p class="text-justify text-muted" >{{article.description}}</p>
-        {% else %}
-        <p class="text-justify">{{article.content}}</p>
-        {% endif %}
 
 
+          </div>
+          <div class="col-md-6 mb-4">
+            <span class="badge badge-pill badge-success px-2 py-1 shadow-1-strong mb-3">{{ article.publishedAt }}</span>
+            <h4><strong>{{article.title | truncate(63)}}</strong></h4>
+            <p class="text-justify text-muted">{{article.description}}</p>
 
-            <a href="{{ article.url }}"
-            data-mdb-ripple-color="primary"
-            class="btn btn-primary btn-sm btn-rounded mb-3" target="_blank">Read More</a>
+            {% if article.description == article.content %}
+            <p class="text-justify text-muted">{{article.description}}</p>
+            {% else %}
+            <p class="text-justify">{{article.content}}</p>
+            {% endif %}
 
+
+
+            <a href="{{ article.url }}" data-mdb-ripple-color="primary" class="btn btn-primary btn-sm btn-rounded mb-3" target="_blank">Read More</a>
+
+            <div class="float-right">
             <form method="POST" action="/users/favorites/{{article.id}}">
-        
-            <button type="submit" class="btn btn-primary btn-md btn-rounded mb-3">Add to Favorites</button>
+                <button class="btn btn-sm btn-primary btn-md btn-rounded mb-3">
+                    <i class="fas fa-bookmark"></i>
+                    </button>
             </form>
 
-            {# <form method="POST" action="/users/dislikes/{{article.id}}">
-            <button type="submit" class="btn btn-alert btn-md btn-rounded mb-3">Add to Dislikes</button>
-            </form> #}
-        </div>            
+        </div>
+        </div>
+        
+      </section>
+
+      {% endfor %}
     </div>
-    </section>
-
-    {% endfor %}
-    </div>
-    </news>
-    
-    
-{% endblock %}
+  </news>
 
 
-
-
-
-
+  {% endblock %}

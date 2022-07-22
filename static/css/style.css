@@ -76,12 +76,21 @@ img {
 }
 
 .sticky-footer {
-    padding: 1.2rem 0;
+    padding: 2.5rem 0;
     color: #727272;
     background-color: #f9f9f9;
-    border-top: .05rem solid #e5e5e5;
-    position: relative;
-    width: 100%;
+    border-top: 0.05rem solid #e5e5e5;
+    text-align: center;
+    /* position: relative; */
+    /* width: 100%; */
     /* padding-right: 15px;
                 padding-left: 15px; */
+}
+
+.sticky-footer p:last-child {
+    margin-bottom: 0;
+}
+
+.float-right {
+    float: right;
 }

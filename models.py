@@ -1,5 +1,7 @@
 from datetime import datetime
+from enum import unique
 from operator import index
+
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_manager
@@ -26,27 +28,15 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     first_name = db.Column(db.Text, nullable=False)
-    last_name = db.Column(db.Text, nullable=False)
+    last_name = db.Column(db.Text, nullable=False, unique=True)
     email = db.Column(db.Text, nullable=False, unique=True)
     username = db.Column(db.Text, nullable=False, unique=True)
     password = db.Column(db.Text, nullable=False)
-    
-    # Added this line
-    # back_populates is a relationship that allows you to access the user from the article
-    # lazy dynamically loads the user when you access the user
-    # articles = db.relationship("Article", backref="user")
-    # Added this line
-    # back_populates is a relationship that allows you to access the user from the like
-    # likes = db.relationship("Likes", backref="user")
-    # backref argument defines a relationship that will be created on the other model?
-    
-    # article_likes = db.relationship("Likes", backref="article", primaryjoin="and_(Likes.article_id == Article.id," "Likes.user_id == User.id)")
-   
-    
-    
-    
+    # created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    # updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+        
     def __repr__(self):
-        return f"<User #{self.id}: {self.username}, {self.email}>"
+        return f"<User #{self.id}: {self.first_name}, {self.last_name}, {self.username}, {self.email}>"
     
 
 
@@ -273,25 +263,10 @@ class Article(db.Model):
     content = db.Column(db.String(500))
     date_added = db.Column(db.DateTime, nullable=False,
                            default=datetime.utcnow)
-
-    # Added lines below to create a relationship to the User table
-    # user_id = db.Column(db.Integer, db.ForeignKey(
-    #     "users.id", ondelete="cascade"))
-    # like_id = db.Column(db.Integer, db.ForeignKey(
-    #     "likes.id", ondelete="cascade"))
-    #change this user likes
     article_likes = db.relationship("Likes", backref="article", primaryjoin="Likes.article_id == Article.id")
     
     def _repr_(self):
         return f"<Article #{self.id}{self.url}{self.author}{self.publishedAt}{self.title}{self.description}{self.urlToImage}{self.content}"
-
-    # def __repr__(self):
-    #     return f"<Article #{self.title}, {self.url}, {self.author}, {self.publishedAt}, {self.description}, {self.urlToImage}, {self.date_added}, {self.user_id}, {self.like_id}>"
-
-    # def __repr__(self):
-    #     articles = self
-    #     return f"<Articles #{articles.id}{articles.url}{articles.author}{articles.publishedAt}{articles.title}{articles.description}{articles.urlToImage}{articles.content}{articles.date_added}{articles.user_id}{articles.article_id}"
-
 
 class Likes(db.Model):
     """Mapping user likes to article"""

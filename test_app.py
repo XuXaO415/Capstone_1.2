@@ -58,11 +58,11 @@ class TestApp(TestCase):
         self.assertEqual(result.status_code, 200)
         self.assertIn('profile', html)
         
-    # def test_add_like(self):
-    #     res = self.app.post('/users/favorites/', data={'id': 1})
-    #     html = res.get_data(as_text=True)
-    #     self.assertEqual(res.status_code, 302)
-    #     self.assertIn('/users/1', html)
+    def test_add_like(self):
+        res = self.app.post('/users/favorites/', data={'like.id': 1})
+        html = res.get_data(as_text=True)
+        self.assertEqual(res.status_code, 302)
+        self.assertIn('/users/1', html)
     
  
   

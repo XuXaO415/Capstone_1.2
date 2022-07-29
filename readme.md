@@ -9,12 +9,9 @@
 
   <p align="center">
     The Greek Goddess of Truth
-
-    <br />
     ·
     <a href="https://aletheia-news.herokuapp.com/">View Demo</a>
     ·
-    <br />
   </p>
 
 

@@ -7,25 +7,13 @@
 
 ## <div align='center'>_Your source for trustworty news._</div>
 
-<br />
-<div align="center">
-  <a href="https://aletheia-news.herokuapp.com/">
-    <img src="img/aletheia.jpeg" alt="screenshot" width="500" height="500">
-  </a>
 
-  <!-- <p align="center">
-       · <a href="https://aletheia-news.herokuapp.com/" target="_blank">View Demo</a> ·
-  </p> -->
-
-
-
-
-<!-- TABLE OF CONTENTS -->
+  <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About The Project</a>
+      <a href="#about-the-project">About This Project</a>
       <ul>
         <li><a href="#tech-stack-used">Tech Stack Used</a></li>
       </ul>
@@ -39,14 +27,30 @@
     </li>
   </ol>
 </details>
+<!-- 
+<br />
+<div align="center">
+  <a href="https://aletheia-news.herokuapp.com/">
+    <img src="img/aletheia.jpeg" alt="screenshot" width="500" height="500">
+  </a> -->
+
+  <!-- <p align="center">
+       · <a href="https://aletheia-news.herokuapp.com/" target="_blank">View Demo</a> ·
+  </p> -->
 
 
 
 <!-- ABOUT THE PROJECT -->
-## About The Project
+## About This Project
+
+<br />
+<div align="center">
+  <a href="https://aletheia-news.herokuapp.com/">
+    <img src="img/aletheia.jpeg" alt="screenshot" width="500" height="500">
+  </a> -->
 
 
-![Aletheia screenshot](img/aletheia.jpeg)
+<!-- ![Aletheia screenshot](img/aletheia.jpeg) -->
 
 
 ### Tech Stack Used

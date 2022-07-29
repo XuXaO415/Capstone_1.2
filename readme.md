@@ -39,17 +39,18 @@
 ## About This Project
 
 <br />
-<div align="center">
+<div align="left">
   <a href="https://aletheia-news.herokuapp.com/">
     <img src="img/aletheia.jpeg" alt="screenshot" width="500" height="500">
   </a> 
+  </div>
 
 Aletheia is a simple and user friendly web app that gathers news from the most trustworty sources.
 The homepage features the latest trending news as well as popular world news. The homepage offers several quick links popular news categories as well as a search option. 
 The homepage also offers users a chance to sign up and save their favorite articles. Once a user has signed up, they can manage their profile and favorite articles.
 
 
-<!-- ![Aletheia screenshot](img/aletheia.jpeg) -->
+
 
 
 ### Tech Stack Used

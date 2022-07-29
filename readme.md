@@ -2,16 +2,13 @@
 
 
 # <div align='center'>Aletheia [ al-uh-thee-uh ]</div>
+### <div align="center">The Greek Goddess of Truth</div>
 ## <div align='center'>_Your source for trustworty news._</div>
 
 
-  <h3 align="center">Aletheia</h3>
 
   <p align="center">
-    The Greek Goddess of Truth
-    ·
     <a href="https://aletheia-news.herokuapp.com/">View Demo</a>
-    ·
   </p>
 
 

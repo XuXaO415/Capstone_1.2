@@ -10,7 +10,7 @@
 
 
   <p align="center">
-    <a href="https://aletheia-news.herokuapp.com/">View Demo</a>
+       · <a href="https://aletheia-news.herokuapp.com/">View Demo</a> ·
   </p>
 
 

@@ -3,7 +3,8 @@
 
 # <div align='center'>Aletheia [ al-uh-thee-uh ]</div>
 
-### <div align="center">The Greek Goddess of Truth</div>
+## <div align="center">The Greek Goddess of Truth</div>
+
 ## <div align='center'>_Your source for trustworty news._</div>
 
 

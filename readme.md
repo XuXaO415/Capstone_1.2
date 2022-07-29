@@ -32,7 +32,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Aletheia][aletheia-screenshot]](img/Aletheia.png)
+![Aletheia](img/Aletheia.png)
 
 ### Tech Stack Used
 

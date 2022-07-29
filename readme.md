@@ -10,7 +10,7 @@
 <br />
 <div align="center">
   <a href="https://aletheia-news.herokuapp.com/">
-    <img src="img/aletheia.jpeg" alt="screenshot" width="100" height="100">
+    <img src="img/aletheia.jpeg" alt="screenshot" width="500" height="500">
   </a>
 
   <!-- <p align="center">

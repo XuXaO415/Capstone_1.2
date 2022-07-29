@@ -7,11 +7,15 @@
 
 ## <div align='center'>_Your source for trustworty news._</div>
 
+<br />
+<div align="center">
+  <a href="https://aletheia-news.herokuapp.com/">
+    <img src="img/alethia" alt="screenshot" width="80" height="80">
+  </a>
 
-
-  <p align="center">
+  <!-- <p align="center">
        · <a href="https://aletheia-news.herokuapp.com/" target="_blank">View Demo</a> ·
-  </p>
+  </p> -->
 
 
 

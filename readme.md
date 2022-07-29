@@ -1,9 +1,22 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/XuXaO415/Capstone_1.2)
 
 
-# <div align='center'>Aletheia</div>
+# <div align='center'>Aletheia [ al-uh-thee-uh ]</div>
 ## <div align='center'>_Your source for trustworty news._</div>
-## <div align='center'>View Demo Here </div>
+
+
+  <h3 align="center">Aletheia</h3>
+
+  <p align="center">
+    The Greek Goddess of Truth
+
+    <br />
+    ·
+    <a href="https://aletheia-news.herokuapp.com/">View Demo</a>
+    ·
+    <br />
+  </p>
+
 
 
 

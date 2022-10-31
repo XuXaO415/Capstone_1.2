@@ -29,9 +29,9 @@
 </details>
 
 
-  <!-- <p align="center">
+  <p align="center">
        · <a href="https://aletheia-news.herokuapp.com/" target="_blank">View Demo</a> ·
-  </p> -->
+  </p>
 
 
 

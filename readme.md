@@ -5,7 +5,7 @@
 
 ## <div align="center">The Greek Goddess of Truth</div>
 
-## <div align='center'>_Your source for trustworty news._</div>
+## <div align='center'>_Your source for trustworthy news._</div>
 
 
   <!-- TABLE OF CONTENTS -->
@@ -19,14 +19,14 @@
       </ul>
     </li>
     <li>
-      <!-- <a href="#getting-started">Getting Started</a>
+      <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
   </ol>
-</details> -->
+</details>
 
 
   <p align="center">
@@ -45,7 +45,7 @@
   </a> 
   </div>
 
-Aletheia is a simple and user friendly web app that gathers news from the most trustworty sources.
+Aletheia is a simple and user friendly web app that gathers news from the most trustworthy sources.
 The homepage features the latest trending news as well as popular world news. The homepage offers several quick links popular news categories as well as a search option. 
 The homepage also offers users a chance to sign up and save their favorite articles. Once a user has signed up, they can manage their profile and favorite articles.
 
@@ -58,7 +58,7 @@ The homepage also offers users a chance to sign up and save their favorite artic
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=4169E1)
 ![Python](https://img.shields.io/badge/Pyhton-186489?style=for-the-badge&logo=python&logoColor=white)
 ![WTForms](https://img.shields.io/badge/WTForms-000000?style=for-the-badge&logo=wtforms&logoColor=white)
 ![Flask](https://img.shields.io/badge/Flask-186489?style=for-the-badge&logo=flask&logoColor=black)
@@ -66,7 +66,7 @@ The homepage also offers users a chance to sign up and save their favorite artic
 ![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-186489?style=for-the-badge&logo=sqlalchemy&logoColor=white)
 ![Bcrypt](https://img.shields.io/badge/Bcrypt-186489?style=for-the-badge&logo=bcrypt&logoColor=white)
 ![Heroku](https://img.shields.io/badge/heroku-186489?style=for-the-badge&logo=heroku&logoColor=purple)
-![Font Awesome](https://img.shields.io/badge/fontawesome-186489?style=for-the-badge&logo=fontawesome&logoColor=white)
+![Font Awesome](https://img.shields.io/badge/fontawesome-186489?style=for-the-badge&logo=fontawesome&logoColor=528DD7)
 ![Axios](https://img.shields.io/badge/axios-186489?style=for-the-badge&logo=axios&logoColor=white)
 ![jQuery](https://img.shields.io/badge/jquery-186489?style=for-the-badge&logo=jquery&logoColor=white)
 

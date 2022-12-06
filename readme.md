@@ -1,11 +1,15 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/XuXaO415/Capstone_1.2)
 
+<!-- 
+# <div align='center'>Aletheia [ al-uh-thee-uh ]</div> -->
 
-# <div align='center'>Aletheia [ al-uh-thee-uh ]</div>
+<!-- ## <div align="center">The Greek Goddess of Truth</div> -->
+# `Aletheia [ al-uh-thee-uh ]`  
 
-## <div align="center">The Greek Goddess of Truth</div>
+Known as the `Greek Goddess of Truth and disclosure`, this project was inspired by Aletheia and the philosophy of providing users with an unbiased, reliable and trustworthy world news.
 
-## <div align='center'>_Your source for trustworthy news._</div>
+<!-- 
+## <div align='center'>_Your source for trustworthy news._</div> -->
 
 
   <!-- TABLE OF CONTENTS -->
@@ -30,14 +34,16 @@
 </details>
 
 
-  <p align="center">
+<!--   <p align="center">
        · <a href="https://aletheia-news.herokuapp.com/" target="_blank">View Demo</a> ·
-  </p>
+  </p> -->
 
 
 
 <!-- ABOUT THE PROJECT -->
 <!-- ## About This Project -->
+
+### To see a working demo of this project, click [here](https://aletheia-news.herokuapp.com/)
 
 <br />
 <div align="left">

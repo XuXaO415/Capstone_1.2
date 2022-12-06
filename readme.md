@@ -46,6 +46,8 @@
   </a> 
   </div>
 
+## Features
+
 Aletheia is a simple and user friendly web app that gathers news from the most trustworthy sources.
 The homepage features the latest trending news as well as popular world news. The homepage offers several quick links popular news categories as well as a search option. 
 The homepage also offers users a chance to sign up and save their favorite articles. Once a user has signed up, they can manage their profile and favorite articles.
@@ -79,7 +81,7 @@ The homepage also offers users a chance to sign up and save their favorite artic
 
 <!-- GETTING STARTED -->
 
-## Features
+
 
 ## Getting Started
 

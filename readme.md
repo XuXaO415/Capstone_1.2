@@ -21,6 +21,7 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
+        <li><a hreif_"#features">Features</a></li>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
       </ul>
@@ -77,6 +78,9 @@ The homepage also offers users a chance to sign up and save their favorite artic
 
 
 <!-- GETTING STARTED -->
+
+## Features
+
 ## Getting Started
 
 

@@ -124,10 +124,10 @@ To get started, follow the instructions below.
 
 
 ### Prerequisites
-Python3
-PostgreSQL
-Obtain a Google news API key
-Hoaxy API from RapidAPI
+- Python3
+- [PostgreSQL](https://www.postgresql.org/)
+- Obtain a [Google](https://newsapi.org/) news API key
+- [Hoaxy](https://rapidapi.com/truthy/api/hoaxy/) API from RapidAPI 
 
 ### Installation
 1. Create a directory to house this project
@@ -170,9 +170,11 @@ flask run
 ```
 http://127.0.0.1:5000
 ```
-9. Have fun and explore the site
+9. You should know have Aletheia running on your device.
 
-## If you would like to contribute or if you find any issues, please let me know before initiating a pull request.
+## 
+
+If you would like to contribute or if you find any issues, please let me know before initiating a pull request.
 
 
 <p align="right">(<a href="#welcome">back to top</a>)</p>

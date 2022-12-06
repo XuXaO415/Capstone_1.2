@@ -4,7 +4,7 @@
     <div class="row py-5 text-center justify-content-md-center">
         <div class="col-md-7 col-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto mb-5">
-                <h1 class="fw-light">Join Aletheia today!</h1>
+                <h1 class="fw-light">Join Aletheia Today!</h1>
             </div>
             <form method="POST" id="user_form">
                 {{ form.hidden_tag() }} {% for field in form if field.widget.input_type != 'hidden' %} <br>{% for error in field.errors %}

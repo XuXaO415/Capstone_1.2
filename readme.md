@@ -37,7 +37,7 @@
 
 
 <!-- ABOUT THE PROJECT -->
-## About This Project
+<!-- ## About This Project -->
 
 <br />
 <div align="left">
@@ -62,7 +62,7 @@ The homepage also offers users a chance to sign up and save their favorite artic
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=4169E1)
-![Python](https://img.shields.io/badge/Pyhton-186489?style=for-the-badge&logo=python&logoColor=white)
+![Python](https://img.shields.io/badge/Pyhton-186489?style=for-the-badge&logo=python&logoColor=)
 ![WTForms](https://img.shields.io/badge/WTForms-000000?style=for-the-badge&logo=wtforms&logoColor=white)
 ![Flask](https://img.shields.io/badge/Flask-186489?style=for-the-badge&logo=flask&logoColor=black)
 ![Jinja](https://img.shields.io/badge/Jinja-186489?style=for-the-badge&logo=jinja&logoColor=black)

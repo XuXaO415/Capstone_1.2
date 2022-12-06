@@ -8,16 +8,26 @@
 
 Known as the `Greek Goddess of Truth and disclosure`, this project was inspired by Aletheia and the philosophy of providing users with an unbiased, reliable and trustworthy world news.
 
+##
+
 <!-- 
 ## <div align='center'>_Your source for trustworthy news._</div> -->
 
 
+
   <!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
+## Table of Contents
+ <details>
+  <summary>Click here to learn more</summary>
   <ol>
     <li>
       <a href="#about-the-project">About This Project</a>
+      <ul>
+        <li><a href="#about">About</a></li>
+      </ul>
+      <ul>
+        <li><a href="#features">Features</a></li>
+      </ul>
       <ul>
         <li><a href="#tech-stack-used">Tech Stack Used</a></li>
       </ul>
@@ -25,7 +35,6 @@ Known as the `Greek Goddess of Truth and disclosure`, this project was inspired 
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#features">Features</a></li>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
       </ul>
@@ -52,11 +61,30 @@ Known as the `Greek Goddess of Truth and disclosure`, this project was inspired 
   </a> 
   </div>
 
-## Features
+## About
 
 Aletheia is a simple and user friendly web app that gathers news from the most trustworthy sources.
 The homepage features the latest trending news as well as popular world news. The homepage offers several quick links popular news categories as well as a search option. 
-The homepage also offers users a chance to sign up and save their favorite articles. Once a user has signed up, they can manage their profile and favorite articles.
+The homepage also offers users a chance to sign up and save their favorite articles. Once a user has signed up, they can manage their profile and favorite articles. 
+
+## Features
+
+### Signup
+Users have the ability to join and signup.
+
+### User Profile
+Users can change name, email, and password under the profile section.
+
+### Authenication and password hasing
+Using Bcrypt's blowfish cypher, passwords validated and hashed for added security.
+
+### User can save articles 
+When a user has an account, they have the option to save and delete their favorite articles. All this information is stored in a local database.
+
+### Search function
+This site has a search bar function where a user can search any word, title, subject or category. This search function retrieves data from various APIs and loads content when request is sucessfull. If request is not successfull, a 404 page will show.
+
+##
 
 
 

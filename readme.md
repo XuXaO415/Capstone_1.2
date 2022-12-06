@@ -4,11 +4,15 @@
 # <div align='center'>Aletheia [ al-uh-thee-uh ]</div> -->
 
 <!-- ## <div align="center">The Greek Goddess of Truth</div> -->
+
+<!-- Aletheia Header -->
+### Welcome!
 # `Aletheia [ al-uh-thee-uh ]`  
 
 Known as the `Greek Goddess of Truth and disclosure`, this project was inspired by Aletheia and the philosophy of providing users with an unbiased, reliable and trustworthy world news.
 
-##
+
+
 
 <!-- 
 ## <div align='center'>_Your source for trustworthy news._</div> -->
@@ -66,6 +70,7 @@ Known as the `Greek Goddess of Truth and disclosure`, this project was inspired 
 Aletheia is a simple and user friendly web app that gathers news from the most trustworthy sources.
 The homepage features the latest trending news as well as popular world news. The homepage offers several quick links popular news categories as well as a search option. 
 The homepage also offers users a chance to sign up and save their favorite articles. Once a user has signed up, they can manage their profile and favorite articles. 
+<p align="right">(<a href="#welcome">back to top</a>)</p>
 
 ## Features
 
@@ -85,12 +90,11 @@ When a user has an account, they have the option to save and delete their favori
 This site has a search bar function where a user can search any word, title, subject or category. This search function retrieves data from various APIs and loads content when request is sucessfull. If request is not successfull, a 404 page will show.
 
 ##
-
-
-
+<p align="right">(<a href="#welcome">back to top</a>)</p>
 
 
 ### Tech Stack Used
+The languages, framework and libraries used to create this project are:
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
@@ -111,7 +115,7 @@ This site has a search bar function where a user can search any word, title, sub
 
 
 
-<p align="right">(<a href="#top">back to top</a>)</p>
+
 
 
 
@@ -129,6 +133,7 @@ This site has a search bar function where a user can search any word, title, sub
 
 ### Installation
 
+<p align="right">(<a href="#welcome">back to top</a>)</p>
 
 
 

@@ -89,8 +89,10 @@ When a user has an account, they have the option to save and delete their favori
 ### Search function
 This site has a search bar function where a user can search any word, title, subject or category. This search function retrieves data from various APIs and loads content when request is sucessfull. If request is not successfull, a 404 page will show.
 
-##
 <p align="right">(<a href="#welcome">back to top</a>)</p>
+
+##
+
 
 
 ### Tech Stack Used
@@ -113,25 +115,65 @@ The languages, framework and libraries used to create this project are:
 
 
 
-
-
-
-
-
-
 <!-- GETTING STARTED -->
 
 
 
 ## Getting Started
-
+To get started, follow the instructions below.
 
 
 ### Prerequisites
-
-
+Python3
+PostgreSQL
+Obtain a Google news API key
+Hoaxy API from RapidAPI
 
 ### Installation
+1. Create a directory to house this project
+```
+mkdir <your project name>
+```
+
+2. CD into that directory
+```
+cd <your project name>
+```
+
+2. Clone repository:
+```
+https://github.com/XuXaO415/Capstone_1.2.git
+```
+3. Install requirements and packages
+```
+npm install
+```
+
+4. Create a new database
+```
+createdb create_a_name
+```
+5. Set up an .env file in your folder
+```
+touch .env
+```
+6. Add the following fields and enter your API keys
+```
+GOOGLE_SECRET_API_KEY="ADD YOU KEY HERE"
+HOAXY_SECRET_KEY="ADD YOUR KEY HERE"
+```
+7. Start your server
+``` 
+flask run
+```
+8. In your browser, open a window and paste this URL:
+```
+http://127.0.0.1:5000
+```
+9. Have fun and explore the site
+
+## If you would like to contribute or if you find any issues, please let me know before initiating a pull request.
+
 
 <p align="right">(<a href="#welcome">back to top</a>)</p>
 

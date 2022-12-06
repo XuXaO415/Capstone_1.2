@@ -70,8 +70,8 @@ The homepage also offers users a chance to sign up and save their favorite artic
 ![Bcrypt](https://img.shields.io/badge/Bcrypt-186489?style=for-the-badge&logo=bcrypt&logoColor=white)
 ![Heroku](https://img.shields.io/badge/heroku-186489?style=for-the-badge&logo=heroku&logoColor=purple)
 ![Font Awesome](https://img.shields.io/badge/fontawesome-186489?style=for-the-badge&logo=fontawesome&logoColor=528DD7)
-![Axios](https://img.shields.io/badge/axios-186489?style=for-the-badge&logo=axios&logoColor=white)
-![jQuery](https://img.shields.io/badge/jquery-186489?style=for-the-badge&logo=jquery&logoColor=white)
+![Axios](https://img.shields.io/badge/axios-186489?style=for-the-badge&logo=axios&logoColor=purple)
+![jQuery](https://img.shields.io/badge/jquery-186489?style=for-the-badge&logo=jquery&logoColor=blue)
 
 
 

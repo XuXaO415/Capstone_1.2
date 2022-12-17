@@ -1,19 +1,37 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/XuXaO415/Capstone_1.2)
 
+<!-- 
+# <div align='center'>Aletheia [ al-uh-thee-uh ]</div> -->
 
-# <div align='center'>Aletheia [ al-uh-thee-uh ]</div>
+<!-- ## <div align="center">The Greek Goddess of Truth</div> -->
 
-## <div align="center">The Greek Goddess of Truth</div>
+<!-- Aletheia Header -->
+### Welcome!
+# `Aletheia [ al-uh-thee-uh ]`  
 
-## <div align='center'>_Your source for trustworthy news._</div>
+Known as the `Greek Goddess of Truth and disclosure`, this project was inspired by Aletheia and the philosophy of providing users with an unbiased, reliable and trustworthy world news.
+
+
+
+
+<!-- 
+## <div align='center'>_Your source for trustworthy news._</div> -->
+
 
 
   <!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
+## Table of Contents
+ <details>
+  <summary>Click here to learn more</summary>
   <ol>
     <li>
       <a href="#about-the-project">About This Project</a>
+      <ul>
+        <li><a href="#about">About</a></li>
+      </ul>
+      <ul>
+        <li><a href="#features">Features</a></li>
+      </ul>
       <ul>
         <li><a href="#tech-stack-used">Tech Stack Used</a></li>
       </ul>
@@ -21,7 +39,6 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#features">Features</a></li>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
       </ul>
@@ -30,14 +47,16 @@
 </details>
 
 
-  <p align="center">
+<!--   <p align="center">
        · <a href="https://aletheia-news.herokuapp.com/" target="_blank">View Demo</a> ·
-  </p>
+  </p> -->
 
 
 
 <!-- ABOUT THE PROJECT -->
 <!-- ## About This Project -->
+
+### To see a working demo of this project, click [here](https://aletheia-news.herokuapp.com/)
 
 <br />
 <div align="left">
@@ -46,17 +65,38 @@
   </a> 
   </div>
 
-## Features
+## About
 
 Aletheia is a simple and user friendly web app that gathers news from the most trustworthy sources.
 The homepage features the latest trending news as well as popular world news. The homepage offers several quick links popular news categories as well as a search option. 
-The homepage also offers users a chance to sign up and save their favorite articles. Once a user has signed up, they can manage their profile and favorite articles.
+The homepage also offers users a chance to sign up and save their favorite articles. Once a user has signed up, they can manage their profile and favorite articles. 
+<p align="right">(<a href="#welcome">back to top</a>)</p>
 
+## Features
 
+### Signup
+Users have the ability to join and signup.
+
+### User Profile
+Users can change name, email, and password under the profile section.
+
+### Authenication and password hasing
+Using Bcrypt's blowfish cypher, passwords validated and hashed for added security.
+
+### User can save articles 
+When a user has an account, they have the option to save and delete their favorite articles. All this information is stored in a local database.
+
+### Search function
+This site has a search bar function where a user can search any word, title, subject or category. This search function retrieves data from various APIs and loads content when request is sucessfull. If request is not successfull, a 404 page will show.
+
+<p align="right">(<a href="#welcome">back to top</a>)</p>
+
+##
 
 
 
 ### Tech Stack Used
+The languages, framework and libraries used to create this project are:
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
@@ -70,14 +110,8 @@ The homepage also offers users a chance to sign up and save their favorite artic
 ![Bcrypt](https://img.shields.io/badge/Bcrypt-186489?style=for-the-badge&logo=bcrypt&logoColor=white)
 ![Heroku](https://img.shields.io/badge/heroku-186489?style=for-the-badge&logo=heroku&logoColor=purple)
 ![Font Awesome](https://img.shields.io/badge/fontawesome-186489?style=for-the-badge&logo=fontawesome&logoColor=528DD7)
-![Axios](https://img.shields.io/badge/axios-186489?style=for-the-badge&logo=axios&logoColor=white)
-![jQuery](https://img.shields.io/badge/jquery-186489?style=for-the-badge&logo=jquery&logoColor=white)
-
-
-
-
-
-<p align="right">(<a href="#top">back to top</a>)</p>
+![Axios](https://img.shields.io/badge/axios-186489?style=for-the-badge&logo=axios&logoColor=purple)
+![jQuery](https://img.shields.io/badge/jquery-186489?style=for-the-badge&logo=jquery&logoColor=blue)
 
 
 
@@ -86,15 +120,64 @@ The homepage also offers users a chance to sign up and save their favorite artic
 
 
 ## Getting Started
-
+To get started, follow the instructions below.
 
 
 ### Prerequisites
-
-
+- Python3
+- [PostgreSQL](https://www.postgresql.org/)
+- Obtain a [Google](https://newsapi.org/) news API key
+- [Hoaxy](https://rapidapi.com/truthy/api/hoaxy/) API from RapidAPI 
 
 ### Installation
+1. Create a directory to house this project
+```
+mkdir <your project name>
+```
 
+2. CD into that directory
+```
+cd <your project name>
+```
+
+2. Clone repository:
+```
+https://github.com/XuXaO415/Capstone_1.2.git
+```
+3. Install requirements and packages
+```
+npm install
+```
+
+4. Create a new database
+```
+createdb create_a_name
+```
+5. Set up an .env file in your folder
+```
+touch .env
+```
+6. Add the following fields and enter your API keys
+```
+GOOGLE_SECRET_API_KEY="ADD YOU KEY HERE"
+HOAXY_SECRET_KEY="ADD YOUR KEY HERE"
+```
+7. Start your server
+``` 
+flask run
+```
+8. In your browser, open a window and paste this URL:
+```
+http://127.0.0.1:5000
+```
+9. You should know have Aletheia running on your device.
+
+## 
+
+If you would like to contribute or if you find any issues, please let me know before initiating a pull request.
+
+
+<p align="right">(<a href="#welcome">back to top</a>)</p>
 
 
 

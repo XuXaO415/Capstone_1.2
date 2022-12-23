@@ -487,6 +487,7 @@ def search_all_articles():
     API_SECRET_KEY = os.getenv('API_SECRET_KEY')
 
     # pdb.set_trace()
+
     querystring = {
         "query": requests.args['q'], "sort_by": "relevant", "use_lucene_syntax": "true"}
 
@@ -522,10 +523,10 @@ def search_all_articles():
     print(title_requests)
 
     relevant_articles = relevant_response.json()
-    rel_art = relevant_articles['articles'][0:10]
+    rel_art = relevant_articles['articles'][:10]
 
     recent_articles = recent_response.json()
-    rec_art = recent_articles['articles'][0:10]
+    rec_art = recent_articles['articles'][:10]
 
     for art in rel_art:
         res = requests.get(f"https://newsapi.org/v2/top-headlines?country=us&apiKey={API_SECRET_KEY}"

@@ -33,7 +33,7 @@ itsdangerous==2.0.1
 Jinja2==3.0.3
 johnnydep==1.10
 loguru==0.5.3
-lxml==4.7.1
+lxml==4.9.1
 MarkupSafe==2.0.1
 multiprocess==0.70.12.2
 newsapi-python==0.2.6

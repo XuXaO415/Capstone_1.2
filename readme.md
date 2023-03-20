@@ -80,7 +80,7 @@ Users have the ability to join and signup.
 ### User Profile
 Users can change name, email, and password under the profile section.
 
-### Authenication and password hasing
+### Authenication and password hashing
 Using Bcrypt's blowfish cypher, passwords validated and hashed for added security.
 
 ### User can save articles 

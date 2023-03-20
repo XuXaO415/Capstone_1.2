@@ -83,7 +83,7 @@ Users can change name, email, and password under the profile section.
 ### Authenication and password hashing
 Using Bcrypt's blowfish cypher, passwords validated and hashed for added security.
 
-### User can save articles 
+### Users can save articles 
 When a user has an account, they have the option to save and delete their favorite articles. All this information is stored in a local database.
 
 ### Search function

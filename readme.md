@@ -170,7 +170,7 @@ flask run
 ```
 http://127.0.0.1:5000
 ```
-9. You should know have Aletheia running on your device.
+9. You should now have Aletheia running on your device.
 
 ## 
 

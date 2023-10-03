@@ -62,7 +62,7 @@ tabulate==0.8.9
 toml==0.10.2
 translators==4.7.20
 Turbo-Flask==0.8.0
-urllib3==1.26.7
+urllib3==1.26.17
 validators==0.18.2
 Werkzeug==2.2.3
 wimpy==0.6
